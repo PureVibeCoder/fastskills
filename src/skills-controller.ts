@@ -15,12 +15,74 @@ import * as fs from "fs";
 import * as path from "path";
 
 // ============================================
+// 类型定义（必须在使用前声明）
+// ============================================
+
+/**
+ * 用户意图类型枚举
+ */
+enum IntentType {
+  CREATE = "create",         // 创建新内容（界面、组件、文件等）
+  RESEARCH = "research",     // 研究、查看、学习源码
+  DEBUG = "debug",           // 调试、修复bug
+  REFACTOR = "refactor",     // 重构、优化代码
+  DOCUMENT = "document",     // 编写文档
+  TEST = "test",             // 编写/运行测试（通用，向后兼容）
+  TEST_WRITE_UNIT = "test_write_unit",      // 编写单元测试
+  TEST_WRITE_INTEGRATION = "test_write_integration",  // 编写集成测试
+  TEST_WRITE_E2E = "test_write_e2e",        // 编写E2E测试
+  TEST_RUN = "test_run",                    // 运行测试
+  DEPLOY = "deploy",         // 部署、发布
+  ANALYZE = "analyze",       // 分析、审查代码
+  CONVERT = "convert",       // 转换格式
+  CHAT = "chat",             // 闲聊、问答
+  UNKNOWN = "unknown",       // 未知意图
+}
+
+/**
+ * 意图识别模式
+ */
+interface IntentPattern {
+  intent: IntentType;
+  patterns: RegExp[];
+  weight: number;
+}
+
+/**
+ * 增强的技能配置
+ */
+interface SkillTriggerConfig {
+  triggers?: { word: string; weight: number }[];  // 加权触发词
+  excludes?: string[];                             // 排除词
+  requiredIntents?: IntentType[];                  // 只在这些意图下激活
+  excludedIntents?: IntentType[];                  // 在这些意图下不激活
+  priority?: number;                               // 技能优先级 (1-10)
+}
+
+interface SkillMeta {
+  name: string;
+  description: string;
+  triggers: string[];
+  category: string;
+  priority: number;
+  path: string;        // 技能文件路径
+  loaded: boolean;     // 是否已加载完整内容
+}
+
+interface ControllerState {
+  activeSkills: Set<string>;
+  context: string;
+  lastAnalysis: Date;
+}
+
+// ============================================
 // 配置
 // ============================================
 
 // 技能库目录（支持多个目录，用逗号分隔）
-// 优先级：Anthropic 官方 > ClaudeKit > 社区
+// 优先级：用户本地 > Anthropic 官方 > ClaudeKit > 社区
 const DEFAULT_SKILLS_DIRS = [
+  path.join(process.env.HOME || "", ".claude", "skills"),  // 用户本地技能（最高优先级）
   path.join(process.cwd(), "anthropic-skills", "skills"),
   path.join(process.cwd(), "claudekit-skills", ".claude", "skills"),
   path.join(process.cwd(), "awesome-claude-skills"),
@@ -41,6 +103,12 @@ const EXTRA_TRIGGERS: Record<string, string[]> = {
   "xlsx": ["Excel", "电子表格", "spreadsheet", "表格", "数据分析", "xlsx"],
   "web-artifacts-builder": ["web artifacts", "网页工件", "HTML生成", "网页构建"],
   "frontend-design": ["设计", "UI", "样式", "组件", "页面", "布局", "CSS", "React", "Vue", "前端", "界面", "交互"],
+
+  // === 用户本地技能（最高优先级）===
+  "modern-frontend-design": ["现代前端", "前端设计", "UI设计", "界面设计", "设计系统", "design system", "美学", "视觉", "React设计", "Vue设计", "组件设计", "neo-brutalist", "glassmorphism", "art deco"],
+  "open-source-librarian": ["开源", "开源库", "库实现", "源码", "GitHub", "源代码", "library", "implementation", "permalink", "代码引用", "查源码", "开源项目", "原理", "实现原理", "怎么实现", "如何工作", "工作机制", "底层", "内部实现"],
+  "browser": ["浏览器", "Chrome", "CDP", "DevTools", "自动化", "scraping", "抓取", "截图", "screenshot", "browser-start", "browser-nav", "puppeteer"],
+  // webapp-testing 扩展触发词（与原有合并）
 
   // === ClaudeKit 独有技能 ===
   "aesthetic": ["美学", "审美", "视觉风格", "aesthetic", "设计感"],
@@ -75,7 +143,7 @@ const EXTRA_TRIGGERS: Record<string, string[]> = {
   "when-stuck": ["卡住", "stuck", "困难", "求助"],
 
   // === 社区技能 ===
-  "webapp-testing": ["测试", "test", "验证", "E2E", "单元测试", "集成测试", "playwright"],
+  "webapp-testing": ["E2E", "e2e", "端到端测试", "playwright", "浏览器测试", "web测试", "前端测试", "自动化测试", "UI测试", "with_server", "网页测试"],
   "code-review": ["审查", "review", "PR", "代码质量", "bug", "安全"],
   "mcp-builder": ["MCP", "服务器", "集成", "工具开发", "API"],
   "skill-creator": ["创建技能", "新技能", "技能开发", "skill"],
@@ -101,24 +169,553 @@ const EXTRA_TRIGGERS: Record<string, string[]> = {
 };
 
 // ============================================
-// 类型定义
+// 意图识别模式
 // ============================================
 
-interface SkillMeta {
-  name: string;
-  description: string;
-  triggers: string[];
-  category: string;
-  priority: number;
-  path: string;        // 技能文件路径
-  loaded: boolean;     // 是否已加载完整内容
-}
+const INTENT_PATTERNS: IntentPattern[] = [
+  {
+    intent: IntentType.CREATE,
+    patterns: [
+      /创建|新建|生成|开发|实现|构建|搭建|设计|制作|编写|写一个|做一个|想一个|想出/,
+      /create|build|implement|develop|make|design|generate|write|think of/i,
+      /帮我.*(页面|组件|界面|功能|网站|应用)/,
+      /add\s+(a|new)|implement\s+new/i,
+    ],
+    weight: 10,
+  },
+  {
+    intent: IntentType.RESEARCH,
+    patterns: [
+      /查看|查阅|研究|阅读|看看|学习/,
+      /源码|源代码|实现原理|怎么实现|如何工作|底层|内部/,
+      /look\s+at|examine|study|research|read/i,
+      /implementation|source\s*code|how\s+.*\s+works|internals/i,
+      // 原理研究相关 - 更明确的模式
+      /原理|工作机制|内部实现|底层原理|核心原理/,
+    ],
+    weight: 10,
+  },
+  // 原理研究高优先级模式
+  {
+    intent: IntentType.RESEARCH,
+    patterns: [
+      /了解.*原理|理解.*原理|学习.*原理|研究.*原理/,
+      /.*响应式原理|.*虚拟DOM原理|.*组件原理|.*框架原理/,
+      /how.*works|understand.*implementation|explain.*internals/i,
+    ],
+    weight: 12,
+  },
+  {
+    intent: IntentType.DEBUG,
+    patterns: [
+      /修复|修bug|调试|排错|解决.*问题|为什么.*不工作|报错|错误|异常|失败/,
+      /fix|debug|troubleshoot|solve|error|bug|issue|problem/i,
+      /why\s+.*\s+not\s+working|doesn't\s+work/i,
+    ],
+    weight: 8,
+  },
+  {
+    intent: IntentType.REFACTOR,
+    patterns: [
+      /重构|优化|改进|简化|整理|清理|提升性能/,
+      /refactor|optimize|improve|simplify|clean\s*up|performance/i,
+    ],
+    weight: 7,
+  },
+  {
+    intent: IntentType.DOCUMENT,
+    patterns: [
+      /文档|说明|注释|readme|changelog|api\s*doc/i,
+      /写文档|添加注释|编写说明|生成文档/,
+      /document|comment|annotation/i,
+    ],
+    weight: 6,
+  },
+  {
+    intent: IntentType.TEST,
+    patterns: [
+      /测试|test|单元测试|集成测试|e2e|端到端/i,
+    ],
+    weight: 6,
+  },
+  // 运行测试
+  {
+    intent: IntentType.TEST_RUN,
+    patterns: [
+      /运行.*测试|执行测试|跑测试/,
+      /run.*test|execute.*test|test.*run/i,
+      /npm\s+test|npm\s+test:run|vitest|jest|playwright\s+test/i,
+    ],
+    weight: 8,
+  },
+  // 编写单元测试
+  {
+    intent: IntentType.TEST_WRITE_UNIT,
+    patterns: [
+      /写单元测试|编写单元测试|添加单元测试|创建单元测试/,
+      /write.*unit.*test|create.*unit.*test|add.*unit.*test/i,
+    ],
+    weight: 7,
+  },
+  // 编写集成测试
+  {
+    intent: IntentType.TEST_WRITE_INTEGRATION,
+    patterns: [
+      /写集成测试|编写集成测试|添加集成测试|创建集成测试/,
+      /write.*integration.*test|create.*integration.*test/i,
+    ],
+    weight: 7,
+  },
+  // 编写E2E测试
+  {
+    intent: IntentType.TEST_WRITE_E2E,
+    patterns: [
+      /写E2E测试|编写端到端测试|添加E2E测试|创建E2E测试/,
+      /写e2e|e2e测试|端到端/,
+      /write.*e2e.*test|create.*e2e.*test|end.*to.*end.*test/i,
+    ],
+    weight: 7,
+  },
+  {
+    intent: IntentType.ANALYZE,
+    patterns: [
+      /审查|review|分析|检查|评估|诊断/,
+      /代码审查|code\s*review|PR|pull\s*request/i,
+      /analyze|inspect|evaluate|assess/i,
+    ],
+    weight: 7,
+  },
+  {
+    intent: IntentType.CONVERT,
+    patterns: [
+      /转换|转成|导出|转为|格式化/,
+      /生成.*文件|导出.*格式/,
+      /convert|export|transform\s+to|format\s+as/i,
+    ],
+    weight: 5,
+  },
+  {
+    intent: IntentType.DEPLOY,
+    patterns: [
+      /部署|发布|上线|打包|构建发布/,
+      /deploy|release|publish|ship|launch/i,
+    ],
+    weight: 5,
+  },
+  {
+    intent: IntentType.CHAT,
+    patterns: [
+      /你好|hello|hi|嗨|谢谢|thanks|是什么|什么是|解释|介绍/i,
+      /what\s+is|explain|tell\s+me\s+about/i,
+    ],
+    weight: 3,
+  },
+];
 
-interface ControllerState {
-  activeSkills: Set<string>;
-  context: string;
-  lastAnalysis: Date;
-}
+// ============================================
+// 增强的技能配置（意图感知）
+// ============================================
+
+const SKILL_CONFIGS: Record<string, SkillTriggerConfig> = {
+  // === 前端设计类：需要 CREATE/REFACTOR 意图，排除 RESEARCH ===
+  "frontend-design": {
+    triggers: [
+      { word: "设计", weight: 3 },
+      { word: "UI", weight: 4 },
+      { word: "界面", weight: 4 },
+      { word: "组件", weight: 3 },
+      { word: "页面", weight: 3 },
+      { word: "布局", weight: 4 },
+      { word: "CSS", weight: 3 },
+      { word: "React", weight: 2 },
+      { word: "Vue", weight: 2 },
+      { word: "前端", weight: 2 },
+    ],
+    excludes: [
+      "源码", "源代码",
+      "实现原理", "怎么实现", "如何工作",
+      "工作机制", "内部实现", "底层原理", "核心原理",
+      "implementation", "source code", "internals"
+    ],
+    requiredIntents: [IntentType.CREATE, IntentType.REFACTOR],
+    excludedIntents: [IntentType.RESEARCH, IntentType.ANALYZE],
+    priority: 6,
+  },
+  "modern-frontend-design": {
+    triggers: [
+      { word: "现代前端", weight: 5 },
+      { word: "设计系统", weight: 5 },
+      { word: "design system", weight: 5 },
+      { word: "美学", weight: 4 },
+      { word: "视觉", weight: 3 },
+      { word: "neo-brutalist", weight: 6 },
+      { word: "glassmorphism", weight: 6 },
+    ],
+    excludes: ["源码", "源代码"],
+    requiredIntents: [IntentType.CREATE],
+    excludedIntents: [IntentType.RESEARCH],
+    priority: 7,
+  },
+  "aesthetic": {
+    excludes: ["源码", "实现"],
+    requiredIntents: [IntentType.CREATE],
+    excludedIntents: [IntentType.RESEARCH],
+    priority: 5,
+  },
+  "ui-styling": {
+    excludes: ["源码", "实现原理"],
+    requiredIntents: [IntentType.CREATE, IntentType.REFACTOR],
+    excludedIntents: [IntentType.RESEARCH],
+    priority: 5,
+  },
+  "web-artifacts-builder": {
+    requiredIntents: [IntentType.CREATE],
+    excludedIntents: [IntentType.RESEARCH],
+    priority: 5,
+  },
+  "artifacts-builder": {
+    requiredIntents: [IntentType.CREATE],
+    excludedIntents: [IntentType.RESEARCH],
+    priority: 5,
+  },
+  "canvas-design": {
+    requiredIntents: [IntentType.CREATE],
+    excludedIntents: [IntentType.RESEARCH],
+    priority: 5,
+  },
+  "theme-factory": {
+    requiredIntents: [IntentType.CREATE],
+    excludedIntents: [IntentType.RESEARCH],
+    priority: 5,
+  },
+
+  // === 后端开发类：需要 CREATE/DEBUG 意图 ===
+  "backend-development": {
+    excludes: ["源码", "实现原理"],
+    requiredIntents: [IntentType.CREATE, IntentType.DEBUG, IntentType.REFACTOR],
+    excludedIntents: [IntentType.RESEARCH],
+    priority: 6,
+  },
+  "frontend-development": {
+    excludes: ["源码", "实现原理"],
+    requiredIntents: [IntentType.CREATE, IntentType.DEBUG, IntentType.REFACTOR],
+    excludedIntents: [IntentType.RESEARCH],
+    priority: 6,
+  },
+  "web-frameworks": {
+    excludes: ["源码", "源代码", "实现"],
+    requiredIntents: [IntentType.CREATE, IntentType.DEBUG],
+    excludedIntents: [IntentType.RESEARCH],
+    priority: 5,
+  },
+
+  // === 数据库类：需要 CREATE/DEBUG 意图 ===
+  "databases": {
+    excludes: ["源码", "实现原理"],
+    requiredIntents: [IntentType.CREATE, IntentType.DEBUG, IntentType.REFACTOR],
+    excludedIntents: [IntentType.RESEARCH],
+    priority: 6,
+  },
+
+  // === 测试类：E2E Web 应用测试 ===
+  "webapp-testing": {
+    triggers: [
+      { word: "E2E", weight: 6 },
+      { word: "e2e", weight: 6 },
+      { word: "端到端测试", weight: 6 },
+      { word: "playwright", weight: 7 },
+      { word: "浏览器测试", weight: 5 },
+      { word: "web测试", weight: 5 },
+    ],
+    requiredIntents: [
+      IntentType.TEST_RUN,        // 运行E2E测试
+      IntentType.TEST_WRITE_E2E,  // 编写E2E测试
+    ],
+    excludedIntents: [
+      IntentType.TEST_WRITE_UNIT,         // 排除编写单元测试
+      IntentType.TEST_WRITE_INTEGRATION,  // 排除编写集成测试
+    ],
+    priority: 6,
+  },
+
+  // === 代码分析类：需要 ANALYZE/RESEARCH 意图 ===
+  "code-review": {
+    triggers: [
+      { word: "审查", weight: 5 },
+      { word: "review", weight: 5 },
+      { word: "PR", weight: 4 },
+      { word: "代码质量", weight: 4 },
+    ],
+    requiredIntents: [IntentType.ANALYZE],
+    priority: 7,
+  },
+  "open-source-librarian": {
+    triggers: [
+      { word: "源码", weight: 6 },
+      { word: "源代码", weight: 6 },
+      { word: "开源", weight: 4 },
+      { word: "原理", weight: 6 },
+      { word: "响应式原理", weight: 8 },
+      { word: "虚拟DOM原理", weight: 8 },
+      { word: "组件原理", weight: 8 },
+      { word: "实现原理", weight: 7 },
+      { word: "怎么实现", weight: 5 },
+      { word: "如何工作", weight: 6 },
+      { word: "工作机制", weight: 6 },
+      { word: "底层", weight: 5 },
+      { word: "内部实现", weight: 6 },
+      { word: "底层原理", weight: 7 },
+      { word: "核心原理", weight: 7 },
+      { word: "implementation", weight: 5 },
+      { word: "查源码", weight: 7 },
+      { word: "看源码", weight: 7 },
+      { word: "读源码", weight: 7 },
+    ],
+    requiredIntents: [IntentType.RESEARCH, IntentType.ANALYZE],
+    priority: 8,
+  },
+  "repomix": {
+    requiredIntents: [IntentType.ANALYZE, IntentType.RESEARCH],
+    priority: 5,
+  },
+  "root-cause-tracing": {
+    requiredIntents: [IntentType.DEBUG, IntentType.ANALYZE],
+    priority: 6,
+  },
+  "systematic-debugging": {
+    requiredIntents: [IntentType.DEBUG],
+    priority: 7,
+  },
+  "when-stuck": {
+    requiredIntents: [IntentType.DEBUG],
+    priority: 5,
+  },
+
+  // === 文档类：需要 DOCUMENT/CREATE 意图 ===
+  "doc-coauthoring": {
+    requiredIntents: [IntentType.DOCUMENT, IntentType.CREATE],
+    priority: 6,
+  },
+  "document-skills": {
+    requiredIntents: [IntentType.DOCUMENT, IntentType.CREATE],
+    priority: 5,
+  },
+  "docs-seeker": {
+    requiredIntents: [IntentType.RESEARCH, IntentType.DOCUMENT],
+    priority: 5,
+  },
+  "changelog-generator": {
+    requiredIntents: [IntentType.DOCUMENT, IntentType.CREATE],
+    priority: 5,
+  },
+  "content-research-writer": {
+    requiredIntents: [IntentType.DOCUMENT, IntentType.RESEARCH, IntentType.CREATE],
+    priority: 5,
+  },
+
+  // === 格式转换类：需要 CONVERT 意图 ===
+  "pdf": {
+    triggers: [
+      { word: "PDF", weight: 5 },
+      { word: "pdf文件", weight: 5 },
+      { word: "导出PDF", weight: 6 },
+    ],
+    requiredIntents: [IntentType.CONVERT, IntentType.CREATE],
+    priority: 6,
+  },
+  "docx": {
+    triggers: [
+      { word: "Word", weight: 5 },
+      { word: "docx", weight: 5 },
+      { word: "文档", weight: 3 },
+    ],
+    requiredIntents: [IntentType.CONVERT, IntentType.CREATE],
+    priority: 6,
+  },
+  "pptx": {
+    triggers: [
+      { word: "PPT", weight: 5 },
+      { word: "PowerPoint", weight: 5 },
+      { word: "幻灯片", weight: 5 },
+    ],
+    requiredIntents: [IntentType.CONVERT, IntentType.CREATE],
+    priority: 6,
+  },
+  "xlsx": {
+    triggers: [
+      { word: "Excel", weight: 5 },
+      { word: "电子表格", weight: 5 },
+      { word: "xlsx", weight: 5 },
+    ],
+    requiredIntents: [IntentType.CONVERT, IntentType.CREATE],
+    priority: 6,
+  },
+
+  // === DevOps 类：需要 DEPLOY/CREATE 意图 ===
+  "devops": {
+    requiredIntents: [IntentType.DEPLOY, IntentType.CREATE],
+    priority: 6,
+  },
+
+  // === 浏览器自动化类 ===
+  "browser": {
+    triggers: [
+      { word: "浏览器", weight: 4 },
+      { word: "Chrome", weight: 4 },
+      { word: "CDP", weight: 5 },
+      { word: "自动化", weight: 3 },
+      { word: "截图", weight: 4 },
+    ],
+    requiredIntents: [IntentType.CREATE, IntentType.TEST],
+    priority: 5,
+  },
+  "chrome-devtools": {
+    requiredIntents: [IntentType.DEBUG, IntentType.ANALYZE],
+    priority: 5,
+  },
+
+  // === 认证授权类 ===
+  "better-auth": {
+    excludes: ["源码", "实现原理"],
+    requiredIntents: [IntentType.CREATE, IntentType.DEBUG],
+    excludedIntents: [IntentType.RESEARCH],
+    priority: 6,
+  },
+
+  // === AI/多模态类 ===
+  "ai-multimodal": {
+    requiredIntents: [IntentType.CREATE, IntentType.ANALYZE],
+    priority: 5,
+  },
+
+  // === MCP/工具类 ===
+  "mcp-builder": {
+    requiredIntents: [IntentType.CREATE],
+    priority: 6,
+  },
+  "mcp-management": {
+    requiredIntents: [IntentType.CREATE, IntentType.DEBUG],
+    priority: 5,
+  },
+  "skill-creator": {
+    requiredIntents: [IntentType.CREATE],
+    priority: 6,
+  },
+
+  // === 媒体处理类 ===
+  "media-processing": {
+    requiredIntents: [IntentType.CONVERT, IntentType.CREATE],
+    priority: 5,
+  },
+  "image-enhancer": {
+    requiredIntents: [IntentType.CREATE, IntentType.REFACTOR],
+    priority: 5,
+  },
+  "video-downloader": {
+    requiredIntents: [IntentType.CREATE],
+    priority: 4,
+  },
+  "slack-gif-creator": {
+    requiredIntents: [IntentType.CREATE],
+    priority: 4,
+  },
+
+  // === 图表/可视化类 ===
+  "mermaidjs-v11": {
+    requiredIntents: [IntentType.CREATE, IntentType.DOCUMENT],
+    priority: 5,
+  },
+  "algorithmic-art": {
+    requiredIntents: [IntentType.CREATE],
+    priority: 5,
+  },
+
+  // === 思维/方法论类：允许更多意图 ===
+  "collision-zone-thinking": {
+    // 思维方法类不限制意图
+    priority: 4,
+  },
+  "context-engineering": {
+    priority: 4,
+  },
+  "defense-in-depth": {
+    priority: 4,
+  },
+  "inversion-exercise": {
+    priority: 4,
+  },
+  "meta-pattern-recognition": {
+    priority: 4,
+  },
+  "scale-game": {
+    priority: 4,
+  },
+  "sequential-thinking": {
+    priority: 4,
+  },
+  "simplification-cascades": {
+    requiredIntents: [IntentType.REFACTOR],
+    priority: 5,
+  },
+  "verification-before-completion": {
+    requiredIntents: [IntentType.TEST, IntentType.ANALYZE],
+    priority: 5,
+  },
+
+  // === 业务/垂直领域类 ===
+  "shopify": {
+    requiredIntents: [IntentType.CREATE, IntentType.DEBUG],
+    priority: 5,
+  },
+  "google-adk-python": {
+    requiredIntents: [IntentType.CREATE],
+    priority: 5,
+  },
+  "brand-guidelines": {
+    requiredIntents: [IntentType.CREATE, IntentType.DOCUMENT],
+    priority: 5,
+  },
+  "invoice-organizer": {
+    requiredIntents: [IntentType.CREATE, IntentType.ANALYZE],
+    priority: 4,
+  },
+  "meeting-insights-analyzer": {
+    requiredIntents: [IntentType.ANALYZE],
+    priority: 4,
+  },
+  "lead-research-assistant": {
+    requiredIntents: [IntentType.RESEARCH],
+    priority: 4,
+  },
+  "domain-name-brainstormer": {
+    requiredIntents: [IntentType.CREATE],
+    priority: 4,
+  },
+  "developer-growth-analysis": {
+    requiredIntents: [IntentType.ANALYZE],
+    priority: 4,
+  },
+  "internal-comms": {
+    requiredIntents: [IntentType.CREATE, IntentType.DOCUMENT],
+    priority: 4,
+  },
+  "file-organizer": {
+    requiredIntents: [IntentType.CREATE, IntentType.REFACTOR],
+    priority: 4,
+  },
+  "raffle-winner-picker": {
+    requiredIntents: [IntentType.CREATE],
+    priority: 3,
+  },
+  "competitive-ads-extractor": {
+    requiredIntents: [IntentType.ANALYZE, IntentType.RESEARCH],
+    priority: 4,
+  },
+  "claude-code": {
+    // Claude Code 帮助类不限制
+    priority: 4,
+  },
+};
 
 // ============================================
 // 全局状态
@@ -285,30 +882,167 @@ async function loadSkillContent(skillName: string): Promise<string> {
 // ============================================
 
 /**
- * 分析用户输入，识别需要的技能
+ * 识别用户消息的意图
+ * @returns 识别出的意图列表，按置信度排序
  */
-function analyzeContext(userMessage: string): SkillMeta[] {
+function detectIntents(userMessage: string): { intent: IntentType; confidence: number }[] {
+  const results: { intent: IntentType; confidence: number }[] = [];
   const messageLower = userMessage.toLowerCase();
-  const matchedSkills: { skill: SkillMeta; score: number }[] = [];
 
-  for (const skill of SKILL_REGISTRY) {
-    let score = 0;
+  for (const pattern of INTENT_PATTERNS) {
+    let matchCount = 0;
+    let totalWeight = 0;
 
-    for (const trigger of skill.triggers) {
-      if (messageLower.includes(trigger.toLowerCase())) {
-        score += trigger.length > 3 ? 2 : 1; // 长关键词权重更高
+    for (const regex of pattern.patterns) {
+      if (regex.test(userMessage) || regex.test(messageLower)) {
+        matchCount++;
+        totalWeight += pattern.weight;
       }
     }
 
+    if (matchCount > 0) {
+      // 置信度计算：匹配数量 * 权重 / 模式数量
+      const confidence = (matchCount * totalWeight) / pattern.patterns.length;
+      results.push({ intent: pattern.intent, confidence });
+    }
+  }
+
+  // 按置信度排序
+  results.sort((a, b) => b.confidence - a.confidence);
+
+  // 如果没有匹配，返回 UNKNOWN
+  if (results.length === 0) {
+    results.push({ intent: IntentType.UNKNOWN, confidence: 0 });
+  }
+
+  return results;
+}
+
+/**
+ * 检查消息是否包含排除词
+ */
+function containsExcludeWords(message: string, excludes: string[]): boolean {
+  const messageLower = message.toLowerCase();
+  return excludes.some(exclude => messageLower.includes(exclude.toLowerCase()));
+}
+
+/**
+ * 增强版上下文分析 - 支持意图识别和排除机制
+ */
+function analyzeContext(userMessage: string): { skills: SkillMeta[]; primaryIntent: IntentType } {
+  const messageLower = userMessage.toLowerCase();
+
+  // 1. 识别用户意图
+  const detectedIntents = detectIntents(userMessage);
+  const primaryIntent = detectedIntents[0]?.intent || IntentType.UNKNOWN;
+
+  // 特殊处理：编写单元测试时不激活特定技能
+  if (primaryIntent === IntentType.TEST_WRITE_UNIT) {
+    console.error(`[Skills Controller] 单元测试编写场景，使用通用编程能力`);
+    return {
+      skills: [],  // 不激活特定技能
+      primaryIntent,
+    };
+  }
+
+  // 特殊处理：编写集成测试时不激活特定技能
+  if (primaryIntent === IntentType.TEST_WRITE_INTEGRATION) {
+    console.error(`[Skills Controller] 集成测试编写场景，使用通用编程能力`);
+    return {
+      skills: [],  // 不激活特定技能
+      primaryIntent,
+    };
+  }
+
+  // 2. 获取次要意图
+  const secondaryIntents = detectedIntents.slice(1, 3).map(d => d.intent);
+  const allIntents = [primaryIntent, ...secondaryIntents];
+
+  console.error(`[Skills Controller] 识别意图: ${primaryIntent} (次要: ${secondaryIntents.join(", ") || "无"})`);
+
+  const matchedSkills: { skill: SkillMeta; score: number; matchedTriggers: string[] }[] = [];
+
+  for (const skill of SKILL_REGISTRY) {
+    const config = SKILL_CONFIGS[skill.name];
+
+    // 2. 检查意图过滤
+    if (config) {
+      // 检查排除意图
+      if (config.excludedIntents?.includes(primaryIntent)) {
+        console.error(`[Skills Controller] ${skill.name} 被意图排除: ${primaryIntent}`);
+        continue;
+      }
+
+      // 检查必需意图（如果定义了 requiredIntents）
+      if (config.requiredIntents && config.requiredIntents.length > 0) {
+        const hasRequiredIntent = config.requiredIntents.some(ri => allIntents.includes(ri));
+        if (!hasRequiredIntent) {
+          // 如果主意图是 UNKNOWN，允许通过（兼容旧行为）
+          if (primaryIntent !== IntentType.UNKNOWN) {
+            console.error(`[Skills Controller] ${skill.name} 缺少必需意图 (需要: ${config.requiredIntents.join("/")})`);
+            continue;
+          }
+        }
+      }
+
+      // 检查排除词
+      if (config.excludes && containsExcludeWords(userMessage, config.excludes)) {
+        console.error(`[Skills Controller] ${skill.name} 被排除词过滤`);
+        continue;
+      }
+    }
+
+    // 3. 计算匹配分数
+    let score = 0;
+    const matchedTriggers: string[] = [];
+
+    // 优先使用 SKILL_CONFIGS 中的加权触发词
+    if (config?.triggers && config.triggers.length > 0) {
+      for (const trigger of config.triggers) {
+        if (messageLower.includes(trigger.word.toLowerCase())) {
+          score += trigger.weight;
+          matchedTriggers.push(trigger.word);
+        }
+      }
+    }
+
+    // 也检查 EXTRA_TRIGGERS 和默认触发词
+    for (const trigger of skill.triggers) {
+      if (messageLower.includes(trigger.toLowerCase())) {
+        // 避免重复计分
+        if (!matchedTriggers.includes(trigger)) {
+          score += trigger.length > 3 ? 2 : 1;
+          matchedTriggers.push(trigger);
+        }
+      }
+    }
+
+    // 4. 应用技能优先级
+    const priority = config?.priority || skill.priority;
+
     if (score > 0) {
-      matchedSkills.push({ skill, score: score + skill.priority });
+      matchedSkills.push({
+        skill: { ...skill, priority },
+        score: score + priority,
+        matchedTriggers,
+      });
     }
   }
 
   // 按分数排序
   matchedSkills.sort((a, b) => b.score - a.score);
 
-  return matchedSkills.map(m => m.skill);
+  // 记录匹配结果
+  if (matchedSkills.length > 0) {
+    console.error(`[Skills Controller] 匹配结果: ${matchedSkills.slice(0, 5).map(m => `${m.skill.name}(${m.score})`).join(", ")}`);
+  } else {
+    console.error(`[Skills Controller] 无匹配技能`);
+  }
+
+  return {
+    skills: matchedSkills.map(m => m.skill),
+    primaryIntent,
+  };
 }
 
 // ============================================
@@ -342,10 +1076,12 @@ function createServer() {
 
 已注册 ${SKILL_REGISTRY.length} 个技能，涵盖：前端开发、后端开发、数据库、DevOps、设计、文档处理、测试、AI/ML 等。
 
-调用规则：
-- ✅ 必须调用：任何编程、设计、文档处理、技术任务
-- ✅ 必须调用：用户请求创建、构建、开发、处理任何内容
-- ❌ 无需调用：简单问答、闲聊、解释概念
+**调用规则**：
+- ✅ **必须调用**：任何编程、设计、文档处理、技术任务
+- ✅ **必须调用**：研究框架/库的**原理**（如"Vue响应式原理"、"React虚拟DOM"）
+- ✅ **必须调用**：查看源码、实现机制、内部工作原理
+- ✅ **必须调用**：用户请求创建、构建、开发、处理任何内容
+- ❌ **无需调用**：社交对话（"你好"、"谢谢"）、纯闲聊、**基础概念解释**（如"什么是HTTP？"）
 
 使用此工具让 Claude 自动获得专家级能力，用户无需知道技能的存在。`,
           inputSchema: {
@@ -445,7 +1181,8 @@ function createServer() {
           max_skills?: number;
         };
 
-        const matchedSkills = analyzeContext(user_message);
+        // 使用增强的意图感知分析
+        const { skills: matchedSkills, primaryIntent } = analyzeContext(user_message);
         const skillsToActivate = matchedSkills.slice(0, max_skills);
 
         if (skillsToActivate.length === 0) {
@@ -455,6 +1192,7 @@ function createServer() {
                 type: "text",
                 text: JSON.stringify({
                   status: "no_match",
+                  detected_intent: primaryIntent,
                   message: "未匹配到相关技能，使用通用模式处理",
                   suggestion: "可以使用 search_skills 或 get_skill_index 查看可用技能",
                   total_skills: SKILL_REGISTRY.length,
@@ -482,6 +1220,7 @@ function createServer() {
               type: "text",
               text: JSON.stringify({
                 status: "activated",
+                detected_intent: primaryIntent,
                 activated_skills: skillsToActivate.map(s => ({
                   name: s.name,
                   category: s.category,
@@ -490,7 +1229,9 @@ function createServer() {
                   ),
                 })),
                 skill_contents: activatedContents,
-                instructions: "请根据以上激活的技能内容来处理用户请求。任务完成后，请务必调用 deactivate_all_skills 工具来停用技能并释放上下文空间。",
+                instructions: `✅ **已激活技能**：${skillsToActivate.map(s => `${s.name}（${s.category}）`).join("、")}
+
+请根据以上激活的技能内容来处理用户请求。任务完成后，请务必调用 deactivate_all_skills 工具来停用技能并释放上下文空间。`,
               }),
             },
           ],
@@ -527,6 +1268,7 @@ function createServer() {
                   status: "deactivated",
                   skill: skill_name,
                   remaining_active: Array.from(state.activeSkills),
+                  message: `【${skill_name}】技能使用完毕，已释放。`,
                 }),
               },
             ],
@@ -553,6 +1295,11 @@ function createServer() {
         state.activeSkills.clear();
         skillContentCache.clear();
 
+        // 生成友好的提示信息
+        const skillNames = deactivatedSkills.length > 0
+          ? deactivatedSkills.join("、")
+          : "无";
+
         return {
           content: [
             {
@@ -561,6 +1308,9 @@ function createServer() {
                 status: "all_deactivated",
                 count: count,
                 deactivated_skills: deactivatedSkills,
+                message: count > 0
+                  ? `【${skillNames}】技能使用完毕，已释放。`
+                  : "当前没有激活的技能。",
               }),
             },
           ],
