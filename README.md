@@ -1,10 +1,23 @@
 # Skills MCP Controller
 
-> 智能技能编排控制器 - 根据上下文动态激活/停用 Claude Code 技能
+> 智能技能编排控制器 - 集成 GitHub 高星开源项目，为 Claude Code 提供专家级技能
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
 [![MCP](https://img.shields.io/badge/MCP-1.0-purple)](https://modelcontextprotocol.io/)
+[![Skills](https://img.shields.io/badge/Skills-60+-green)](#技能来源)
+
+---
+
+## 技能来源声明
+
+**所有技能均来自 GitHub 高星开源项目，本项目仅为聚合和路由管理工具。**
+
+| 项目 | Stars | 技能数 | 许可证 |
+|:---:|:---:|:---:|:---:|
+| [![Anthropic](https://github.githubassets.com/favicons/favicon.svg) Anthropic 官方](https://github.com/anthropics/anthropic-quickstarts) | [![30.7k](https://img.shields.io/badge/⭐-30.7k-blue)](https://github.com/anthropics/anthropic-quickstarts) | 16 | MIT |
+| [![ClaudeKit](https://github.githubassets.com/favicons/favicon.svg) ClaudeKit](https://github.com/jorgeboman/claudekit-skills) | [![1k](https://img.shields.io/badge/⭐-1k-blue)](https://github.com/jorgeboman/claudekit-skills) | 29 | MIT |
+| [![awesome-claude-skills](https://github.githubassets.com/favicons/favicon.svg) awesome-claude-skills](https://github.com/yutongyang/awesome-claude-skills) | [![3.9k](https://img.shields.io/badge/⭐-3.9k-blue)](https://github.com/yutongyang/awesome-claude-skills) | 15 | MIT |
 
 ---
 
@@ -87,11 +100,22 @@ Skills Controller 分析意图
 
 ### 3. 技能库
 
-目前支持 **60+ 技能**，来源于：
+目前支持 **60+ 技能**，全部来自以下 GitHub 高星开源项目：
 
-- **Anthropic 官方** (16 个)：docx, pdf, pptx, xlsx, frontend-design 等
-- **ClaudeKit** (29 个)：databases, devops, sequential-thinking, chrome-devtools 等
-- **社区贡献** (15 个)：video-downloader, image-enhancer, changelog-generator 等
+#### 从 Anthropic 官方技能库 (⭐ 30.7k)
+> [https://github.com/anthropics/anthropic-quickstarts](https://github.com/anthropics/anthropic-quickstarts)
+
+`docx` • `pdf` • `pptx` • `xlsx` • `frontend-design` • `algorithmic-art` 等 16 个技能
+
+#### 从 ClaudeKit (⭐ 1k)
+> [https://github.com/jorgeboman/claudekit-skills](https://github.com/jorgeboman/claudekit-skills)
+
+`databases` • `devops` • `sequential-thinking` • `chrome-devtools` • `when-stuck` 等 29 个技能
+
+#### 从 awesome-claude-skills (⭐ 3.9k)
+> [https://github.com/yutongyang/awesome-claude-skills](https://github.com/yutongyang/awesome-claude-skills)
+
+`video-downloader` • `image-enhancer` • `changelog-generator` 等 15 个技能
 
 ---
 
@@ -143,16 +167,6 @@ skillscontroller search "database"
 # 安装技能包
 skillscontroller install bundles/fullstack-react.yaml
 ```
-
----
-
-## 技能来源
-
-| 来源 | Stars | 技能数 | 亮点 |
-|------|-------|--------|------|
-| [Anthropic 官方](https://github.com/anthropics/anthropic-quickstarts) | 30.7k | 16 | docx, pdf, frontend-design |
-| [ClaudeKit](https://github.com/jorgeboman/claudekit-skills) | 1k | 29 | databases, devops, sequential-thinking |
-| [awesome-claude-skills](https://github.com/yutongyang/awesome-claude-skills) | 3.9k | 15 | video-downloader, image-enhancer |
 
 ---
 
@@ -208,6 +222,20 @@ license: MIT
 - **TypeScript** - 类型安全的 JavaScript
 - **Model Context Protocol SDK** - MCP 服务器框架
 - **Node.js** - 运行时环境
+
+---
+
+## 致谢
+
+本项目的所有技能内容均来自以下优秀的开源项目：
+
+| 项目 | 作者 | 链接 |
+|------|------|------|
+| **anthropic-quickstarts** | [Anthropic](https://github.com/anthropics) | [github.com/anthropics/anthropic-quickstarts](https://github.com/anthropics/anthropic-quickstarts) |
+| **claudekit-skills** | [jorgeboman](https://github.com/jorgeboman) | [github.com/jorgeboman/claudekit-skills](https://github.com/jorgeboman/claudekit-skills) |
+| **awesome-claude-skills** | [yutongyang](https://github.com/yutongyang) | [github.com/yutongyang/awesome-claude-skills](https://github.com/yutongyang/awesome-claude-skills) |
+
+**特别说明**：本项目仅为技能聚合和智能路由工具，所有技能的版权归各自原作者所有。
 
 ---
 
