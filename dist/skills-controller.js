@@ -9,6 +9,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { CallToolRequestSchema, ListToolsRequestSchema, } from "@modelcontextprotocol/sdk/types.js";
 import * as fs from "fs";
 import * as path from "path";
+import { validateSkillsDirs, validatePath, validateFileForRead, validateEntryName, validateAnalyzeAndRouteArgs, validateSkillName, validateKeyword, sanitizePathForLog, createSafeErrorResponse, PathTraversalError, } from "./validation.js";
 // ============================================
 // 类型定义（必须在使用前声明）
 // ============================================
@@ -44,9 +45,11 @@ const DEFAULT_SKILLS_DIRS = [
     path.join(process.cwd(), "claudekit-skills", ".claude", "skills"),
     path.join(process.cwd(), "awesome-claude-skills"),
 ];
-const SKILLS_DIRS = process.env.SKILLS_DIR
-    ? process.env.SKILLS_DIR.split(",").map(d => d.trim())
+// Validate and filter skills directories
+const rawSkillsDirs = process.env.SKILLS_DIR
+    ? process.env.SKILLS_DIR.split(",").map(d => d.trim()).filter(d => d.length > 0)
     : DEFAULT_SKILLS_DIRS;
+const SKILLS_DIRS = validateSkillsDirs(rawSkillsDirs);
 // 额外的触发词映射（用于增强匹配）
 const EXTRA_TRIGGERS = {
     // === Anthropic 官方技能 ===
@@ -709,37 +712,77 @@ function inferCategory(name, description) {
  */
 async function scanSkillsDirectory(baseDir, maxDepth = 2) {
     const skills = [];
-    if (!fs.existsSync(baseDir)) {
-        console.error(`[Skills Controller] 技能目录不存在: ${baseDir}`);
+    const resolvedBase = path.resolve(baseDir);
+    // Validate base directory exists and is not a symlink
+    try {
+        if (!fs.existsSync(resolvedBase)) {
+            console.error(`[Skills Controller] 技能目录不存在: ${sanitizePathForLog(baseDir)}`);
+            return skills;
+        }
+        const stats = fs.lstatSync(resolvedBase);
+        if (stats.isSymbolicLink()) {
+            console.error(`[Skills Controller] 跳过符号链接目录: ${sanitizePathForLog(baseDir)}`);
+            return skills;
+        }
+    }
+    catch (error) {
+        console.error(`[Skills Controller] 无法访问目录: ${sanitizePathForLog(baseDir)}`);
         return skills;
     }
     // 递归扫描函数
     function scanDir(dir, depth) {
         if (depth > maxDepth)
             return;
-        const entries = fs.readdirSync(dir, { withFileTypes: true });
-        for (const entry of entries) {
-            if (!entry.isDirectory())
-                continue;
-            if (entry.name.startsWith("."))
-                continue;
-            if (entry.name === "common" || entry.name === "references" || entry.name === "scripts")
-                continue;
-            const skillDir = path.join(dir, entry.name);
-            const skillFile = path.join(skillDir, "SKILL.md");
-            if (fs.existsSync(skillFile)) {
-                // 找到技能，处理它
-                processSkill(entry.name, skillFile);
+        try {
+            const entries = fs.readdirSync(dir, { withFileTypes: true });
+            for (const entry of entries) {
+                if (!entry.isDirectory())
+                    continue;
+                if (entry.name.startsWith("."))
+                    continue;
+                if (entry.name === "common" || entry.name === "references" || entry.name === "scripts")
+                    continue;
+                // Validate entry name doesn't contain path separators or special chars
+                if (!validateEntryName(entry.name)) {
+                    console.error(`[Skills Controller] 跳过无效目录名: ${sanitizePathForLog(entry.name)}`);
+                    continue;
+                }
+                try {
+                    // Validate path stays within base directory
+                    const skillDir = validatePath(resolvedBase, path.relative(resolvedBase, path.join(dir, entry.name)));
+                    // Check for symlink escape
+                    const dirStats = fs.lstatSync(skillDir);
+                    if (dirStats.isSymbolicLink()) {
+                        console.error(`[Skills Controller] 跳过符号链接: ${sanitizePathForLog(entry.name)}`);
+                        continue;
+                    }
+                    const skillFile = path.join(skillDir, "SKILL.md");
+                    if (fs.existsSync(skillFile)) {
+                        // 找到技能，处理它
+                        processSkill(entry.name, skillFile);
+                    }
+                    else {
+                        // 没有 SKILL.md，尝试递归扫描子目录
+                        scanDir(skillDir, depth + 1);
+                    }
+                }
+                catch (error) {
+                    if (error instanceof PathTraversalError) {
+                        console.error(`[Skills Controller] 跳过可疑路径: ${sanitizePathForLog(entry.name)}`);
+                    }
+                    // Continue with other entries
+                }
             }
-            else {
-                // 没有 SKILL.md，尝试递归扫描子目录
-                scanDir(skillDir, depth + 1);
-            }
+        }
+        catch (error) {
+            console.error(`[Skills Controller] 扫描目录失败: ${sanitizePathForLog(dir)}`);
         }
     }
     function processSkill(name, skillFile) {
         try {
-            const content = fs.readFileSync(skillFile, "utf-8");
+            // Validate skill file path
+            const validatedPath = validateFileForRead(path.dirname(skillFile), path.basename(skillFile));
+            const content = fs.readFileSync(validatedPath, "utf-8");
             const meta = parseFrontmatter(content);
             if (!meta)
                 return;
@@ -756,17 +799,17 @@ async function scanSkillsDirectory(baseDir, maxDepth = 2) {
                 triggers: allTriggers,
                 category: inferCategory(name, meta.description),
                 priority: 5,
-                path: skillFile,
+                path: validatedPath, // Store validated path
                 loaded: false,
             });
             console.error(`[Skills Controller] 发现技能: ${name}`);
         }
         catch (error) {
-            console.error(`[Skills Controller] 加载技能失败: ${name}`, error);
+            console.error(`[Skills Controller] 加载技能失败: ${sanitizePathForLog(name)}`);
         }
     }
     // 开始扫描
-    scanDir(baseDir, 0);
+    scanDir(resolvedBase, 0);
     return skills;
 }
 /**
@@ -779,16 +822,23 @@ async function loadSkillContent(skillName) {
     }
     const skill = SKILL_REGISTRY.find(s => s.name === skillName);
     if (!skill) {
-        return `[Error: 技能 "${skillName}" 未注册]`;
+        // Don't expose skill name in error - could be user input
+        return "[Error: 技能未注册]";
     }
     try {
-        const content = fs.readFileSync(skill.path, "utf-8");
+        // Validate skill path for security (double-check even though scanned paths should be safe)
+        const skillDir = path.dirname(skill.path);
+        const skillFile = path.basename(skill.path);
+        const validatedPath = validateFileForRead(skillDir, skillFile);
+        const content = fs.readFileSync(validatedPath, "utf-8");
         skillContentCache.set(skillName, content);
         skill.loaded = true;
         return content;
     }
     catch (error) {
-        return `[Error: 无法读取技能文件 "${skill.path}"]`;
+        // Safe error logging - don't expose full path
+        console.error(`[Skills Controller] 读取技能失败: ${sanitizePathForLog(skill.path)}`);
+        return "[Error: 无法读取技能文件]";
     }
 }
 // ============================================
@@ -1053,218 +1103,250 @@ function createServer() {
     // 处理工具调用
     server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const { name, arguments: args } = request.params;
-        switch (name) {
-            case "analyze_and_route": {
-                const { user_message, max_skills = 1 } = args;
-                // 使用增强的意图感知分析
-                const { skills: matchedSkills, primaryIntent } = analyzeContext(user_message);
-                const skillsToActivate = matchedSkills.slice(0, max_skills);
-                if (skillsToActivate.length === 0) {
+        try {
+            switch (name) {
+                case "analyze_and_route": {
+                    // Validate input with Zod schema
+                    const { user_message, max_skills } = validateAnalyzeAndRouteArgs(args);
+                    // 使用增强的意图感知分析
+                    const { skills: matchedSkills, primaryIntent } = analyzeContext(user_message);
+                    const skillsToActivate = matchedSkills.slice(0, max_skills);
+                    if (skillsToActivate.length === 0) {
+                        return {
+                            content: [
+                                {
+                                    type: "text",
+                                    text: JSON.stringify({
+                                        status: "no_match",
+                                        detected_intent: primaryIntent,
+                                        message: "未匹配到相关技能，使用通用模式处理",
+                                        suggestion: "可以使用 search_skills 或 get_skill_index 查看可用技能",
+                                        total_skills: SKILL_REGISTRY.length,
+                                    }),
+                                },
+                            ],
+                        };
+                    }
+                    // 加载技能内容
+                    const activatedContents = [];
+                    for (const skill of skillsToActivate) {
+                        const content = await loadSkillContent(skill.name);
+                        activatedContents.push({ name: skill.name, content });
+                        state.activeSkills.add(skill.name);
+                    }
+                    state.context = user_message;
+                    state.lastAnalysis = new Date();
                     return {
                         content: [
                             {
                                 type: "text",
                                 text: JSON.stringify({
-                                    status: "no_match",
+                                    status: "activated",
                                     detected_intent: primaryIntent,
-                                    message: "未匹配到相关技能，使用通用模式处理",
-                                    suggestion: "可以使用 search_skills 或 get_skill_index 查看可用技能",
-                                    total_skills: SKILL_REGISTRY.length,
-                                }),
-                            },
-                        ],
-                    };
-                }
-                // 加载技能内容
-                const activatedContents = [];
-                for (const skill of skillsToActivate) {
-                    const content = await loadSkillContent(skill.name);
-                    activatedContents.push({ name: skill.name, content });
-                    state.activeSkills.add(skill.name);
-                }
-                state.context = user_message;
-                state.lastAnalysis = new Date();
-                return {
-                    content: [
-                        {
-                            type: "text",
-                            text: JSON.stringify({
-                                status: "activated",
-                                detected_intent: primaryIntent,
-                                activated_skills: skillsToActivate.map(s => ({
-                                    name: s.name,
-                                    category: s.category,
-                                    match_reason: s.triggers.filter(t => user_message.toLowerCase().includes(t.toLowerCase())),
-                                })),
-                                skill_contents: activatedContents,
-                                instructions: `✅ **已激活技能**：${skillsToActivate.map(s => `${s.name}（${s.category}）`).join("、")}
+                                    activated_skills: skillsToActivate.map(s => ({
+                                        name: s.name,
+                                        category: s.category,
+                                        match_reason: s.triggers.filter(t => user_message.toLowerCase().includes(t.toLowerCase())),
+                                    })),
+                                    skill_contents: activatedContents,
+                                    instructions: `✅ **已激活技能**：${skillsToActivate.map(s => `${s.name}（${s.category}）`).join("、")}
 
 请根据以上激活的技能内容来处理用户请求。任务完成后，请务必调用 deactivate_all_skills 工具来停用技能并释放上下文空间。`,
-                            }),
-                        },
-                    ],
-                };
-            }
-            case "list_active_skills": {
-                return {
-                    content: [
-                        {
-                            type: "text",
-                            text: JSON.stringify({
-                                active_skills: Array.from(state.activeSkills),
-                                last_analysis: state.lastAnalysis.toISOString(),
-                                context_summary: state.context.slice(0, 100) + (state.context.length > 100 ? "..." : ""),
-                            }),
-                        },
-                    ],
-                };
-            }
-            case "deactivate_skill": {
-                const { skill_name } = args;
-                if (state.activeSkills.has(skill_name)) {
-                    state.activeSkills.delete(skill_name);
-                    skillContentCache.delete(skill_name);
-                    return {
-                        content: [
-                            {
-                                type: "text",
-                                text: JSON.stringify({
-                                    status: "deactivated",
-                                    skill: skill_name,
-                                    remaining_active: Array.from(state.activeSkills),
-                                    message: `【${skill_name}】技能使用完毕，已释放。`,
                                 }),
                             },
                         ],
                     };
                 }
-                return {
-                    content: [
-                        {
-                            type: "text",
-                            text: JSON.stringify({
-                                status: "not_found",
-                                message: `技能 "${skill_name}" 未处于激活状态`,
-                            }),
-                        },
-                    ],
-                };
-            }
-            case "deactivate_all_skills": {
-                const deactivatedSkills = Array.from(state.activeSkills);
-                const count = deactivatedSkills.length;
-                state.activeSkills.clear();
-                skillContentCache.clear();
-                // 生成友好的提示信息
-                const skillNames = deactivatedSkills.length > 0
-                    ? deactivatedSkills.join("、")
-                    : "无";
-                return {
-                    content: [
-                        {
-                            type: "text",
-                            text: JSON.stringify({
-                                status: "all_deactivated",
-                                count: count,
-                                deactivated_skills: deactivatedSkills,
-                                message: count > 0
-                                    ? `【${skillNames}】技能使用完毕，已释放。`
-                                    : "当前没有激活的技能。",
-                            }),
-                        },
-                    ],
-                };
-            }
-            case "get_skill_index": {
-                // 按分类分组
-                const byCategory = {};
-                for (const skill of SKILL_REGISTRY) {
-                    if (!byCategory[skill.category]) {
-                        byCategory[skill.category] = [];
-                    }
-                    byCategory[skill.category].push(skill);
+                case "list_active_skills": {
+                    return {
+                        content: [
+                            {
+                                type: "text",
+                                text: JSON.stringify({
+                                    active_skills: Array.from(state.activeSkills),
+                                    last_analysis: state.lastAnalysis.toISOString(),
+                                    context_summary: state.context.slice(0, 100) + (state.context.length > 100 ? "..." : ""),
+                                }),
+                            },
+                        ],
+                    };
                 }
-                return {
-                    content: [
-                        {
-                            type: "text",
-                            text: JSON.stringify({
-                                total: SKILL_REGISTRY.length,
-                                by_category: Object.entries(byCategory).map(([cat, skills]) => ({
-                                    category: cat,
-                                    count: skills.length,
-                                    skills: skills.map(s => ({
+                case "deactivate_skill": {
+                    // Validate skill_name input
+                    const skill_name = validateSkillName(args);
+                    if (state.activeSkills.has(skill_name)) {
+                        state.activeSkills.delete(skill_name);
+                        skillContentCache.delete(skill_name);
+                        return {
+                            content: [
+                                {
+                                    type: "text",
+                                    text: JSON.stringify({
+                                        status: "deactivated",
+                                        skill: skill_name,
+                                        remaining_active: Array.from(state.activeSkills),
+                                        message: "技能使用完毕，已释放。",
+                                    }),
+                                },
+                            ],
+                        };
+                    }
+                    return {
+                        content: [
+                            {
+                                type: "text",
+                                text: JSON.stringify({
+                                    status: "not_found",
+                                    message: "技能未处于激活状态",
+                                }),
+                            },
+                        ],
+                    };
+                }
+                case "deactivate_all_skills": {
+                    const deactivatedSkills = Array.from(state.activeSkills);
+                    const count = deactivatedSkills.length;
+                    state.activeSkills.clear();
+                    skillContentCache.clear();
+                    // 生成友好的提示信息
+                    const skillNames = deactivatedSkills.length > 0
+                        ? deactivatedSkills.join("、")
+                        : "无";
+                    return {
+                        content: [
+                            {
+                                type: "text",
+                                text: JSON.stringify({
+                                    status: "all_deactivated",
+                                    count: count,
+                                    deactivated_skills: deactivatedSkills,
+                                    message: count > 0
+                                        ? `【${skillNames}】技能使用完毕，已释放。`
+                                        : "当前没有激活的技能。",
+                                }),
+                            },
+                        ],
+                    };
+                }
+                case "get_skill_index": {
+                    // 按分类分组
+                    const byCategory = {};
+                    for (const skill of SKILL_REGISTRY) {
+                        if (!byCategory[skill.category]) {
+                            byCategory[skill.category] = [];
+                        }
+                        byCategory[skill.category].push(skill);
+                    }
+                    return {
+                        content: [
+                            {
+                                type: "text",
+                                text: JSON.stringify({
+                                    total: SKILL_REGISTRY.length,
+                                    by_category: Object.entries(byCategory).map(([cat, skills]) => ({
+                                        category: cat,
+                                        count: skills.length,
+                                        skills: skills.map(s => ({
+                                            name: s.name,
+                                            description: s.description,
+                                            triggers: s.triggers.slice(0, 5),
+                                        })),
+                                    })),
+                                }),
+                            },
+                        ],
+                    };
+                }
+                case "load_skill": {
+                    // Validate skill_name input
+                    const skill_name = validateSkillName(args);
+                    const skill = SKILL_REGISTRY.find(s => s.name === skill_name);
+                    if (!skill) {
+                        return {
+                            content: [
+                                {
+                                    type: "text",
+                                    text: JSON.stringify({
+                                        status: "error",
+                                        message: "技能不存在",
+                                        // Don't leak full skill list - suggest using search instead
+                                        suggestion: "使用 search_skills 或 get_skill_index 查看可用技能",
+                                    }),
+                                },
+                            ],
+                        };
+                    }
+                    const content = await loadSkillContent(skill_name);
+                    state.activeSkills.add(skill_name);
+                    return {
+                        content: [
+                            {
+                                type: "text",
+                                text: JSON.stringify({
+                                    status: "loaded",
+                                    skill: {
+                                        name: skill.name,
+                                        category: skill.category,
+                                        description: skill.description,
+                                    },
+                                    content: content,
+                                }),
+                            },
+                        ],
+                    };
+                }
+                case "search_skills": {
+                    // Validate keyword input
+                    const keyword = validateKeyword(args);
+                    const keywordLower = keyword.toLowerCase();
+                    const matches = SKILL_REGISTRY.filter(skill => skill.name.toLowerCase().includes(keywordLower) ||
+                        skill.description.toLowerCase().includes(keywordLower) ||
+                        skill.triggers.some(t => t.toLowerCase().includes(keywordLower)));
+                    return {
+                        content: [
+                            {
+                                type: "text",
+                                text: JSON.stringify({
+                                    keyword,
+                                    matches: matches.length,
+                                    skills: matches.map(s => ({
                                         name: s.name,
                                         description: s.description,
-                                        triggers: s.triggers.slice(0, 5),
+                                        category: s.category,
                                     })),
-                                })),
-                            }),
-                        },
-                    ],
-                };
-            }
-            case "load_skill": {
-                const { skill_name } = args;
-                const skill = SKILL_REGISTRY.find(s => s.name === skill_name);
-                if (!skill) {
+                                }),
+                            },
+                        ],
+                    };
+                }
+                default:
+                    // Safe error - don't expose tool name details
                     return {
                         content: [
                             {
                                 type: "text",
                                 text: JSON.stringify({
                                     status: "error",
-                                    message: `技能 "${skill_name}" 不存在`,
-                                    available: SKILL_REGISTRY.map(s => s.name),
+                                    message: "未知操作",
                                 }),
                             },
                         ],
                     };
-                }
-                const content = await loadSkillContent(skill_name);
-                state.activeSkills.add(skill_name);
-                return {
-                    content: [
-                        {
-                            type: "text",
-                            text: JSON.stringify({
-                                status: "loaded",
-                                skill: {
-                                    name: skill.name,
-                                    category: skill.category,
-                                    description: skill.description,
-                                },
-                                content: content,
-                            }),
-                        },
-                    ],
-                };
             }
-            case "search_skills": {
-                const { keyword } = args;
-                const keywordLower = keyword.toLowerCase();
-                const matches = SKILL_REGISTRY.filter(skill => skill.name.toLowerCase().includes(keywordLower) ||
-                    skill.description.toLowerCase().includes(keywordLower) ||
-                    skill.triggers.some(t => t.toLowerCase().includes(keywordLower)));
-                return {
-                    content: [
-                        {
-                            type: "text",
-                            text: JSON.stringify({
-                                keyword,
-                                matches: matches.length,
-                                skills: matches.map(s => ({
-                                    name: s.name,
-                                    description: s.description,
-                                    category: s.category,
-                                })),
-                            }),
-                        },
-                    ],
-                };
-            }
-            default:
-                throw new Error(`Unknown tool: ${name}`);
+        }
+        catch (error) {
+            // Unified error handling - don't leak sensitive info
+            return {
+                content: [
+                    {
+                        type: "text",
+                        text: JSON.stringify({
+                            status: "error",
+                            message: createSafeErrorResponse(error, name),
+                        }),
+                    },
+                ],
+            };
         }
     });
     return server;

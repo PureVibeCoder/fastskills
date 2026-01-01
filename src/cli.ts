@@ -8,7 +8,14 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as yaml from "yaml";
-import { execSync } from "child_process";
+import {
+  validatePath,
+  validateFileForRead,
+  validateBundleName,
+  validateSkillBundle,
+  sanitizePathForLog,
+  PathTraversalError,
+} from "./validation.js";
 
 interface SkillBundle {
   name: string;
@@ -67,18 +74,43 @@ async function listBundles(bundlesDir: string) {
   const files = fs.readdirSync(bundlesDir).filter((f) => f.endsWith(".yaml"));
 
   for (const file of files) {
-    const content = fs.readFileSync(path.join(bundlesDir, file), "utf-8");
-    const bundle = yaml.parse(content) as SkillBundle;
+    try {
+      // Validate file path security
+      const filePath = validateFileForRead(bundlesDir, file);
+      const content = fs.readFileSync(filePath, "utf-8");
 
-    console.log(`  ┌─ ${bundle.name} (v${bundle.version})`);
-    console.log(`  │  ${bundle.description.split("\n")[0]}`);
-    console.log(`  │  技能: ${bundle.skills.map((s) => s.name).join(", ")}`);
-    console.log(`  └─ 作者: ${bundle.author}\n`);
+      // Parse and validate YAML with schema
+      const rawBundle = yaml.parse(content);
+      const bundle = validateSkillBundle(rawBundle);
+
+      console.log(`  ┌─ ${bundle.name} (v${bundle.version})`);
+      console.log(`  │  ${bundle.description.split("\n")[0]}`);
+      console.log(`  │  技能: ${bundle.skills.map((s) => s.name).join(", ")}`);
+      console.log(`  └─ 作者: ${bundle.author}\n`);
+    } catch (error) {
+      // Safe error logging - don't expose full path
+      console.error(`  ⚠ 跳过无效技能包: ${sanitizePathForLog(file)}`);
+    }
   }
 }
 
 async function installBundle(bundleName: string, bundlesDir: string, targetDir: string) {
-  const bundlePath = path.join(bundlesDir, `${bundleName}.yaml`);
+  // Validate bundle name to prevent path traversal
+  try {
+    validateBundleName(bundleName);
+  } catch (error) {
+    console.error("❌ 无效的技能包名称");
+    process.exit(1);
+  }
+
+  // Validate bundle path stays within bundles directory
+  let bundlePath: string;
+  try {
+    bundlePath = validatePath(bundlesDir, `${bundleName}.yaml`);
+  } catch (error) {
+    console.error("❌ 无效的技能包路径");
+    process.exit(1);
+  }
 
   if (!fs.existsSync(bundlePath)) {
     console.error(`❌ 技能包 "${bundleName}" 不存在`);
@@ -87,7 +119,15 @@ async function installBundle(bundleName: string, bundlesDir: string, targetDir: 
   }
 
   const content = fs.readFileSync(bundlePath, "utf-8");
-  const bundle = yaml.parse(content) as SkillBundle;
+  // Parse and validate YAML with schema
+  const rawBundle = yaml.parse(content);
+  let bundle: ReturnType<typeof validateSkillBundle>;
+  try {
+    bundle = validateSkillBundle(rawBundle);
+  } catch (error) {
+    console.error("❌ 技能包格式无效");
+    process.exit(1);
+  }
 
   console.log(`\n🚀 安装技能包: ${bundle.name} v${bundle.version}\n`);
 
@@ -107,17 +147,32 @@ async function installBundle(bundleName: string, bundlesDir: string, targetDir: 
   // 安装技能
   console.log("\n📥 安装技能:\n");
 
+  // Base directory for local skills (parent of bundles dir)
+  const skillsBaseDir = path.resolve(bundlesDir, "..");
+
   for (const skill of bundle.skills) {
     if (skill.source === "local" && skill.path) {
-      const srcPath = path.resolve(bundlesDir, "..", skill.path);
-      const destPath = path.join(skillsDir, skill.name);
+      try {
+        // Validate source path - must stay within skills base directory
+        const srcPath = validateFileForRead(skillsBaseDir, skill.path);
 
-      if (fs.existsSync(srcPath)) {
-        // 复制技能目录
-        fs.cpSync(srcPath, destPath, { recursive: true });
-        console.log(`  ✓ ${skill.name} (本地)`);
-      } else {
-        console.log(`  ⚠ ${skill.name} (路径不存在: ${srcPath})`);
+        // Validate destination path - must stay within skillsDir
+        const destPath = validatePath(skillsDir, skill.name);
+
+        if (fs.existsSync(srcPath)) {
+          // Copy skill directory
+          fs.cpSync(srcPath, destPath, { recursive: true });
+          console.log(`  ✓ ${skill.name} (本地)`);
+        } else {
+          console.log(`  ⚠ ${skill.name} (技能文件不存在)`);
+        }
+      } catch (error) {
+        if (error instanceof PathTraversalError) {
+          // Don't expose path details in error
+          console.log(`  ⚠ ${skill.name} (路径验证失败)`);
+        } else {
+          console.log(`  ⚠ ${skill.name} (安装失败)`);
+        }
       }
     } else if (skill.source === "plugin") {
       console.log(`  ✓ ${skill.name} (插件: ${skill.plugin_id})`);

@@ -22,7 +22,10 @@
     "build": "tsc",
     "start": "node dist/skills-controller.js",
     "dev": "tsx src/skills-controller.ts",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run"
   },
   "keywords": [
     "claude",
@@ -47,11 +50,14 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
-    "yaml": "^2.8.2"
+    "yaml": "^2.8.2",
+    "zod": "^4.3.4"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
+    "@vitest/ui": "^4.0.16",
     "tsx": "^4.0.0",
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "vitest": "^4.0.16"
   }
 }

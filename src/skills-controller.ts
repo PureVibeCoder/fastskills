@@ -13,6 +13,20 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 import * as fs from "fs";
 import * as path from "path";
+import {
+  validateSkillsDirs,
+  validatePath,
+  validateFileForRead,
+  validateEntryName,
+  validateAnalyzeAndRouteArgs,
+  validateSkillName,
+  validateKeyword,
+  sanitizePathForLog,
+  createSafeErrorResponse,
+  PathTraversalError,
+  SymlinkEscapeError,
+  SECURITY_LIMITS,
+} from "./validation.js";
 
 // ============================================
 // 类型定义（必须在使用前声明）
@@ -88,9 +102,12 @@ const DEFAULT_SKILLS_DIRS = [
   path.join(process.cwd(), "awesome-claude-skills"),
 ];
 
-const SKILLS_DIRS: string[] = process.env.SKILLS_DIR
-  ? process.env.SKILLS_DIR.split(",").map(d => d.trim())
+// Validate and filter skills directories
+const rawSkillsDirs = process.env.SKILLS_DIR
+  ? process.env.SKILLS_DIR.split(",").map(d => d.trim()).filter(d => d.length > 0)
   : DEFAULT_SKILLS_DIRS;
+
+const SKILLS_DIRS: string[] = validateSkillsDirs(rawSkillsDirs);
 
 // 额外的触发词映射（用于增强匹配）
 const EXTRA_TRIGGERS: Record<string, string[]> = {
@@ -784,9 +801,22 @@ function inferCategory(name: string, description: string): string {
  */
 async function scanSkillsDirectory(baseDir: string, maxDepth: number = 2): Promise<SkillMeta[]> {
   const skills: SkillMeta[] = [];
+  const resolvedBase = path.resolve(baseDir);
 
-  if (!fs.existsSync(baseDir)) {
-    console.error(`[Skills Controller] 技能目录不存在: ${baseDir}`);
+  // Validate base directory exists and is not a symlink
+  try {
+    if (!fs.existsSync(resolvedBase)) {
+      console.error(`[Skills Controller] 技能目录不存在: ${sanitizePathForLog(baseDir)}`);
+      return skills;
+    }
+
+    const stats = fs.lstatSync(resolvedBase);
+    if (stats.isSymbolicLink()) {
+      console.error(`[Skills Controller] 跳过符号链接目录: ${sanitizePathForLog(baseDir)}`);
+      return skills;
+    }
+  } catch (error) {
+    console.error(`[Skills Controller] 无法访问目录: ${sanitizePathForLog(baseDir)}`);
     return skills;
   }
 
@@ -794,29 +824,58 @@ async function scanSkillsDirectory(baseDir: string, maxDepth: number = 2): Promi
   function scanDir(dir: string, depth: number) {
     if (depth > maxDepth) return;
 
-    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    try {
+      const entries = fs.readdirSync(dir, { withFileTypes: true });
 
-    for (const entry of entries) {
-      if (!entry.isDirectory()) continue;
-      if (entry.name.startsWith(".")) continue;
-      if (entry.name === "common" || entry.name === "references" || entry.name === "scripts") continue;
+      for (const entry of entries) {
+        if (!entry.isDirectory()) continue;
+        if (entry.name.startsWith(".")) continue;
+        if (entry.name === "common" || entry.name === "references" || entry.name === "scripts") continue;
 
-      const skillDir = path.join(dir, entry.name);
-      const skillFile = path.join(skillDir, "SKILL.md");
+        // Validate entry name doesn't contain path separators or special chars
+        if (!validateEntryName(entry.name)) {
+          console.error(`[Skills Controller] 跳过无效目录名: ${sanitizePathForLog(entry.name)}`);
+          continue;
+        }
 
-      if (fs.existsSync(skillFile)) {
-        // 找到技能，处理它
-        processSkill(entry.name, skillFile);
-      } else {
-        // 没有 SKILL.md，尝试递归扫描子目录
-        scanDir(skillDir, depth + 1);
+        try {
+          // Validate path stays within base directory
+          const skillDir = validatePath(resolvedBase, path.relative(resolvedBase, path.join(dir, entry.name)));
+
+          // Check for symlink escape
+          const dirStats = fs.lstatSync(skillDir);
+          if (dirStats.isSymbolicLink()) {
+            console.error(`[Skills Controller] 跳过符号链接: ${sanitizePathForLog(entry.name)}`);
+            continue;
+          }
+
+          const skillFile = path.join(skillDir, "SKILL.md");
+
+          if (fs.existsSync(skillFile)) {
+            // 找到技能，处理它
+            processSkill(entry.name, skillFile);
+          } else {
+            // 没有 SKILL.md，尝试递归扫描子目录
+            scanDir(skillDir, depth + 1);
+          }
+        } catch (error) {
+          if (error instanceof PathTraversalError) {
+            console.error(`[Skills Controller] 跳过可疑路径: ${sanitizePathForLog(entry.name)}`);
+          }
+          // Continue with other entries
+        }
       }
+    } catch (error) {
+      console.error(`[Skills Controller] 扫描目录失败: ${sanitizePathForLog(dir)}`);
     }
   }
 
   function processSkill(name: string, skillFile: string) {
     try {
-      const content = fs.readFileSync(skillFile, "utf-8");
+      // Validate skill file path
+      const validatedPath = validateFileForRead(path.dirname(skillFile), path.basename(skillFile));
+
+      const content = fs.readFileSync(validatedPath, "utf-8");
       const meta = parseFrontmatter(content);
 
       if (!meta) return;
@@ -837,18 +896,18 @@ async function scanSkillsDirectory(baseDir: string, maxDepth: number = 2): Promi
         triggers: allTriggers,
         category: inferCategory(name, meta.description),
         priority: 5,
-        path: skillFile,
+        path: validatedPath,  // Store validated path
         loaded: false,
       });
 
       console.error(`[Skills Controller] 发现技能: ${name}`);
     } catch (error) {
-      console.error(`[Skills Controller] 加载技能失败: ${name}`, error);
+      console.error(`[Skills Controller] 加载技能失败: ${sanitizePathForLog(name)}`);
     }
   }
 
   // 开始扫描
-  scanDir(baseDir, 0);
+  scanDir(resolvedBase, 0);
 
   return skills;
 }
@@ -864,16 +923,24 @@ async function loadSkillContent(skillName: string): Promise<string> {
 
   const skill = SKILL_REGISTRY.find(s => s.name === skillName);
   if (!skill) {
-    return `[Error: 技能 "${skillName}" 未注册]`;
+    // Don't expose skill name in error - could be user input
+    return "[Error: 技能未注册]";
   }
 
   try {
-    const content = fs.readFileSync(skill.path, "utf-8");
+    // Validate skill path for security (double-check even though scanned paths should be safe)
+    const skillDir = path.dirname(skill.path);
+    const skillFile = path.basename(skill.path);
+    const validatedPath = validateFileForRead(skillDir, skillFile);
+
+    const content = fs.readFileSync(validatedPath, "utf-8");
     skillContentCache.set(skillName, content);
     skill.loaded = true;
     return content;
   } catch (error) {
-    return `[Error: 无法读取技能文件 "${skill.path}"]`;
+    // Safe error logging - don't expose full path
+    console.error(`[Skills Controller] 读取技能失败: ${sanitizePathForLog(skill.path)}`);
+    return "[Error: 无法读取技能文件]";
   }
 }
 
@@ -1174,12 +1241,11 @@ function createServer() {
   server.setRequestHandler(CallToolRequestSchema, async (request) => {
     const { name, arguments: args } = request.params;
 
-    switch (name) {
-      case "analyze_and_route": {
-        const { user_message, max_skills = 1 } = args as {
-          user_message: string;
-          max_skills?: number;
-        };
+    try {
+      switch (name) {
+        case "analyze_and_route": {
+          // Validate input with Zod schema
+          const { user_message, max_skills } = validateAnalyzeAndRouteArgs(args);
 
         // 使用增强的意图感知分析
         const { skills: matchedSkills, primaryIntent } = analyzeContext(user_message);
@@ -1254,7 +1320,8 @@ function createServer() {
       }
 
       case "deactivate_skill": {
-        const { skill_name } = args as { skill_name: string };
+        // Validate skill_name input
+        const skill_name = validateSkillName(args);
 
         if (state.activeSkills.has(skill_name)) {
           state.activeSkills.delete(skill_name);
@@ -1268,7 +1335,7 @@ function createServer() {
                   status: "deactivated",
                   skill: skill_name,
                   remaining_active: Array.from(state.activeSkills),
-                  message: `【${skill_name}】技能使用完毕，已释放。`,
+                  message: "技能使用完毕，已释放。",
                 }),
               },
             ],
@@ -1281,7 +1348,7 @@ function createServer() {
               type: "text",
               text: JSON.stringify({
                 status: "not_found",
-                message: `技能 "${skill_name}" 未处于激活状态`,
+                message: "技能未处于激活状态",
               }),
             },
           ],
@@ -1349,7 +1416,8 @@ function createServer() {
       }
 
       case "load_skill": {
-        const { skill_name } = args as { skill_name: string };
+        // Validate skill_name input
+        const skill_name = validateSkillName(args);
 
         const skill = SKILL_REGISTRY.find(s => s.name === skill_name);
         if (!skill) {
@@ -1359,8 +1427,9 @@ function createServer() {
                 type: "text",
                 text: JSON.stringify({
                   status: "error",
-                  message: `技能 "${skill_name}" 不存在`,
-                  available: SKILL_REGISTRY.map(s => s.name),
+                  message: "技能不存在",
+                  // Don't leak full skill list - suggest using search instead
+                  suggestion: "使用 search_skills 或 get_skill_index 查看可用技能",
                 }),
               },
             ],
@@ -1389,7 +1458,8 @@ function createServer() {
       }
 
       case "search_skills": {
-        const { keyword } = args as { keyword: string };
+        // Validate keyword input
+        const keyword = validateKeyword(args);
         const keywordLower = keyword.toLowerCase();
 
         const matches = SKILL_REGISTRY.filter(skill =>
@@ -1417,7 +1487,32 @@ function createServer() {
       }
 
       default:
-        throw new Error(`Unknown tool: ${name}`);
+        // Safe error - don't expose tool name details
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify({
+                status: "error",
+                message: "未知操作",
+              }),
+            },
+          ],
+        };
+      }
+    } catch (error) {
+      // Unified error handling - don't leak sensitive info
+      return {
+        content: [
+          {
+            type: "text",
+            text: JSON.stringify({
+              status: "error",
+              message: createSafeErrorResponse(error, name),
+            }),
+          },
+        ],
+      };
     }
   });
 
