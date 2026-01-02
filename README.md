@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
 [![MCP](https://img.shields.io/badge/MCP-1.0-purple)](https://modelcontextprotocol.io/)
-[![Skills](https://img.shields.io/badge/Skills-60+-green)](#技能来源)
+[![Skills](https://img.shields.io/badge/Skills-58+-green)](#技能来源)
 
 ---
 
@@ -16,10 +16,9 @@
 
 | 项目 | Stars | 技能数 | 许可证 |
 |:---:|:---:|:---:|:---:|
-| [![Anthropic](https://github.githubassets.com/favicons/favicon.svg) Anthropic 官方](https://github.com/anthropics/anthropic-quickstarts) | [![30.7k](https://img.shields.io/badge/⭐-30.7k-blue)](https://github.com/anthropics/anthropic-quickstarts) | 16 | MIT |
-| [![superpowers](https://github.githubassets.com/favicons/favicon.svg) obra/superpowers](https://github.com/obra/superpowers) | [![13k](https://img.shields.io/badge/⭐-13k-blue)](https://github.com/obra/superpowers) | TBD | MIT |
-| [![ClaudeKit](https://github.githubassets.com/favicons/favicon.svg) ClaudeKit](https://github.com/jorgeboman/claudekit-skills) | [![1k](https://img.shields.io/badge/⭐-1k-blue)](https://github.com/jorgeboman/claudekit-skills) | 29 | MIT |
-| [![awesome-claude-skills](https://github.githubassets.com/favicons/favicon.svg) awesome-claude-skills](https://github.com/yutongyang/awesome-claude-skills) | [![3.9k](https://img.shields.io/badge/⭐-3.9k-blue)](https://github.com/yutongyang/awesome-claude-skills) | 15 | MIT |
+| [![Superpowers](https://github.githubassets.com/favicons/favicon.svg) Superpowers](https://github.com/obra/superpowers) | [![13k](https://img.shields.io/badge/⭐-13k-blue)](https://github.com/obra/superpowers) | 14 | MIT |
+| [![ClaudeKit](https://github.githubassets.com/favicons/favicon.svg) ClaudeKit](https://github.com/mrgoonie/claudekit-skills) | [![1.1k](https://img.shields.io/badge/⭐-1.1k-blue)](https://github.com/mrgoonie/claudekit-skills) | 39 | MIT |
+| [![Deep Research](https://github.githubassets.com/favicons/favicon.svg) Deep Research](https://github.com/liangdabiao/Claude-Code-Deep-Research-main) | [![55](https://img.shields.io/badge/⭐-55-blue)](https://github.com/liangdabiao/Claude-Code-Deep-Research-main) | 5 | - |
 | [![superpowers-marketplace](https://github.githubassets.com/favicons/favicon.svg) superpowers-marketplace](https://github.com/obra/superpowers-marketplace) | [![51 forks](https://img.shields.io/badge/forks-51-blue)](https://github.com/obra/superpowers-marketplace) | TBD | MIT |
 | [![superpowers-lab](https://github.githubassets.com/favicons/favicon.svg) superpowers-lab](https://github.com/obra/superpowers-lab) | [![7 forks](https://img.shields.io/badge/forks-7-blue)](https://github.com/obra/superpowers-lab) | TBD | MIT |
 | [![ComposioHQ](https://github.githubassets.com/favicons/favicon.svg) ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome-claude-skills) | TBD | TBD | MIT |
@@ -170,27 +169,29 @@ Skills Controller 分析意图
 
 ### 3. 技能库
 
-目前支持 **60+ 技能**，全部来自以下 GitHub 高星开源项目：
+目前支持 **58+ 技能**，全部来自以下 GitHub 高星开源项目:
 
-#### 从 Anthropic 官方技能库 (⭐ 30.7k)
-> [https://github.com/anthropics/anthropic-quickstarts](https://github.com/anthropics/anthropic-quickstarts)
-
-`docx` • `pdf` • `pptx` • `xlsx` • `frontend-design` • `algorithmic-art` 等 16 个技能
-
-#### 从 obra/superpowers (⭐ 13k+) - 新增
+#### 从 Superpowers (⭐ 13k)
 > [https://github.com/obra/superpowers](https://github.com/obra/superpowers)
 
-官方核心技能库，包含高质量的 Claude 技能
+`brainstorming` • `dispatching-parallel-agents` • `executing-plans` • `finishing-a-development-branch` • `receiving-code-review` 等 14 个核心开发技能
 
-#### 从 ClaudeKit (⭐ 1k)
-> [https://github.com/jorgeboman/claudekit-skills](https://github.com/jorgeboman/claudekit-skills)
+#### 从 ClaudeKit (⭐ 1.1k)
+> [https://github.com/mrgoonie/claudekit-skills](https://github.com/mrgoonie/claudekit-skills)
 
-`databases` • `devops` • `sequential-thinking` • `chrome-devtools` • `when-stuck` 等 29 个技能
+`databases` • `devops` • `sequential-thinking` • `chrome-devtools` • `when-stuck` 等 39 个全能技能
 
-#### 从 awesome-claude-skills (⭐ 3.9k)
-> [https://github.com/yutongyang/awesome-claude-skills](https://github.com/yutongyang/awesome-claude-skills)
+#### 从 Deep Research (⭐ 55)
+> [https://github.com/liangdabiao/Claude-Code-Deep-Research-main](https://github.com/liangdabiao/Claude-Code-Deep-Research-main)
 
-`video-downloader` • `image-enhancer` • `changelog-generator` 等 15 个技能
+`question-refiner` • `research-executor` • `got-controller` • `citation-validator` • `synthesizer` 等 5 个深度研究技能
+
+**Deep Research 技能特点**：
+- 🔍 **多智能体并行研究**：部署 3-8 个智能体同时研究不同子主题
+- 📊 **Graph of Thoughts 框架**：使用 GoT 优化研究路径和质量
+- 📚 **引用验证系统**：A-E 质量评级，确保每个声明都有可验证来源
+- ✨ **完整研究流程**：从问题精炼到最终报告生成的 7 阶段方法
+- 🎯 **依赖 Exa MCP**：需要配置 Exa AI MCP 服务器以使用网络搜索功能
 
 #### 从 obra/superpowers-marketplace - 新增
 > [https://github.com/obra/superpowers-marketplace](https://github.com/obra/superpowers-marketplace)
@@ -219,18 +220,15 @@ Composio 团队维护的精选技能列表
 
 ```
 skillscontroller/
-├── src/
-│   ├── skills-controller.ts    # MCP 服务器核心
-│   └── cli.ts                   # CLI 工具
-├── dist/                        # 编译输出
-├── anthropic-skills/            # Anthropic 官方技能库
-├── claudekit-skills/            # ClaudeKit 技能库
-├── awesome-claude-skills/       # 社区技能库
-├── composio-skills/             # Composio 技能库
-├── voltagent-skills/            # Voltagent 技能库
-├── skills-controller/           # 核心代码
+├── packages/
+│   ├── mcp-server/              # MCP 服务器
+│   ├── shared/                  # 共享类型和工具
+│   └── website/                 # 项目网站
+├── superpowers/                 # Superpowers 核心技能库 (⭐13.3k)
+├── claudekit-skills/            # ClaudeKit 全能技能 (⭐1.1k)
+├── deep-research-skills/        # Deep Research 研究技能 (⭐55)
 ├── package.json
-├── tsconfig.json
+├── pnpm-workspace.yaml
 ├── .mcp.json                    # MCP 配置示例
 ├── ROADMAP.md                   # 开发路线图
 └── README.md
@@ -250,6 +248,34 @@ Claude 会自动：
 2. 激活 frontend-design 技能
 3. 根据技能指令生成代码
 4. 完成后自动停用技能
+```
+
+### 深度研究示例
+
+使用 Deep Research 技能进行全面的研究：
+
+```
+用户: 帮我研究 AI 在医疗诊断中的应用
+
+Claude 会自动：
+1. 调用 question-refiner 精炼研究问题
+2. 激活 research-executor 部署多个研究智能体
+3. 使用 Exa MCP 工具进行网络搜索和内容爬取
+4. 调用 synthesizer 综合研究发现
+5. 使用 citation-validator 验证所有引用
+6. 生成包含引用的完整研究报告
+```
+
+或者使用斜杠命令：
+
+```bash
+/deep-research AI applications in clinical diagnosis
+
+# 或分步执行
+/refine-question What are the latest AI applications in healthcare?
+/plan-research [精炼后的研究提示]
+/synthesize-findings RESEARCH/ai-healthcare/research_notes/
+/validate-citations RESEARCH/ai-healthcare/full_report.md
 ```
 
 ### CLI 工具
@@ -321,19 +347,18 @@ license: MIT
 
 ## 致谢
 
-本项目的所有技能内容均来自以下优秀的开源项目：
+本项目的所有技能内容均来自以下优秀的开源项目:
 
 | 项目 | 作者 | 链接 |
 |------|------|------|
-| **anthropic-quickstarts** | [Anthropic](https://github.com/anthropics) | [github.com/anthropics/anthropic-quickstarts](https://github.com/anthropics/anthropic-quickstarts) |
 | **superpowers** | [obra](https://github.com/obra) | [github.com/obra/superpowers](https://github.com/obra/superpowers) |
 | **superpowers-marketplace** | [obra](https://github.com/obra) | [github.com/obra/superpowers-marketplace](https://github.com/obra/superpowers-marketplace) |
 | **superpowers-lab** | [obra](https://github.com/obra) | [github.com/obra/superpowers-lab](https://github.com/obra/superpowers-lab) |
-| **claudekit-skills** | [jorgeboman](https://github.com/jorgeboman) | [github.com/jorgeboman/claudekit-skills](https://github.com/jorgeboman/claudekit-skills) |
-| **awesome-claude-skills** | [yutongyang](https://github.com/yutongyang) | [github.com/yutongyang/awesome-claude-skills](https://github.com/yutongyang/awesome-claude-skills) |
+| **claudekit-skills** | [mrgoonie](https://github.com/mrgoonie) | [github.com/mrgoonie/claudekit-skills](https://github.com/mrgoonie/claudekit-skills) |
+| **Claude-Code-Deep-Research-main** | [liangdabiao](https://github.com/liangdabiao) | [github.com/liangdabiao/Claude-Code-Deep-Research-main](https://github.com/liangdabiao/Claude-Code-Deep-Research-main) |
 | **awesome-claude-skills** | [ComposioHQ](https://github.com/ComposioHQ) | [github.com/ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome-claude-skills) |
 
-**特别说明**：本项目仅为技能聚合和智能路由工具，所有技能的版权归各自原作者所有。
+**特别说明**:本项目仅为技能聚合和智能路由工具,所有技能的版权归各自原作者所有。
 
 ---
 

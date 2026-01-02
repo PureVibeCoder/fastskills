@@ -1,0 +1,9 @@
+[submodule "deep-research-skills"]
+	path = deep-research-skills
+	url = https://github.com/liangdabiao/Claude-Code-Deep-Research-main.git
+[submodule "claudekit-skills"]
+	path = claudekit-skills
+	url = https://github.com/mrgoonie/claudekit-skills.git
+[submodule "superpowers"]
+	path = superpowers
+	url = https://github.com/obra/superpowers.git
