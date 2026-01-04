@@ -22,51 +22,19 @@ export declare class SymlinkEscapeError extends Error {
     constructor(message?: string);
 }
 export declare class ValidationError extends Error {
-    details?: z.ZodError | undefined;
-    constructor(message: string, details?: z.ZodError | undefined);
+    details?: z.ZodError;
+    constructor(message: string, details?: z.ZodError);
 }
-export declare const SkillNameSchema: z.ZodString;
-export declare const UserMessageSchema: z.ZodString;
-export declare const KeywordSchema: z.ZodString;
-export declare const MaxSkillsSchema: z.ZodDefault<z.ZodNumber>;
-export declare const AnalyzeAndRouteArgsSchema: z.ZodObject<{
-    user_message: z.ZodString;
-    max_skills: z.ZodOptional<z.ZodDefault<z.ZodNumber>>;
-}, z.core.$strip>;
-export declare const LoadSkillArgsSchema: z.ZodObject<{
-    skill_name: z.ZodString;
-}, z.core.$strip>;
-export declare const DeactivateSkillArgsSchema: z.ZodObject<{
-    skill_name: z.ZodString;
-}, z.core.$strip>;
-export declare const SearchSkillsArgsSchema: z.ZodObject<{
-    keyword: z.ZodString;
-}, z.core.$strip>;
-export declare const BundleNameSchema: z.ZodString;
-export declare const SkillBundleSchema: z.ZodObject<{
-    name: z.ZodString;
-    version: z.ZodString;
-    description: z.ZodDefault<z.ZodString>;
-    author: z.ZodDefault<z.ZodString>;
-    skills: z.ZodDefault<z.ZodArray<z.ZodObject<{
-        name: z.ZodString;
-        source: z.ZodEnum<{
-            local: "local";
-            plugin: "plugin";
-        }>;
-        path: z.ZodOptional<z.ZodString>;
-        plugin_id: z.ZodOptional<z.ZodString>;
-        description: z.ZodString;
-        triggers: z.ZodOptional<z.ZodArray<z.ZodString>>;
-        always_active: z.ZodOptional<z.ZodBoolean>;
-    }, z.core.$strip>>>;
-    includes: z.ZodDefault<z.ZodArray<z.ZodObject<{
-        source: z.ZodString;
-        target: z.ZodString;
-        merge: z.ZodOptional<z.ZodBoolean>;
-        overwrite: z.ZodOptional<z.ZodBoolean>;
-    }, z.core.$strip>>>;
-}, z.core.$strip>;
+export declare const SkillNameSchema: any;
+export declare const UserMessageSchema: any;
+export declare const KeywordSchema: any;
+export declare const MaxSkillsSchema: any;
+export declare const AnalyzeAndRouteArgsSchema: any;
+export declare const LoadSkillArgsSchema: any;
+export declare const DeactivateSkillArgsSchema: any;
+export declare const SearchSkillsArgsSchema: any;
+export declare const BundleNameSchema: any;
+export declare const SkillBundleSchema: any;
 /**
  * Validates that a path stays within a base directory (prevents path traversal)
  * @param basePath The allowed base directory

@@ -185,6 +185,114 @@ const EXTRA_TRIGGERS: Record<string, string[]> = {
   "raffle-winner-picker": ["抽奖", "raffle", "随机"],
   "competitive-ads-extractor": ["广告", "竞品", "ads"],
   "job-data-collector": ["职位", "招聘", "求职", "job", "jobs", "招聘信息", "职位收集", "职位搜索", "job search", "job collector", "职位数据", "求职调研"],
+
+  // === 科学技能 - 生物信息学（P0 高优先级）===
+  "biopython": ["生物", "基因", "DNA", "RNA", "蛋白质", "序列分析", "BLAST", "GenBank", "FASTA", "FASTQ", "PDB", "生物信息学", "序列", "比对", "biology", "bioinformatics", "gene", "protein", "sequence", "genome", "alignment", "molecular", "nucleotide", "phylogenetics"],
+  "scanpy": ["单细胞", "scRNA-seq", "细胞分析", "基因表达", "UMAP", "t-SNE", "聚类", "细胞类型", "单细胞测序", "scRNA", "single-cell", "single cell", "RNA-seq", "cell", "expression", "clustering", "annotation", "transcriptomics", "Leiden"],
+  "anndata": ["注释数据", "单细胞数据", "h5ad", "AnnData", "数据存储", "组学数据", "annotated data", "single-cell data", "data storage", "omics", "data structure"],
+  "bioservices": ["生物数据库", "KEGG", "UniProt", "生物服务", "API", "生物数据", "biological database", "bio database", "web service", "bioinformatics API", "biological data"],
+  "gget": ["基因查询", "Ensembl", "快速查询", "基因信息", "BLAST", "gene query", "gene info", "gene search", "genomics", "quick search"],
+  "pysam": ["SAM", "BAM", "测序数据", "基因组", "比对文件", "NGS", "sequencing", "alignment file", "genome", "next-generation sequencing", "variant calling"],
+  "pydeseq2": ["差异表达", "RNA-seq", "DESeq2", "基因表达分析", "differential expression", "gene expression", "expression analysis", "transcriptomics", "count data"],
+  "scvi-tools": ["变分推断", "单细胞建模", "深度学习", "scVI", "variational inference", "single-cell modeling", "deep learning", "generative model", "probabilistic"],
+  "deeptools": ["ChIP-seq", "表观遗传", "深度测序", "可视化", "epigenetics", "deep sequencing", "visualization", "coverage", "genomic regions"],
+  "scikit-bio": ["生物计算", "序列分析", "多样性", "生态学", "biological computation", "sequence analysis", "diversity", "ecology", "microbiome"],
+  "etetoolkit": ["系统发育树", "进化树", "可视化", "phylogeny", "phylogenetic tree", "evolution", "tree visualization", "taxonomy"],
+  "pathml": ["病理学", "组织病理", "数字病理", "图像分析", "pathology", "histopathology", "digital pathology", "image analysis", "tissue"],
+  "pydicom": ["DICOM", "医学影像", "放射学", "影像数据", "medical imaging", "radiology", "imaging data", "medical images", "CT", "MRI"],
+
+  // === 科学技能 - 化学信息学（P0 高优先级）===
+  "rdkit": ["化学", "分子", "药物", "化合物", "SMILES", "化学信息学", "分子结构", "化学性质", "子结构搜索", "chemistry", "cheminformatics", "molecule", "compound", "molecular structure", "chemical properties", "substructure", "fingerprint", "molecular descriptors"],
+  "deepchem": ["深度学习", "药物发现", "AI药物", "分子预测", "ADMET", "分子性质", "化学机器学习", "deep learning", "drug discovery", "molecular prediction", "molecular properties", "chemical machine learning", "toxicity", "GNN", "graph neural"],
+  "datamol": ["分子处理", "化学", "RDKit封装", "分子操作", "molecular processing", "chemistry", "RDKit wrapper", "molecular manipulation", "molecule handling"],
+  "molfeat": ["分子特征", "分子指纹", "特征化", "化学描述符", "molecular features", "molecular fingerprints", "featurization", "chemical descriptors", "molecular representation"],
+  "medchem": ["药物化学", "药效团", "类药性", "Lipinski", "medicinal chemistry", "pharmacophore", "drug-likeness", "drugability", "lead optimization"],
+  "matchms": ["质谱", "光谱匹配", "代谢组学", "质谱分析", "mass spectrometry", "spectral matching", "metabolomics", "MS/MS", "spectrum", "metabolite"],
+  "diffdock": ["分子对接", "蛋白配体", "结构预测", "药物设计", "molecular docking", "protein-ligand", "structure prediction", "drug design", "binding", "pose"],
+  "pyopenms": ["质谱分析", "蛋白组学", "OpenMS", "LC-MS", "mass spectrometry analysis", "proteomics", "LC-MS/MS", "peptide", "protein identification"],
+
+  // === 科学技能 - 数据库（P1 中优先级）===
+  "pubmed-database": ["文献", "PubMed", "论文", "生物医学", "科研", "医学文献", "literature", "paper", "biomedical", "research", "medical literature", "publication", "abstract", "PMID"],
+  "alphafold-database": ["蛋白质结构", "AlphaFold", "结构预测", "蛋白结构数据库", "protein structure", "structure prediction", "protein structure database", "predicted structure", "3D structure"],
+  "chembl-database": ["药物", "ChEMBL", "生物活性", "靶点", "化合物数据库", "drug", "bioactivity", "target", "compound database", "bioactive molecules", "IC50"],
+  "clinicaltrials-database": ["临床试验", "ClinicalTrials.gov", "试验数据", "研究招募", "clinical trial", "trial data", "study recruitment", "clinical study", "NCT", "intervention"],
+  "pdb-database": ["蛋白质结构", "PDB", "晶体结构", "结构生物学", "protein structure", "crystal structure", "structural biology", "protein data bank", "macromolecular"],
+  "pubchem-database": ["化合物", "PubChem", "化学数据库", "分子数据", "compound", "chemical database", "molecular data", "CID", "substance", "chemical structure"],
+  "uniprot-database": ["蛋白质", "UniProt", "蛋白序列", "蛋白注释", "protein", "protein sequence", "protein annotation", "sequence database", "protein function"],
+  "openalex-database": ["学术", "OpenAlex", "科研文献", "引用数据", "academic", "scholarly", "research literature", "citation data", "publication", "DOI"],
+  "biorxiv-database": ["预印本", "bioRxiv", "论文", "生物预印", "preprint", "biological preprint", "paper", "manuscript", "non-peer-reviewed"],
+  "cosmic-database": ["癌症", "COSMIC", "体细胞突变", "肿瘤基因组", "cancer", "somatic mutation", "tumor genome", "mutation database", "oncology"],
+  "clinvar-database": ["临床变异", "ClinVar", "致病性", "遗传变异", "clinical variant", "pathogenicity", "genetic variation", "variant interpretation", "mutation"],
+  "drugbank-database": ["药物数据库", "DrugBank", "药物信息", "药物靶点", "drug database", "drug information", "drug target", "pharmaceutical", "medication"],
+  "kegg-database": ["通路", "KEGG", "代谢通路", "信号通路", "pathway", "metabolic pathway", "signaling pathway", "biological pathway", "metabolism"],
+  "string-database": ["蛋白互作", "STRING", "网络", "蛋白网络", "protein interaction", "protein network", "PPI", "interaction network", "functional association"],
+  "reactome-database": ["通路分析", "Reactome", "生物通路", "反应", "pathway analysis", "biological pathway", "reaction", "molecular pathway", "biochemical"],
+  "gene-database": ["基因", "NCBI Gene", "基因信息", "基因注释", "gene", "gene information", "gene annotation", "genetic", "genomic"],
+  "geo-database": ["GEO", "基因表达", "芯片数据", "表达谱", "gene expression", "microarray", "expression profile", "expression data", "transcriptome"],
+  "gwas-database": ["GWAS", "全基因组关联", "遗传变异", "表型关联", "genome-wide association", "genetic variant", "phenotype association", "SNP", "trait"],
+  "brenda-database": ["酶", "BRENDA", "酶学", "催化反应", "enzyme", "enzymology", "catalytic reaction", "enzymatic", "biochemical reaction"],
+  "hmdb-database": ["代谢物", "HMDB", "人类代谢组", "小分子", "metabolite", "human metabolome", "small molecule", "endogenous", "metabolic"],
+  "zinc-database": ["化合物库", "ZINC", "虚拟筛选", "小分子库", "compound library", "virtual screening", "small molecule library", "purchasable", "drug-like"],
+  "metabolomics-workbench-database": ["代谢组学", "Metabolomics Workbench", "代谢数据", "质谱数据", "metabolomics", "metabolite data", "mass spec data", "metabolic profiling"],
+
+  // === 科学技能 - 机器学习/深度学习（P1 中优先级）===
+  "pytorch-lightning": ["深度学习", "PyTorch", "Lightning", "神经网络", "训练", "deep learning", "neural network", "training", "model training", "deep neural network"],
+  "transformers": ["Transformer", "预训练模型", "NLP", "BERT", "GPT", "pretrained model", "natural language processing", "language model", "HuggingFace"],
+  "scikit-learn": ["机器学习", "分类", "回归", "聚类", "sklearn", "machine learning", "classification", "regression", "clustering", "ML"],
+  "stable-baselines3": ["强化学习", "RL", "Gym", "策略优化", "reinforcement learning", "policy optimization", "agent", "environment"],
+  "shap": ["可解释性", "SHAP", "特征重要性", "模型解释", "explainability", "feature importance", "model explanation", "interpretability", "Shapley"],
+  "torch_geometric": ["图神经网络", "GNN", "PyTorch Geometric", "图学习", "graph neural network", "graph learning", "node classification", "graph classification"],
+  "torchdrug": ["药物", "图神经网络", "分子学习", "TorchDrug", "drug", "graph neural network", "molecular learning", "molecular graph", "drug discovery"],
+
+  // === 科学技能 - 数据分析/可视化（P1 中优先级）===
+  "matplotlib": ["绘图", "可视化", "图表", "matplotlib", "科学绘图", "plotting", "visualization", "chart", "scientific plotting", "figure"],
+  "seaborn": ["统计可视化", "seaborn", "数据可视化", "统计图表", "statistical visualization", "data visualization", "statistical plot", "heatmap"],
+  "plotly": ["交互式图表", "Plotly", "动态可视化", "Web可视化", "interactive chart", "dynamic visualization", "web visualization", "interactive plot"],
+  "dask": ["大数据", "并行计算", "分布式", "Dask", "大规模数据", "big data", "parallel computing", "distributed", "large-scale data", "scalable"],
+  "polars": ["数据处理", "DataFrame", "高性能", "数据分析", "data processing", "dataframe", "high performance", "data analysis", "fast"],
+  "vaex": ["大数据", "内存外", "快速数据", "十亿行", "big data", "out-of-core", "fast data", "billion rows", "lazy evaluation"],
+  "networkx": ["网络分析", "图论", "复杂网络", "NetworkX", "network analysis", "graph theory", "complex network", "graph algorithm"],
+  "geopandas": ["地理数据", "空间分析", "GIS", "地理信息", "geographic data", "spatial analysis", "geospatial", "geographic information"],
+  "statsmodels": ["统计分析", "回归", "时间序列", "统计模型", "statistical analysis", "regression", "time series", "statistical model"],
+  "statistical-analysis": ["统计", "假设检验", "方差分析", "统计分析", "statistics", "hypothesis testing", "ANOVA", "statistical analysis"],
+  "exploratory-data-analysis": ["探索性分析", "EDA", "数据探索", "可视化分析", "exploratory analysis", "data exploration", "visualization analysis", "data profiling"],
+
+  // === 科学技能 - 量子计算/物理（P2 低优先级）===
+  "qiskit": ["量子计算", "Qiskit", "量子电路", "IBM量子", "quantum computing", "quantum circuit", "IBM quantum", "quantum algorithm", "qubit"],
+  "pennylane": ["量子机器学习", "PennyLane", "量子神经网络", "QML", "quantum machine learning", "quantum neural network", "variational", "quantum gradient"],
+  "cirq": ["量子计算", "Cirq", "Google量子", "量子算法", "quantum computing", "Google quantum", "quantum algorithm", "quantum gate"],
+  "qutip": ["量子光学", "QuTiP", "量子系统", "量子动力学", "quantum optics", "quantum system", "quantum dynamics", "open quantum"],
+  "sympy": ["符号计算", "SymPy", "数学符号", "微积分", "symbolic computation", "mathematical symbol", "calculus", "algebra", "symbolic math"],
+  "astropy": ["天文", "Astropy", "天文数据", "天体物理", "astronomy", "astronomical data", "astrophysics", "celestial", "cosmology"],
+  "pymatgen": ["材料科学", "晶体结构", "材料计算", "pymatgen", "materials science", "crystal structure", "materials computation", "solid state"],
+
+  // === 科学技能 - 科研辅助（P1 中优先级）===
+  "literature-review": ["文献综述", "综述", "文献回顾", "研究综述", "literature review", "review", "literature survey", "research review", "systematic review"],
+  "scientific-writing": ["科学写作", "论文写作", "学术写作", "科研写作", "scientific writing", "paper writing", "academic writing", "research writing", "manuscript"],
+  "citation-management": ["引用管理", "参考文献", "Citation", "文献引用", "citation management", "reference", "bibliography", "citation"],
+  "peer-review": ["同行评审", "论文评审", "审稿", "peer review", "paper review", "manuscript review", "reviewer", "review process"],
+  "hypothesis-generation": ["假设生成", "科研假设", "研究问题", "假设提出", "hypothesis generation", "research hypothesis", "research question", "hypothesis formulation"],
+  "scientific-brainstorming": ["科学头脑风暴", "创意", "研究思路", "brainstorming", "scientific brainstorming", "creative", "research idea", "ideation"],
+  "research-grants": ["科研基金", "基金申请", "项目申请", "研究资助", "research grant", "grant application", "project proposal", "research funding", "NIH", "NSF"],
+  "scholar-evaluation": ["学者评估", "学术评价", "科研评估", "学者分析", "scholar evaluation", "academic evaluation", "research evaluation", "scholar analysis", "h-index"],
+  "scientific-visualization": ["科学可视化", "数据可视化", "图表制作", "科研作图", "scientific visualization", "data visualization", "figure creation", "research figure"],
+  "scientific-slides": ["学术演讲", "幻灯片", "科研汇报", "PPT", "academic presentation", "slides", "research presentation", "presentation"],
+  "latex-posters": ["学术海报", "LaTeX", "poster", "会议海报", "academic poster", "conference poster", "scientific poster", "beamerposter"],
+  "scientific-schematics": ["科研示意图", "原理图", "流程图", "schematic", "research schematic", "diagram", "flowchart", "illustration"],
+
+  // === 科学技能 - 临床/医学（P1 中优先级）===
+  "clinical-decision-support": ["临床决策", "诊断支持", "治疗建议", "clinical decision", "clinical decision support", "diagnostic support", "treatment recommendation", "clinical guidance"],
+  "treatment-plans": ["治疗方案", "用药方案", "治疗计划", "treatment", "treatment plan", "medication plan", "therapy", "therapeutic"],
+  "clinical-reports": ["临床报告", "病历", "诊断报告", "医学报告", "clinical report", "medical record", "diagnostic report", "medical report", "clinical documentation"],
+  "neurokit2": ["生理信号", "心电图", "ECG", "生物信号", "physiological signal", "electrocardiogram", "biosignal", "EEG", "EMG"],
+  "pyhealth": ["医疗AI", "电子病历", "EHR", "医疗数据", "healthcare AI", "electronic health record", "medical data", "clinical data"],
+
+  // === 科学技能 - 实验室自动化（P2 低优先级）===
+  "opentrons-integration": ["液体处理", "Opentrons", "实验室自动化", "移液", "liquid handling", "laboratory automation", "pipetting", "automated"],
+  "pylabrobot": ["实验室机器人", "自动化", "液体处理", "lab automation", "laboratory robot", "automation", "liquid handling", "robotics"],
+  "benchling-integration": ["Benchling", "实验室管理", "LIMS", "科研管理", "laboratory management", "lab information", "research management"],
+  "latchbio-integration": ["LatchBio", "生物信息流程", "云计算", "数据管道", "bioinformatics workflow", "cloud computing", "data pipeline", "workflow"],
+  "dnanexus-integration": ["DNAnexus", "基因组学", "云平台", "测序分析", "genomics", "cloud platform", "sequencing analysis", "genomic analysis"],
 };
 
 // ============================================
@@ -737,6 +845,28 @@ const SKILL_CONFIGS: Record<string, SkillTriggerConfig> = {
 };
 
 // ============================================
+// 触发词提取配置
+// ============================================
+
+// 英文停用词列表（常见虚词、介词等，不应作为触发词）
+const ENGLISH_STOP_WORDS = new Set([
+  // 冠词
+  "a", "an", "the",
+  // 介词
+  "for", "to", "in", "of", "on", "at", "by", "with", "from", "about", "as", "into", "through", "during", "before", "after", "above", "below", "between", "under", "over",
+  // 连词
+  "and", "or", "but", "nor", "so", "yet",
+  // 代词
+  "it", "its", "this", "that", "these", "those", "them", "their",
+  // 动词
+  "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "do", "does", "did", "can", "could", "will", "would", "should", "may", "might", "must",
+  // 副词
+  "not", "also", "only", "just", "very", "too", "more", "most", "well",
+  // 其他常见词
+  "use", "used", "using", "when", "where", "which", "who", "what", "how", "all", "each", "every", "both", "few", "many", "other", "some", "such",
+]);
+
+// ============================================
 // 全局状态
 // ============================================
 
@@ -885,10 +1015,26 @@ async function scanSkillsDirectory(baseDir: string, maxDepth: number = 2): Promi
       // 获取触发词
       const triggers = EXTRA_TRIGGERS[name] || [];
 
-      // 从描述中提取额外关键词
+      // 从描述中提取额外关键词（改进版）
       const descWords = meta.description
-        .split(/[\s,，、]+/)
-        .filter(w => w.length > 1 && w.length < 10);
+        .split(/[\s,，、.;:()]+/)  // 扩展分隔符，包括句号、分号、括号等
+        .filter(w => {
+          // 过滤条件：
+          // 1. 长度在 2-15 之间（放宽上限以支持复合词）
+          // 2. 不在停用词列表中
+          // 3. 至少包含一个大写字母（专有名词）或长度>=4的小写单词
+          const len = w.length;
+          if (len < 2 || len > 15) return false;
+
+          const lowerW = w.toLowerCase();
+          if (ENGLISH_STOP_WORDS.has(lowerW)) return false;
+
+          // 保留专有名词（含大写）、技术术语（含数字、连字符）或较长单词
+          return /[A-Z]/.test(w) ||           // 专有名词（如 BioPython, BLAST）
+                 /[\d-]/.test(w) ||           // 技术术语（如 RNA-seq, 2D/3D, h5ad）
+                 (!/[A-Z]/.test(w) && len >= 4);  // 普通单词至少4个字符
+        })
+        .map(w => w.replace(/[^\w-]/g, ''));  // 清理特殊字符，保留连字符
 
       const allTriggers = [...new Set([...triggers, ...descWords, name])];
 
