@@ -84,10 +84,13 @@ MIT License
 `;
 }
 
-/**
- * 预设技能包定义
- */
-export const skillPacks = {
+export interface SkillPack {
+  name: string;
+  description: string;
+  categoryIds: string[];
+}
+
+export const skillPacks: Record<string, SkillPack> = {
   frontend: {
     name: '前端开发技能包',
     description: '包含 UI 设计、React 组件、样式系统等前端技能',
@@ -116,25 +119,23 @@ export const skillPacks = {
   all: {
     name: '完整技能包',
     description: '包含所有可用的技能',
-    categoryIds: [] // 空数组表示全部
+    categoryIds: []
   }
 };
 
-/**
- * 根据技能包过滤技能
- */
 export function filterSkillsForPack(
   allSkills: Skill[],
-  packKey: keyof typeof skillPacks
+  packKey: string
 ): Skill[] {
   const pack = skillPacks[packKey];
-
-  if (pack.categoryIds.length === 0) {
-    // 返回所有技能
+  if (!pack) {
     return allSkills;
   }
 
-  // 按分类过滤
+  if (pack.categoryIds.length === 0) {
+    return allSkills;
+  }
+
   return allSkills.filter(skill =>
     pack.categoryIds.includes(skill.category.id)
   );
@@ -186,11 +187,11 @@ export function showPackDownloadModal(
     if (e.target === modal) closeModal();
   });
 
-  // 绑定下载按钮
-  document.querySelectorAll('.pack-button').forEach(button => {
-    button.addEventListener('click', () => {
-      const packKey = button.dataset.pack as keyof typeof skillPacks;
-      if (packKey) {
+  document.querySelectorAll('.pack-button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const button = btn as HTMLButtonElement;
+      const packKey = button.dataset.pack;
+      if (packKey && packKey in skillPacks) {
         const skills = filterSkillsForPack(allSkills, packKey);
         const pack = skillPacks[packKey];
         onDownload(skills, pack.name);

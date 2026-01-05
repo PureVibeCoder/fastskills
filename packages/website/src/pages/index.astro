@@ -258,16 +258,13 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
 </style>
 
 <script define:vars={{ skills }}>
-  // 分类过滤功能
-  let selectedCategory: string | null = null;
-
   // 技能数据（从服务器传递）
   const skillsData = skills;
 
   // 监听分类按钮点击
   document.addEventListener('click', (e) => {
-    const target = e.target as HTMLElement;
-    const categoryButton = target.closest('.category-button') as HTMLElement;
+    const target = e.target;
+    const categoryButton = target.closest('.category-button');
 
     if (categoryButton) {
       const category = categoryButton.dataset.category;
@@ -281,31 +278,59 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
       // 过滤技能卡片
       document.querySelectorAll('.skill-card').forEach(card => {
         if (category === 'all' || card.dataset.category === category) {
-          (card as HTMLElement).style.display = '';
+          card.style.display = '';
         } else {
-          (card as HTMLElement).style.display = 'none';
+          card.style.display = 'none';
         }
       });
-
-      selectedCategory = category === 'all' ? null : category;
     }
   });
 
+  // 创建模态框工具函数
+  function createModal(config) {
+    const modalHtml = `
+      <div class="modal-overlay" id="${config.id}">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>${config.title}</h2>
+            <button class="modal-close">&times;</button>
+          </div>
+          <div class="modal-body">${config.content}</div>
+        </div>
+      </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+    const modal = document.getElementById(config.id);
+    const closeBtn = modal?.querySelector('.modal-close');
+
+    const close = () => {
+      modal?.remove();
+      config.onClose?.();
+    };
+
+    closeBtn?.addEventListener('click', close);
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal) close();
+    });
+
+    return { modal, close };
+  }
+
   // 单个下载功能
   document.addEventListener('click', async (e) => {
-    const target = e.target as HTMLElement;
-    const downloadBtn = target.closest('.btn-download') as HTMLElement;
+    const target = e.target;
+    const downloadBtn = target.closest('.btn-download');
 
     if (downloadBtn) {
       const skillId = downloadBtn.dataset.skillId;
       const skill = skillsData.find(s => s.id === skillId);
 
       if (skill) {
-        // 动态导入下载函数
         const { downloadSingleSkill } = await import('../utils/downloader');
         downloadSingleSkill(skill);
 
-        // 更新按钮状态
         const originalText = downloadBtn.textContent;
         downloadBtn.textContent = '已下载!';
         downloadBtn.style.background = 'var(--color-primary-hover)';
@@ -320,44 +345,25 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
 
   // 查看详情功能
   document.addEventListener('click', (e) => {
-    const target = e.target as HTMLElement;
-    const viewBtn = target.closest('.btn-view') as HTMLElement;
+    const target = e.target;
+    const viewBtn = target.closest('.btn-view');
 
     if (viewBtn) {
-      const skillId = viewBtn.dataset.skillId;
       const skillName = viewBtn.dataset.skillName;
       const skillDescription = viewBtn.dataset.skillDescription;
       const skillTriggers = viewBtn.dataset.skillTriggers;
 
-      // 创建详情模态框
-      const modalHtml = `
-        <div class="modal-overlay" id="skill-detail-modal">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h2>技能详情</h2>
-              <button class="modal-close">&times;</button>
-            </div>
-            <div class="modal-body">
-              <div class="skill-detail-name">${skillName}</div>
-              <p class="skill-detail-description">${skillDescription}</p>
-              <div class="skill-detail-triggers">
-                <h4>触发词：</h4>
-                <p>${skillTriggers}</p>
-              </div>
-            </div>
+      createModal({
+        id: 'skill-detail-modal',
+        title: '技能详情',
+        content: `
+          <div class="skill-detail-name">${skillName}</div>
+          <p class="skill-detail-description">${skillDescription}</p>
+          <div class="skill-detail-triggers">
+            <h4>触发词：</h4>
+            <p>${skillTriggers}</p>
           </div>
-        </div>
-      `;
-
-      document.body.insertAdjacentHTML('beforeend', modalHtml);
-
-      const modal = document.getElementById('skill-detail-modal');
-      const closeBtn = modal?.querySelector('.modal-close');
-
-      const closeModal = () => modal?.remove();
-      closeBtn?.addEventListener('click', closeModal);
-      modal?.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
+        `
       });
     }
   });
@@ -365,73 +371,30 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
   // 技能包下载功能
   const downloadPackBtn = document.getElementById('download-pack');
   if (downloadPackBtn) {
-    downloadPackBtn.addEventListener('click', () => {
-      // 创建技能包选择模态框
-      const modalHtml = `
-        <div class="modal-overlay" id="pack-modal">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h2>下载技能包</h2>
-              <button class="modal-close" id="close-pack-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-              <p class="modal-description">选择要下载的技能包：</p>
-              <div class="pack-list">
-                ${Object.entries({
-                  frontend: { name: '前端开发技能包', description: '包含 UI 设计、React 组件、样式系统等前端技能' },
-                  backend: { name: '后端开发技能包', description: '包含 API 设计、数据库、服务端架构等后端技能' },
-                  testing: { name: '测试质量技能包', description: '包含 E2E 测试、代码审查、质量保障等测试技能' },
-                  devops: { name: 'DevOps 技能包', description: '包含 CI/CD、Docker、部署等 DevOps 技能' },
-                  fullstack: { name: '全栈开发技能包', description: '包含前端、后端、测试等全栈开发技能' },
-                  all: { name: '完整技能包', description: '包含所有可用的技能' }
-                }).map(([key, pack]) => `
-                  <button class="pack-button" data-pack="${key}">
-                    <div class="pack-name">${pack.name}</div>
-                    <div class="pack-description">${pack.description}</div>
-                  </button>
-                `).join('')}
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
+    downloadPackBtn.addEventListener('click', async () => {
+      const { skillPacks, filterSkillsForPack, downloadSkillPack } = await import('../utils/packager');
 
-      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      const packList = Object.entries(skillPacks).map(([key, pack]) => `
+        <button class="pack-button" data-pack="${key}">
+          <div class="pack-name">${pack.name}</div>
+          <div class="pack-description">${pack.description}</div>
+        </button>
+      `).join('');
 
-      const modal = document.getElementById('pack-modal');
-      const closeBtn = document.getElementById('close-pack-modal');
-
-      const closeModal = () => modal?.remove();
-      closeBtn?.addEventListener('click', closeModal);
-      modal?.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
+      const { modal, close } = createModal({
+        id: 'pack-modal',
+        title: '下载技能包',
+        content: `
+          <p class="modal-description">选择要下载的技能包：</p>
+          <div class="pack-list">${packList}</div>
+        `
       });
 
-      // 绑定下载按钮
       modal?.querySelectorAll('.pack-button').forEach(button => {
         button.addEventListener('click', async () => {
-          const packKey = button.dataset.pack as string;
-
-          // 根据选择的包过滤技能
-          let filteredSkills = skillsData;
-          if (packKey === 'frontend') {
-            filteredSkills = skillsData.filter(s => s.category.id === 'frontend');
-          } else if (packKey === 'backend') {
-            filteredSkills = skillsData.filter(s => s.category.id === 'backend');
-          } else if (packKey === 'testing') {
-            filteredSkills = skillsData.filter(s => s.category.id === 'testing');
-          } else if (packKey === 'devops') {
-            filteredSkills = skillsData.filter(s => s.category.id === 'devops');
-          } else if (packKey === 'fullstack') {
-            filteredSkills = skillsData.filter(s =>
-              ['frontend', 'backend', 'testing'].includes(s.category.id)
-            );
-          }
-          // 'all' 不需要过滤
-
-          // 下载技能包
+          const packKey = button.dataset.pack;
+          const filteredSkills = filterSkillsForPack(skillsData, packKey);
           const packName = button.querySelector('.pack-name')?.textContent || 'skills';
-          const { downloadSkillPack } = await import('../utils/packager');
 
           await downloadSkillPack(
             filteredSkills.map(s => ({
@@ -442,7 +405,7 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
             packName
           );
 
-          closeModal();
+          close();
         });
       });
     });
