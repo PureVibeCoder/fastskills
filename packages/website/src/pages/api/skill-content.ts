@@ -13,7 +13,9 @@ const SOURCE_BASE_PATHS: Record<string, string> = {
   'composio': path.resolve(__dirname, '../../../composio-skills/skills'),
   'voltagent': path.resolve(__dirname, '../../../voltagent-skills/skills'),
   'obsidian': path.resolve(__dirname, '../../../obsidian-skills/skills'),
-  'planning': path.resolve(__dirname, '../../../planning-with-files')
+  'planning': path.resolve(__dirname, '../../../planning-with-files'),
+  'deep-research': path.resolve(__dirname, '../../../deep-research-skills/.claude/skills'),
+  'superpowers': path.resolve(__dirname, '../../../superpowers/skills')
 };
 
 export const GET: APIRoute = async ({ url }) => {
