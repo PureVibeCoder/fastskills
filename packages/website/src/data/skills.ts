@@ -5,7 +5,7 @@ export interface Skill {
   name: string;
   description: string;
   category: Category;
-  source: 'anthropic' | 'claudekit' | 'scientific' | 'community' | 'composio' | 'voltagent' | 'obsidian';
+  source: 'anthropic' | 'claudekit' | 'scientific' | 'community' | 'composio' | 'voltagent' | 'obsidian' | 'planning';
   triggers: string[];
   priority: number;
   content: string;
@@ -473,6 +473,60 @@ description: |
 2. 逐步分析
 3. 逻辑推理
 4. 结论验证
+`
+  },
+  {
+    id: 'planning-with-files',
+    name: 'Planning with Files',
+    description: 'Manus 风格持久化 Markdown 规划，用文档作为 LLM 的外部存储',
+    category: categories[8],
+    source: 'planning',
+    triggers: ['规划', '任务', '计划', 'plan', 'task_plan', 'notes', 'Manus', '文件规划', '持久化规划'],
+    priority: 8,
+    content: `---
+name: planning-with-files
+description: |
+  Manus 风格持久化 Markdown 规划。
+  用文档作为 LLM 的外部存储，实现任务规划、进度追踪和知识存储。
+  适用于：复杂任务、多步骤项目、研究任务、任何需要结构化输出的场景。
+---
+
+# Planning with Files
+
+像 Manus 一样工作：使用持久化 Markdown 文件作为你的"磁盘工作内存"。
+
+## 核心概念
+
+Manus AI（被 Meta 以 20 亿美元收购）的核心工作流模式——用文件系统作为 LLM 的外部存储。
+
+## 3-文件模式
+
+对于每个非平凡任务，创建三个文件：
+
+| 文件 | 用途 | 更新时机 |
+|------|------|----------|
+| \`task_plan.md\` | 追踪阶段和进度 | 每个阶段后 |
+| \`notes.md\` | 存储研究发现 | 研究过程中 |
+| \`[产出物].md\` | 最终输出 | 完成后 |
+
+## 核心工作流
+
+- 循环 1：创建 task_plan.md，包含目标和阶段
+- 循环 2：研究 → 保存到 notes.md → 更新 task_plan.md
+- 循环 3：读取 notes.md → 创建产出物 → 更新 task_plan.md
+- 循环 4：交付最终输出
+
+## 关键规则
+
+1. **始终先创建计划** - 对于复杂任务，永远不要跳过 task_plan.md
+2. **决策前读取计划** - 每次重大决策前重新读取，保持目标在注意力窗口
+3. **行动后更新** - 完成每个阶段后立即更新计划文件
+4. **存储而非塞入** - 大内容存入文件，而非塞入上下文
+5. **记录所有错误** - 每次错误都记录在"Errors Encountered"部分
+
+## 触发词
+
+规划、任务、计划、plan、task_plan、notes、Manus、文件规划、持久化规划
 `
   },
 

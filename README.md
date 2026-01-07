@@ -1,9 +1,9 @@
 # Claude Code Skills Hub
 
-> Claude Code 技能收录与场景化打包平台 - 汇集 GitHub 高星开源项目的 200+ 精选技能
+> Claude Code 技能收录与场景化打包平台 - 汇集 GitHub 高星开源项目的 240+ 精选技能
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Skills](https://img.shields.io/badge/Skills-240+-green)](#技能来源)
+[![Skills](https://img.shields.io/badge/Skills-241+-green)](#技能来源)
 [![Packages](https://img.shields.io/badge/Packages-21-blue)](#场景化技能包)
 [![Static Site](https://img.shields.io/badge/Static-Astro-orange)](https://astro.build/)
 [![Website](https://img.shields.io/badge/Website-Live-success)](https://skillscontroller.pages.dev)
@@ -16,7 +16,7 @@
 
 ### 🎯 核心功能
 
-1. **🗂️ 技能聚合与分类** - 汇集 9+ 个 GitHub 高星开源项目的 240+ 精选技能，按 16 大类别科学分类
+1. **🗂️ 技能聚合与分类** - 汇集 10+ 个 GitHub 高星开源项目的 241+ 精选技能，按 16 大类别科学分类
 2. **📦 场景化技能包** - 精心打造 21 个场景化技能包，覆盖开发、科研、办公等多个领域
 3. **🔍 智能搜索与筛选** - 支持按名称、描述、分类快速定位所需技能
 4. **⬇️ 一键下载安装** - 提供单个技能或整包下载，无需手动复制配置
@@ -46,9 +46,10 @@
 | [![Deep Research](https://github.githubassets.com/favicons/favicon.svg) Deep Research](https://github.com/liangdabiao/Claude-Code-Deep-Research-main) | ⭐ 55 | 5 | 深度研究 | - |
 | [![Obsidian Skills](https://github.githubassets.com/favicons/favicon.svg) Obsidian Skills](https://github.com/kepano/obsidian-skills) | ⭐ 160 | 3 | 知识管理 | MIT |
 | [![VoltAgent](https://github.githubassets.com/favicons/favicon.svg) VoltAgent](https://github.com/VoltAgent/voltagent) | 🚀 新增 | 10+ | AI Agent | - |
+| [![Planning with Files](https://github.githubassets.com/favicons/favicon.svg) Planning with Files](https://github.com/marovole/planning-with-files) | 🧠 新增 | 1 | 任务规划 | MIT |
 | [![Composio](https://github.githubassets.com/favicons/favicon.svg) Composio Skills](https://github.com/ComposioHQ/awesome-claude-skills) | ⭐ 3.9k | 20+ | 工具集成 | MIT |
 
-**总计：240+ 技能覆盖 16 大领域**
+**总计：241+ 技能覆盖 16 大领域**
 
 ---
 
@@ -311,7 +312,7 @@ pnpm preview
 | 📝 **科学写作** | 论文写作、同行评审、海报制作 | 12+ | 学术写作、会议展示 |
 | 🔧 **实验室自动化** | 液体处理、实验流程自动化 | 10+ | 高通量实验、实验室管理 |
 
-**总计：240+ 技能覆盖 16 大领域 + 9 个科学研究子领域**
+**总计：241+ 技能覆盖 16 大领域 + 9 个科学研究子领域**
 
 ---
 
@@ -421,8 +422,8 @@ MIT License - 详见 [LICENSE](./LICENSE)
 
 ## 📊 项目数据
 
-- 🎯 **9+ 个**精选开源项目
-- 📦 **240+ 个**高质量技能
+- 🎯 **10+ 个**精选开源项目
+- 📦 **241+ 个**高质量技能
 - 🎁 **21 个**场景化技能包
 - 🔬 **138+ 个**科学研究专业技能
 - 🗄️ **28+ 个**科学数据库集成

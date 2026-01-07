@@ -25,3 +25,6 @@
 [submodule "obsidian-skills"]
 	path = obsidian-skills
 	url = https://github.com/kepano/obsidian-skills.git
+[submodule "planning-with-files"]
+	path = planning-with-files
+	url = https://github.com/marovole/planning-with-files.git

@@ -159,6 +159,18 @@ export const skillPackages: SkillPackage[] = [
     recommended: false
   },
   {
+    id: 'task-planning',
+    name: '任务规划套件',
+    nameEn: 'Task Planning Kit',
+    description: 'Manus 风格文件规划、任务追踪、上下文工程',
+    icon: '🧠',
+    skills: [
+      'planning-with-files',
+      'sequential-thinking'
+    ],
+    recommended: false
+  },
+  {
     id: 'testing-qa',
     name: '测试与质量保障套件',
     nameEn: 'Testing & QA Kit',
