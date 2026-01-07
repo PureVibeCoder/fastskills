@@ -455,7 +455,72 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
     const JSZip = jszipModule.default;
 
     const zip = new JSZip();
-    skills.forEach(skill => {
+    
+    // 技能到源目录的映射
+    const skillToPath = {
+      'frontend-design': 'anthropic-skills/skills/frontend-design',
+      'modern-frontend-design': 'anthropic-skills/skills/modern-frontend-design',
+      'brand-guidelines': 'anthropic-skills/skills/brand-guidelines',
+      'canvas-design': 'anthropic-skills/skills/canvas-design',
+      'theme-factory': 'anthropic-skills/skills/theme-factory',
+      'pdf': 'anthropic-skills/skills/pdf',
+      'doc-coauthoring': 'anthropic-skills/skills/doc-coauthoring',
+      'docx': 'anthropic-skills/skills/docx',
+      'pptx': 'anthropic-skills/skills/pptx',
+      'xlsx': 'anthropic-skills/skills/xlsx',
+      'algorithmic-art': 'anthropic-skills/skills/algorithmic-art',
+      'slack-gif-creator': 'anthropic-skills/skills/slack-gif-creator',
+      'mcp-builder': 'anthropic-skills/skills/mcp-builder',
+      'skill-creator': 'anthropic-skills/skills/skill-creator',
+      'internal-comms': 'anthropic-skills/skills/internal-comms',
+      'web-artifacts-builder': 'anthropic-skills/skills/web-artifacts-builder',
+      'webapp-testing': 'anthropic-skills/skills/webapp-testing',
+      'backend-development': 'claudekit-skills/.claude/skills/backend-development',
+      'database-design': 'claudekit-skills/.claude/skills/databases',
+      'devops': 'claudekit-skills/.claude/skills/devops',
+      'sequential-thinking': 'claudekit-skills/.claude/skills/sequential-thinking',
+      'code-review': 'claudekit-skills/.claude/skills/code-review',
+      'document-skills': 'claudekit-skills/.claude/skills/document-skills',
+      'react-components': 'claudekit-skills/.claude/skills/react-components',
+      'docker': 'claudekit-skills/.claude/skills/docker',
+      'browser-automation': 'claudekit-skills/.claude/skills/browser-automation',
+      'image-enhancer': 'claudekit-skills/.claude/skills/image-enhancer',
+      'biopython': 'scientific-skills/skills/biopython',
+      'rdkit': 'scientific-skills/skills/rdkit',
+      'scanpy': 'scientific-skills/skills/scanpy',
+      'deepchem': 'scientific-skills/skills/deepchem',
+      'pubmed': 'scientific-skills/skills/pubmed',
+      'obsidian-markdown': 'obsidian-skills/skills/obsidian-markdown',
+      'obsidian-bases': 'obsidian-skills/skills/obsidian-bases',
+      'json-canvas': 'obsidian-skills/skills/json-canvas',
+      'planning-with-files': 'planning-with-files/skills/planning-with-files'
+    };
+
+    // 获取技能内容（优先从文件读取，否则使用现有内容）
+    async function getSkillContent(skill) {
+      const skillPath = skillToPath[skill.id];
+      if (skillPath) {
+        try {
+          const response = await fetch(`${skillPath}/SKILL.md`);
+          if (response.ok) {
+            return await response.text();
+          }
+        } catch {
+          // 忽略跨域错误
+        }
+      }
+      return skill.content;
+    }
+
+    // 并行获取所有技能内容
+    const skillContents = await Promise.all(
+      skills.map(async (skill) => {
+        const content = await getSkillContent(skill);
+        return { id: skill.id, name: skill.name, content };
+      })
+    );
+
+    skillContents.forEach(skill => {
       zip.file(`${skill.id}/SKILL.md`, skill.content);
     });
 
@@ -499,14 +564,7 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
           const filteredSkills = filterSkillsForPack(skillsData, packKey);
           const packName = button.querySelector('.pack-name')?.textContent || 'skills';
 
-          await downloadSkillPack(
-            filteredSkills.map(s => ({
-              id: s.id,
-              name: s.name,
-              content: s.content
-            })),
-            packName
-          );
+          await downloadSkillPack(filteredSkills, packName);
 
           close();
         });

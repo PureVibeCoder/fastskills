@@ -257,14 +257,7 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
         const pack = skillPackages.find(p => p.id === packId);
         if (pack) {
           const packSkills = skills.filter(s => pack.skills.includes(s.id));
-          await downloadSkillPack(
-            packSkills.map(s => ({
-              id: s.id,
-              name: s.name,
-              content: s.content
-            })),
-            pack.name
-          );
+          await downloadSkillPack(packSkills, pack.name);
         }
 
         button.textContent = '✅ 已下载';

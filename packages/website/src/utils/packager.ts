@@ -1,30 +1,154 @@
 import JSZip from 'jszip';
 import type { Skill } from '../data/skills';
 
+// 子模块技能目录映射（source -> 相对路径）
+const SKILL_SOURCE_PATHS: Record<string, string> = {
+  'anthropic': '../../../anthropic-skills/skills',
+  'scientific': '../../../scientific-skills/skills',
+  'claudekit': '../../../claudekit-skills/.claude/skills',
+  'community': '../../../awesome-claude-skills/skills',
+  'composio': '../../../composio-skills/skills',
+  'voltagent': '../../../voltagent-skills/skills',
+  'obsidian': '../../../obsidian-skills/skills',
+  'planning': '../../../planning-with-files/skills'
+};
+
 export interface SkillForPackage {
   id: string;
   name: string;
   content: string;
 }
 
+// 技能到源目录的映射
+const SKILL_TO_SOURCE: Record<string, { source: string; path: string }> = {
+  // anthropic-skills
+  'frontend-design': { source: 'anthropic', path: 'frontend-design' },
+  'modern-frontend-design': { source: 'anthropic', path: 'modern-frontend-design' },
+  'brand-guidelines': { source: 'anthropic', path: 'brand-guidelines' },
+  'canvas-design': { source: 'anthropic', path: 'canvas-design' },
+  'theme-factory': { source: 'anthropic', path: 'theme-factory' },
+  'pdf': { source: 'anthropic', path: 'pdf' },
+  'doc-coauthoring': { source: 'anthropic', path: 'doc-coauthoring' },
+  'docx': { source: 'anthropic', path: 'docx' },
+  'pptx': { source: 'anthropic', path: 'pptx' },
+  'xlsx': { source: 'anthropic', path: 'xlsx' },
+  'algorithmic-art': { source: 'anthropic', path: 'algorithmic-art' },
+  'slack-gif-creator': { source: 'anthropic', path: 'slack-gif-creator' },
+  'mcp-builder': { source: 'anthropic', path: 'mcp-builder' },
+  'skill-creator': { source: 'anthropic', path: 'skill-creator' },
+  'internal-comms': { source: 'anthropic', path: 'internal-comms' },
+  'web-artifacts-builder': { source: 'anthropic', path: 'web-artifacts-builder' },
+  'webapp-testing': { source: 'anthropic', path: 'webapp-testing' },
+  // claudekit-skills
+  'backend-development': { source: 'claudekit', path: 'backend-development' },
+  'database-design': { source: 'claudekit', path: 'databases' },
+  'devops': { source: 'claudekit', path: 'devops' },
+  'sequential-thinking': { source: 'claudekit', path: 'sequential-thinking' },
+  'code-review': { source: 'claudekit', path: 'code-review' },
+  'document-skills': { source: 'claudekit', path: 'document-skills' },
+  // community skills
+  'react-components': { source: 'community', path: 'react-components' },
+  'docker': { source: 'community', path: 'docker' },
+  'browser-automation': { source: 'community', path: 'browser-automation' },
+  'image-enhancer': { source: 'community', path: 'image-enhancer' },
+  // scientific skills
+  'biopython': { source: 'scientific', path: 'biopython' },
+  'rdkit': { source: 'scientific', path: 'rdkit' },
+  'scanpy': { source: 'scientific', path: 'scanpy' },
+  'deepchem': { source: 'scientific', path: 'deepchem' },
+  'pubmed': { source: 'scientific', path: 'pubmed' },
+  // obsidian skills
+  'obsidian-markdown': { source: 'obsidian', path: 'obsidian-markdown' },
+  'obsidian-bases': { source: 'obsidian', path: 'obsidian-bases' },
+  'json-canvas': { source: 'obsidian', path: 'json-canvas' },
+  // planning
+  'planning-with-files': { source: 'planning', path: 'planning-with-files' }
+};
+
+/**
+ * 尝试从本地文件读取 SKILL.md 内容
+ */
+async function tryReadSkillFile(skillId: string): Promise<string | null> {
+  const skillSource = SKILL_TO_SOURCE[skillId];
+  if (!skillSource) return null;
+
+  const basePath = SKILL_SOURCE_PATHS[skillSource.source];
+  if (!basePath) return null;
+
+  const skillPath = `${basePath}/${skillSource.path}/SKILL.md`;
+
+  try {
+    const response = await fetch(skillPath);
+    if (response.ok) {
+      return await response.text();
+    }
+  } catch {
+    // 跨域或网络错误，忽略
+  }
+
+  return null;
+}
+
+/**
+ * 获取技能的完整内容（优先从文件读取，否则使用 skills.ts 中的内容）
+ */
+async function getSkillContent(skill: Skill): Promise<string> {
+  // 优先尝试从本地文件读取
+  const fileContent = await tryReadSkillFile(skill.id);
+  if (fileContent) {
+    return fileContent;
+  }
+
+  // 回退到 skills.ts 中的 content
+  if (skill.content) {
+    return skill.content;
+  }
+
+  // 如果都没有，生成一个基础内容
+  return `---
+name: ${skill.id}
+description: ${skill.description}
+---
+
+# ${skill.name}
+
+${skill.description}
+
+## 来源
+
+此技能来自 ${skill.source} 来源。
+
+## 使用方法
+
+请参考原始来源获取完整的使用文档。
+`;
+}
+
 /**
  * 下载技能包（ZIP 格式）
  */
 export async function downloadSkillPack(
-  skills: SkillForPackage[],
+  skills: Skill[],
   packName: string
 ): Promise<void> {
   // 创建 ZIP 实例
   const zip = new JSZip();
 
+  // 并行获取所有技能内容
+  const skillContents = await Promise.all(
+    skills.map(async (skill) => {
+      const content = await getSkillContent(skill);
+      return { id: skill.id, name: skill.name, content };
+    })
+  );
+
   // 添加技能文件
-  skills.forEach(skill => {
-    // 创建目录结构: skill-id/SKILL.md
+  skillContents.forEach(skill => {
     zip.file(`${skill.id}/SKILL.md`, skill.content);
   });
 
   // 生成 README
-  const readme = generatePackReadme(skills, packName);
+  const readme = generatePackReadme(skillContents, packName);
   zip.file('README.md', readme);
 
   // 生成 ZIP 文件
