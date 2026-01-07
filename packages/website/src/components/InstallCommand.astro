@@ -5,22 +5,24 @@ const commands = {
 };
 ---
 
-<section id="install" class="install-section">
+<section id="install" class="install-section section-secondary">
   <div class="container">
-    <h2 class="section-title">一键安装</h2>
-    <p class="section-description">选择你喜欢的包管理器，一条命令即可完成安装</p>
-    <div class="install-methods">
-      <div class="install-method">
+    <div class="section-header">
+      <h2 class="section-title">一键安装</h2>
+      <p class="section-subtitle">选择你喜欢的包管理器，一条命令即可完成安装</p>
+    </div>
+    <div class="install-methods grid-auto" style="max-width: 700px;">
+      <div class="install-method card">
         <span class="method-label">npm</span>
         <code class="install-command">{commands.npm}</code>
-        <button class="copy-button" data-command={commands.npm} data-copy-index="0">
+        <button class="btn btn-primary btn-sm copy-button" data-command={commands.npm} data-copy-index="0">
           复制
         </button>
       </div>
-      <div class="install-method">
+      <div class="install-method card">
         <span class="method-label">Homebrew</span>
         <code class="install-command">{commands.brew}</code>
-        <button class="copy-button" data-command={commands.brew} data-copy-index="1">
+        <button class="btn btn-primary btn-sm copy-button" data-command={commands.brew} data-copy-index="1">
           复制
         </button>
       </div>
@@ -30,29 +32,13 @@ const commands = {
 
 <style>
   .install-section {
-    padding: var(--spacing-xl) var(--spacing-md);
-    background-color: var(--color-bg-secondary);
-  }
-
-  .section-title {
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .section-description {
-    text-align: center;
-    color: var(--color-text-secondary);
-    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-2xl) var(--spacing-md);
   }
 
   .install-methods {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
-    max-width: 700px;
-    margin: 0 auto;
   }
 
   .install-method {
@@ -60,9 +46,6 @@ const commands = {
     align-items: center;
     gap: var(--spacing-sm);
     padding: var(--spacing-md);
-    background: var(--color-white);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
   }
 
   .method-label {
@@ -85,19 +68,7 @@ const commands = {
   }
 
   .copy-button {
-    padding: var(--spacing-xs) var(--spacing-sm);
-    background: var(--color-primary);
-    color: var(--color-white);
-    border: none;
-    border-radius: var(--radius-sm);
-    font-size: 0.875rem;
-    cursor: pointer;
-    transition: background 0.2s;
     white-space: nowrap;
-  }
-
-  .copy-button:hover {
-    background: var(--color-primary-hover);
   }
 
   @media (max-width: 768px) {
@@ -126,10 +97,12 @@ const commands = {
         await navigator.clipboard.writeText(command);
         const originalText = button.textContent;
         button.textContent = '已复制!';
-        button.style.background = 'var(--color-primary-hover)';
+        button.classList.remove('btn-primary');
+        button.classList.add('btn-success');
         setTimeout(() => {
           button.textContent = originalText;
-          button.style.background = '';
+          button.classList.remove('btn-success');
+          button.classList.add('btn-primary');
         }, 2000);
       } catch (err) {
         console.error('Failed to copy:', err);

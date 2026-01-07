@@ -1,12 +1,14 @@
 ---
 ---
 
-<section id="why-choose" class="why-choose-section">
+<section id="why-choose" class="why-choose-section section-gradient">
   <div class="container">
-    <h2 class="section-title">为什么选择 Skills Hub？</h2>
+    <div class="section-header">
+      <h2 class="section-title">为什么选择 Skills Hub？</h2>
+    </div>
 
-    <div class="benefits-grid">
-      <div class="benefit-group">
+    <div class="benefits-grid grid-auto grid-auto-3">
+      <div class="benefit-group card">
         <h3 class="benefit-group-title">💻 对于开发者</h3>
         <ul class="benefit-list">
           <li>
@@ -33,7 +35,7 @@
         </ul>
       </div>
 
-      <div class="benefit-group">
+      <div class="benefit-group card">
         <h3 class="benefit-group-title">🔬 对于科研工作者</h3>
         <ul class="benefit-list">
           <li>
@@ -60,7 +62,7 @@
         </ul>
       </div>
 
-      <div class="benefit-group">
+      <div class="benefit-group card">
         <h3 class="benefit-group-title">👥 对于团队</h3>
         <ul class="benefit-list">
           <li>
@@ -88,33 +90,33 @@
       </div>
     </div>
 
-    <div class="stats-highlight">
-      <div class="stat-box">
+    <div class="stats-highlight grid-auto grid-auto-4">
+      <div class="stat-box card card-hover">
         <div class="stat-icon">🎯</div>
         <div class="stat-value">9+</div>
         <div class="stat-label">精选开源项目</div>
       </div>
-      <div class="stat-box">
+      <div class="stat-box card card-hover">
         <div class="stat-icon">📦</div>
         <div class="stat-value">240+</div>
         <div class="stat-label">高质量技能</div>
       </div>
-      <div class="stat-box">
+      <div class="stat-box card card-hover">
         <div class="stat-icon">🎁</div>
         <div class="stat-value">21</div>
         <div class="stat-label">场景化技能包</div>
       </div>
-      <div class="stat-box">
+      <div class="stat-box card card-hover">
         <div class="stat-icon">🔬</div>
         <div class="stat-value">138+</div>
         <div class="stat-label">科学研究技能</div>
       </div>
-      <div class="stat-box">
+      <div class="stat-box card card-hover">
         <div class="stat-icon">🗄️</div>
         <div class="stat-value">28+</div>
         <div class="stat-label">科学数据库</div>
       </div>
-      <div class="stat-box">
+      <div class="stat-box card card-hover">
         <div class="stat-icon">🌍</div>
         <div class="stat-value">16</div>
         <div class="stat-label">技能领域</div>
@@ -125,30 +127,15 @@
 
 <style>
   .why-choose-section {
-    padding: var(--spacing-xl) var(--spacing-md);
-    background: linear-gradient(180deg, var(--color-white) 0%, var(--color-bg-secondary) 100%);
-  }
-
-  .section-title {
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-2xl) var(--spacing-md);
   }
 
   .benefits-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: var(--spacing-lg);
-    max-width: 1200px;
-    margin: 0 auto var(--spacing-xl);
+    margin-bottom: var(--spacing-2xl);
   }
 
   .benefit-group {
-    background: var(--color-white);
     padding: var(--spacing-lg);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   }
 
   .benefit-group-title {
@@ -192,11 +179,6 @@
   }
 
   .stats-highlight {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: var(--spacing-md);
-    max-width: 1200px;
-    margin: 0 auto;
     padding-top: var(--spacing-xl);
     border-top: 1px solid var(--color-border);
   }
@@ -204,14 +186,6 @@
   .stat-box {
     text-align: center;
     padding: var(--spacing-md);
-    background: var(--color-white);
-    border-radius: var(--radius-md);
-    transition: transform 0.2s;
-  }
-
-  .stat-box:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 
   .stat-icon {
@@ -234,10 +208,6 @@
   @media (max-width: 768px) {
     .benefits-grid {
       grid-template-columns: 1fr;
-    }
-
-    .stats-highlight {
-      grid-template-columns: repeat(2, 1fr);
     }
   }
 </style>

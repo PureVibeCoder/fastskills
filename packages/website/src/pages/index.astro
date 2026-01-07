@@ -16,31 +16,33 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
 <Layout title="Skills Controller - 智能技能编排控制器">
   <Hero />
 
-  <section id="features" class="features-section">
+  <section id="features" class="features-section section-secondary">
     <div class="container">
-      <h2 class="section-title">核心功能</h2>
-      <div class="features-grid">
-        <div class="feature-card">
+      <div class="section-header">
+        <h2 class="section-title">核心功能</h2>
+      </div>
+      <div class="features-grid grid-auto grid-auto-3">
+        <div class="feature-card card card-hover">
           <div class="feature-icon">🗂️</div>
           <h3 class="feature-title">技能聚合与分类</h3>
           <p class="feature-description">汇集 9+ 个 GitHub 高星开源项目的 240+ 精选技能，按 16 大类别科学分类</p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card card card-hover">
           <div class="feature-icon">📦</div>
           <h3 class="feature-title">场景化技能包</h3>
           <p class="feature-description">精心打造 21 个场景化技能包，覆盖开发、科研、办公等多个领域</p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card card card-hover">
           <div class="feature-icon">🔍</div>
           <h3 class="feature-title">智能搜索与筛选</h3>
           <p class="feature-description">支持按名称、描述、分类快速定位所需技能</p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card card card-hover">
           <div class="feature-icon">⬇️</div>
           <h3 class="feature-title">一键下载安装</h3>
           <p class="feature-description">提供单个技能或整包下载，无需手动复制配置</p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card card card-hover">
           <div class="feature-icon">📚</div>
           <h3 class="feature-title">详细使用指南</h3>
           <p class="feature-description">每个技能都有完整的文档和使用示例</p>
@@ -57,7 +59,7 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
 
   <AllPackages />
 
-  <div class="skills-container">
+  <div class="skills-container section-base">
     <div class="container">
       <div class="skills-header">
         <h2 class="section-title">技能库</h2>
@@ -73,29 +75,11 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
 
 <style>
   .features-section {
-    padding: var(--spacing-xl) var(--spacing-md);
-    background-color: var(--color-white);
-  }
-
-  .section-title {
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: var(--spacing-lg);
-  }
-
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: var(--spacing-md);
-    max-width: 1200px;
-    margin: 0 auto;
+    padding: var(--spacing-2xl) var(--spacing-md);
   }
 
   .feature-card {
     padding: var(--spacing-md);
-    background: var(--color-bg-secondary);
-    border-radius: var(--radius-md);
     text-align: center;
   }
 
@@ -108,23 +92,25 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
     font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: var(--spacing-sm);
+    color: var(--color-text);
   }
 
   .feature-description {
     color: var(--color-text-secondary);
     font-size: 0.9375rem;
     line-height: 1.6;
+    margin: 0;
   }
 
   .skills-container {
-    padding: var(--spacing-xl) 0;
+    padding: var(--spacing-2xl) 0;
   }
 
   .skills-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
@@ -137,18 +123,6 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
 
   .download-pack-btn {
     padding: var(--spacing-sm) var(--spacing-md);
-    background: transparent;
-    color: var(--color-text);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    transition: all 0.2s;
-    font-size: 0.9375rem;
-  }
-
-  .download-pack-btn:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
   }
 
   /* 模态框样式 */
@@ -368,11 +342,13 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
 
       const originalText = downloadBtn.textContent;
       downloadBtn.textContent = '已下载!';
-      downloadBtn.style.background = 'var(--color-primary-hover)';
+      downloadBtn.classList.remove('btn-primary');
+      downloadBtn.classList.add('btn-success');
 
       setTimeout(() => {
         downloadBtn.textContent = originalText;
-        downloadBtn.style.background = '';
+        downloadBtn.classList.remove('btn-success');
+        downloadBtn.classList.add('btn-primary');
       }, 2000);
     }
   });

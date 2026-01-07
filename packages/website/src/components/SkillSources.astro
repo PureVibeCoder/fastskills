@@ -1,7 +1,7 @@
 ---
 ---
 
-<section id="sources" class="sources-section">
+<section id="sources" class="sources-section section-white">
   <div class="container">
     <div class="section-header">
       <h2 class="section-title">技能来源</h2>
@@ -140,26 +140,7 @@
 
 <style>
   .sources-section {
-    padding: var(--spacing-xl) var(--spacing-md);
-    background: var(--color-white);
-  }
-
-  .section-header {
-    text-align: center;
-    margin-bottom: var(--spacing-xl);
-  }
-
-  .section-title {
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .section-subtitle {
-    color: var(--color-text-secondary);
-    font-size: 1rem;
-    max-width: 800px;
-    margin: 0 auto;
+    padding: var(--spacing-2xl) var(--spacing-md);
   }
 
   .sources-table-wrapper {
@@ -167,7 +148,7 @@
     margin: 0 auto;
     overflow-x: auto;
     border-radius: var(--radius-lg);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-sm);
   }
 
   .sources-table {
@@ -195,16 +176,20 @@
     font-size: 0.9375rem;
   }
 
+  .sources-table tbody tr {
+    transition: background-color var(--transition-base);
+  }
+
   .sources-table tbody tr:hover {
     background: var(--color-bg);
   }
 
   .highlight-row {
-    background: rgba(99, 102, 241, 0.05);
+    background: rgba(232, 168, 124, 0.08);
   }
 
   .highlight-row:hover {
-    background: rgba(99, 102, 241, 0.08);
+    background: rgba(232, 168, 124, 0.12);
   }
 
   .project-link {
@@ -213,7 +198,7 @@
     gap: var(--spacing-xs);
     text-decoration: none;
     color: var(--color-text);
-    transition: color 0.2s;
+    transition: color var(--transition-base);
   }
 
   .project-link:hover {
@@ -223,34 +208,6 @@
   .github-icon {
     width: 16px;
     height: 16px;
-  }
-
-  .badge {
-    display: inline-block;
-    padding: 4px 8px;
-    border-radius: var(--radius-sm);
-    font-size: 0.75rem;
-    font-weight: 500;
-  }
-
-  .badge-stars {
-    background: rgba(255, 193, 7, 0.1);
-    color: #f57c00;
-  }
-
-  .badge-official {
-    background: rgba(244, 67, 54, 0.1);
-    color: #d32f2f;
-  }
-
-  .badge-new {
-    background: rgba(76, 175, 80, 0.1);
-    color: #388e3c;
-  }
-
-  .badge-license {
-    background: var(--color-bg-secondary);
-    color: var(--color-text-secondary);
   }
 
   .sources-summary {

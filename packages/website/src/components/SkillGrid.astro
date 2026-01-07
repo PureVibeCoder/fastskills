@@ -14,13 +14,15 @@ const filteredSkills = selectedCategory
   : skills;
 ---
 
-<section id="skills" class="skills-section">
+<section id="skills" class="skills-section section-white">
   <div class="container">
-    <h2 class="section-title">技能库</h2>
-    <p class="section-description">浏览所有可用的技能，点击下载即可使用</p>
+    <div class="section-header">
+      <h2 class="section-title">技能库</h2>
+      <p class="section-subtitle">浏览所有可用的技能，点击下载即可使用</p>
+    </div>
 
     {filteredSkills.length > 0 ? (
-      <div class="skills-grid">
+      <div class="skills-grid grid-auto grid-auto-4">
         {filteredSkills.map(skill => (
           <SkillCard skill={skill} />
         ))}
@@ -33,28 +35,7 @@ const filteredSkills = selectedCategory
 
 <style>
   .skills-section {
-    padding: var(--spacing-xl) var(--spacing-md);
-  }
-
-  .section-title {
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .section-description {
-    text-align: center;
-    color: var(--color-text-secondary);
-    margin-bottom: var(--spacing-lg);
-  }
-
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: var(--spacing-md);
-    max-width: 1200px;
-    margin: 0 auto;
+    padding: var(--spacing-2xl) var(--spacing-md);
   }
 
   .no-skills {

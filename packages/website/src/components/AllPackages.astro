@@ -11,7 +11,7 @@ const contentPackages = skillPackages.filter(pkg =>
 const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scientific');
 ---
 
-<section id="all-packages" class="all-packages-section">
+<section id="all-packages" class="all-packages-section section-base">
   <div class="container">
     <div class="section-header">
       <h2 class="section-title">场景化技能包</h2>
@@ -24,9 +24,9 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
         <h3 class="category-title">🔥 推荐套件（最受欢迎）</h3>
         <p class="category-desc">适合大多数用户的热门技能包</p>
       </div>
-      <div class="packages-grid large">
+      <div class="packages-grid large grid-auto grid-auto-4">
         {recommendedPackages.filter(pkg => !pkg.category).map(pkg => (
-          <div class="package-card featured" data-package-id={pkg.id}>
+          <div class="package-card card card-featured" data-package-id={pkg.id}>
             <div class="package-header">
               <div class="package-icon">{pkg.icon}</div>
               <div>
@@ -38,7 +38,7 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
             <div class="package-meta">
               <span class="skill-count">{pkg.skills.length} 个技能</span>
             </div>
-            <button class="btn-download-pack" data-pack-id={pkg.id}>
+            <button class="btn btn-primary btn-download-pack" data-pack-id={pkg.id}>
               ⬇️ 下载
             </button>
           </div>
@@ -52,9 +52,9 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
         <h3 class="category-title">🧑‍💻 开发工具套件</h3>
         <p class="category-desc">DevOps、MCP、测试、后端开发等专业工具</p>
       </div>
-      <div class="packages-grid">
+      <div class="packages-grid grid-auto grid-auto-4">
         {developmentPackages.map(pkg => (
-          <div class="package-card" data-package-id={pkg.id}>
+          <div class="package-card card card-hover" data-package-id={pkg.id}>
             <div class="package-header">
               <div class="package-icon">{pkg.icon}</div>
               <div>
@@ -65,7 +65,7 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
             <div class="package-meta">
               <span class="skill-count">{pkg.skills.length} 个技能</span>
             </div>
-            <button class="btn-download-pack" data-pack-id={pkg.id}>
+            <button class="btn btn-primary btn-download-pack" data-pack-id={pkg.id}>
               下载
             </button>
           </div>
@@ -79,9 +79,9 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
         <h3 class="category-title">📝 内容创作套件</h3>
         <p class="category-desc">内容创作、研究分析、媒体处理、效率工具</p>
       </div>
-      <div class="packages-grid">
+      <div class="packages-grid grid-auto grid-auto-4">
         {contentPackages.map(pkg => (
-          <div class="package-card" data-package-id={pkg.id}>
+          <div class="package-card card card-hover" data-package-id={pkg.id}>
             <div class="package-header">
               <div class="package-icon">{pkg.icon}</div>
               <div>
@@ -92,7 +92,7 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
             <div class="package-meta">
               <span class="skill-count">{pkg.skills.length} 个技能</span>
             </div>
-            <button class="btn-download-pack" data-pack-id={pkg.id}>
+            <button class="btn btn-primary btn-download-pack" data-pack-id={pkg.id}>
               下载
             </button>
           </div>
@@ -106,9 +106,9 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
         <h3 class="category-title">🔬 科学研究套件（138+ 专业技能）</h3>
         <p class="category-desc">涵盖药物发现、基因组学、临床研究等 11 个专业领域</p>
       </div>
-      <div class="packages-grid">
+      <div class="packages-grid grid-auto grid-auto-4">
         {scientificPackages.map(pkg => (
-          <div class="package-card scientific" data-package-id={pkg.id}>
+          <div class="package-card card card-hover scientific" data-package-id={pkg.id}>
             <div class="package-header">
               <div class="package-icon">{pkg.icon}</div>
               <div>
@@ -122,7 +122,7 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
             <div class="package-meta">
               <span class="skill-count">{pkg.skills.length} 个技能</span>
             </div>
-            <button class="btn-download-pack" data-pack-id={pkg.id}>
+            <button class="btn btn-primary btn-download-pack" data-pack-id={pkg.id}>
               下载
             </button>
           </div>
@@ -134,28 +134,7 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
 
 <style>
   .all-packages-section {
-    padding: var(--spacing-xl) var(--spacing-md);
-    background: var(--color-bg);
-  }
-
-  .section-header {
-    text-align: center;
-    margin-bottom: var(--spacing-xl);
-  }
-
-  .section-title {
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .section-subtitle {
-    color: var(--color-text-secondary);
-    font-size: 1.125rem;
-  }
-
-  .packages-category {
-    margin-bottom: var(--spacing-2xl);
+    padding: var(--spacing-2xl) var(--spacing-md);
   }
 
   .category-header {
@@ -174,35 +153,18 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
     font-size: 0.9375rem;
   }
 
-  .packages-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: var(--spacing-md);
+  .packages-category {
+    margin-bottom: var(--spacing-2xl);
   }
 
-  .packages-grid.large {
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  .packages-category:last-child {
+    margin-bottom: 0;
   }
 
   .package-card {
     display: flex;
     flex-direction: column;
     padding: var(--spacing-lg);
-    background: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    transition: all 0.2s ease;
-  }
-
-  .package-card:hover {
-    border-color: var(--color-primary);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transform: translateY(-2px);
-  }
-
-  .package-card.featured {
-    border: 2px solid var(--color-primary);
-    background: linear-gradient(135deg, var(--color-white) 0%, rgba(99, 102, 241, 0.05) 100%);
   }
 
   .package-card.scientific {
@@ -264,19 +226,6 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
 
   .btn-download-pack {
     width: 100%;
-    padding: var(--spacing-sm) var(--spacing-md);
-    background: var(--color-primary);
-    color: white;
-    border: none;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    font-size: 0.9375rem;
-    font-weight: 500;
-    transition: background 0.2s;
-  }
-
-  .btn-download-pack:hover {
-    background: var(--color-primary-hover);
   }
 
   @media (max-width: 768px) {
@@ -288,7 +237,6 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
 </style>
 
 <script>
-  // 处理套件下载
   document.querySelectorAll('.btn-download-pack').forEach(btn => {
     btn.addEventListener('click', async (e) => {
       const packId = (e.target as HTMLElement).dataset.packId;
@@ -298,6 +246,8 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
       const originalText = button.textContent;
       button.textContent = '下载中...';
       button.disabled = true;
+      button.classList.remove('btn-primary');
+      button.classList.add('btn-secondary');
 
       try {
         const { skillPackages } = await import('../data/packages');
@@ -318,15 +268,23 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
         }
 
         button.textContent = '✅ 已下载';
+        button.classList.remove('btn-secondary', 'btn-primary');
+        button.classList.add('btn-success');
         setTimeout(() => {
           button.textContent = originalText;
+          button.classList.remove('btn-success');
+          button.classList.add('btn-primary');
           button.disabled = false;
         }, 2000);
       } catch (error) {
         console.error('Download failed:', error);
         button.textContent = '❌ 下载失败';
+        button.classList.remove('btn-secondary', 'btn-primary');
+        button.classList.add('btn-success');
         setTimeout(() => {
           button.textContent = originalText;
+          button.classList.remove('btn-success');
+          button.classList.add('btn-primary');
           button.disabled = false;
         }, 2000);
       }
