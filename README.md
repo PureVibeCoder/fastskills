@@ -1,89 +1,197 @@
 # Claude Code Skills Hub
 
-> Claude Code 技能收录与场景化打包平台 - 汇集 GitHub 高星开源项目的精选技能
+> Claude Code 技能收录与场景化打包平台 - 汇集 GitHub 高星开源项目的 200+ 精选技能
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Skills](https://img.shields.io/badge/Skills-200+-green)](#技能来源)
+[![Skills](https://img.shields.io/badge/Skills-240+-green)](#技能来源)
+[![Packages](https://img.shields.io/badge/Packages-21-blue)](#场景化技能包)
 [![Static Site](https://img.shields.io/badge/Static-Astro-orange)](https://astro.build/)
+[![Website](https://img.shields.io/badge/Website-Live-success)](https://skillscontroller.pages.dev)
 
 ---
 
-## 项目简介
+## 📖 项目简介
 
-**Claude Code Skills Hub** 是一个静态网站，专注于收录和整理 Claude Code 技能。本项目的核心功能包括：
+**Claude Code Skills Hub** 是一个专业的 Claude Code 技能聚合平台，致力于打造最全面的技能收录和场景化打包解决方案。
 
-1. **技能分类与过滤** - 按领域分类浏览技能
-2. **场景化技能包** - 针对不同使用场景提供打包下载
-3. **安装指导** - 提供详细的技能安装说明
+### 🎯 核心功能
 
----
+1. **🗂️ 技能聚合与分类** - 汇集 9+ 个 GitHub 高星开源项目的 240+ 精选技能，按 16 大类别科学分类
+2. **📦 场景化技能包** - 精心打造 21 个场景化技能包，覆盖开发、科研、办公等多个领域
+3. **🔍 智能搜索与筛选** - 支持按名称、描述、分类快速定位所需技能
+4. **⬇️ 一键下载安装** - 提供单个技能或整包下载，无需手动复制配置
+5. **📚 详细使用指南** - 每个技能都有完整的文档和使用示例
 
-## 技能来源
+### ✨ 项目特色
 
-**所有技能均来自 GitHub 高星开源项目，本项目仅做聚合展示。**
-
-| 项目 | Stars | 技能数 | 许可证 |
-|:---:|:---:|:---:|:---:|
-| [![Superpowers](https://github.githubassets.com/favicons/favicon.svg) Superpowers](https://github.com/obra/superpowers) | [![13k](https://img.shields.io/badge/⭐-13k-blue)](https://github.com/obra/superpowers) | 14 | MIT |
-| [![Anthropic Skills](https://github.githubassets.com/favicons/favicon.svg) Anthropic Skills](https://github.com/anthropics/anthropic-skills) | - | 16+ | MIT |
-| [![Awesome Claude Skills](https://github.githubassets.com/favicons/favicon.svg) Awesome Claude Skills](https://github.com/ComposioHQ/awesome-claude-skills) | 3.9k | 25+ | MIT |
-| [![ClaudeKit](https://github.githubassets.com/favicons/favicon.svg) ClaudeKit](https://github.com/mrgoonie/claudekit-skills) | 1.1k | 39 | MIT |
-| [![Scientific Skills](https://github.githubassets.com/favicons/favicon.svg) Scientific Skills](https://github.com/K-Dense-AI/claude-scientific-skills) | 2.9k | 138 | MIT |
-| [![Deep Research](https://github.githubassets.com/favicons/favicon.svg) Deep Research](https://github.com/liangdabiao/Claude-Code-Deep-Research-main) | 55 | 5 | - |
-| [![Obsidian Skills](https://github.githubassets.com/favicons/favicon.svg) Obsidian Skills](https://github.com/kepano/obsidian-skills) | [![160](https://img.shields.io/badge/⭐-160-blue)](https://github.com/kepano/obsidian-skills) | 3 | MIT |
-| [![superpowers-marketplace](https://github.githubassets.com/favicons/favicon.svg) superpowers-marketplace](https://github.com/obra/superpowers-marketplace) | 51 forks | TBD | MIT |
-| [![superpowers-lab](https://github.githubassets.com/favicons/favicon.svg) superpowers-lab](https://github.com/obra/superpowers-lab) | 7 forks | TBD | MIT |
+- **全面性** - 收录市面上主流的 Claude Code 技能库，一站式获取
+- **专业性** - 特别强化科学研究领域，包含 138+ 科学计算、生物信息、化学等专业技能
+- **实用性** - 按实际工作场景打包，开箱即用，提升工作效率
+- **开放性** - 所有技能均来自开源项目，遵循原项目许可证
+- **静态化** - 基于 Astro 构建的纯静态网站，访问速度快，无后端依赖
 
 ---
 
-## 场景化技能包
+## 📦 技能来源
 
-针对不同使用场景，我们提供以下预打包的技能组合：
+**所有技能均来自 GitHub 高星开源项目，本项目仅做聚合展示与场景化打包。**
 
-### 1. 前端开发者套件
-适合前端工程师，包含 UI 设计、组件开发、响应式布局等技能。
+| 项目 | Stars | 技能数 | 领域 | 许可证 |
+|:---:|:---:|:---:|:---:|:---:|
+| [![Superpowers](https://github.githubassets.com/favicons/favicon.svg) Superpowers](https://github.com/obra/superpowers) | ⭐ 13k | 14 | 通用开发 | MIT |
+| [![Anthropic Skills](https://github.githubassets.com/favicons/favicon.svg) Anthropic Skills](https://github.com/anthropics/skills) | 🔥 官方 | 16+ | 官方推荐 | MIT |
+| [![Awesome Claude Skills](https://github.githubassets.com/favicons/favicon.svg) Awesome Claude Skills](https://github.com/ComposioHQ/awesome-claude-skills) | ⭐ 3.9k | 25+ | 社区精选 | MIT |
+| [![ClaudeKit](https://github.githubassets.com/favicons/favicon.svg) ClaudeKit](https://github.com/mrgoonie/claudekit-skills) | ⭐ 1.1k | 39 | 全栈开发 | MIT |
+| [![Scientific Skills](https://github.githubassets.com/favicons/favicon.svg) Scientific Skills](https://github.com/K-Dense-AI/claude-scientific-skills) | ⭐ 2.9k | 138 | 科学研究 | MIT |
+| [![Deep Research](https://github.githubassets.com/favicons/favicon.svg) Deep Research](https://github.com/liangdabiao/Claude-Code-Deep-Research-main) | ⭐ 55 | 5 | 深度研究 | - |
+| [![Obsidian Skills](https://github.githubassets.com/favicons/favicon.svg) Obsidian Skills](https://github.com/kepano/obsidian-skills) | ⭐ 160 | 3 | 知识管理 | MIT |
+| [![VoltAgent](https://github.githubassets.com/favicons/favicon.svg) VoltAgent](https://github.com/VoltAgent/voltagent) | 🚀 新增 | 10+ | AI Agent | - |
+| [![Composio](https://github.githubassets.com/favicons/favicon.svg) Composio Skills](https://github.com/ComposioHQ/awesome-claude-skills) | ⭐ 3.9k | 20+ | 工具集成 | MIT |
 
-**包含技能**：`frontend-design`, `modern-frontend-design`, `canvas-design`, `theme-factory`, `webapp-testing`
+**总计：240+ 技能覆盖 16 大领域**
 
-### 2. 全栈开发者套件
-覆盖前后端开发全流程，适合全栈工程师。
+---
+
+## 🎁 场景化技能包
+
+精心打造 **21 个场景化技能包**，覆盖开发、科研、办公等多个领域，让你快速获得所需能力。
+
+### 🔥 推荐套件（最受欢迎）
+
+#### 1. 🎨 前端开发者套件
+**适用场景**：前端工程师、UI 开发、组件库开发
+
+**包含技能**：`frontend-design`, `modern-frontend-design`, `canvas-design`, `theme-factory`, `webapp-testing`, `react-components`
+
+**核心能力**：UI 设计、响应式布局、组件开发、主题定制、E2E 测试
+
+#### 2. ⚡ 全栈开发者套件
+**适用场景**：全栈工程师、独立开发者、创业团队
 
 **包含技能**：`frontend-design`, `backend-development`, `database-design`, `devops`, `webapp-testing`, `code-review`
 
-### 3. 文档生产套件
-专注于文档生成和处理，适合技术写作者。
+**核心能力**：前后端全流程开发、数据库设计、自动化部署、代码质量保障
 
-**包含技能**：`doc-coauthoring`, `docx`, `pdf`, `pptx`, `xlsx`, `changelog-generator`
+#### 3. 📄 文档生产套件
+**适用场景**：技术写作、文档管理、报告生成
 
-### 4. 知识管理套件
-Obsidian 笔记系统、知识库管理、可视化知识图谱。
+**包含技能**：`doc-coauthoring`, `docx`, `pdf`, `pptx`, `xlsx`, `document-skills`
+
+**核心能力**：多格式文档处理（Word/PDF/PPT/Excel）、协作编辑、文档转换
+
+#### 4. 📓 知识管理套件
+**适用场景**：笔记系统、知识库建设、个人知识管理
 
 **包含技能**：`obsidian-markdown`, `obsidian-bases`, `json-canvas`, `document-skills`
 
-### 5. DevOps 工程师套件
-CI/CD、容器化、部署自动化相关技能。
+**核心能力**：Obsidian 集成、Markdown 编辑、可视化知识图谱、数据库管理
+
+---
+
+### 🧑‍💻 开发工具套件
+
+#### 5. 🚀 DevOps 工程师套件
+**适用场景**：运维工程师、CI/CD、容器化部署
 
 **包含技能**：`devops`, `docker`, `mcp-builder`, `skill-creator`
 
-### 6. 内容创作套件
-适合内容创作者和营销人员。
+#### 6. 🔧 MCP 开发者套件
+**适用场景**：Model Context Protocol 服务器和工具开发
 
-**包含技能**：`content-research-writer`, `brand-guidelines`, `internal-comms`, `slack-gif-creator`
+**包含技能**：`mcp-builder`, `skill-creator`, `browser-automation`
 
-### 7. 研究分析套件
-深度研究和数据分析相关技能。
+#### 7. ✅ 测试与质量保障套件
+**适用场景**：QA 工程师、自动化测试、代码审查
 
-**包含技能**：`lead-research-assistant`, `developer-growth-analysis`, `competitive-ads-extractor`
+**包含技能**：`webapp-testing`, `code-review`, `browser-automation`
 
-### 8. 媒体处理套件
-图片、视频等媒体文件处理。
+#### 8. ⚙️ 后端专家套件
+**适用场景**：后端开发、API 设计、微服务架构
 
-**包含技能**：`image-enhancer`, `video-downloader`, `canvas-design`, `algorithmic-art`
+**包含技能**：`backend-development`, `database-design`, `devops`
 
-### 9. 效率工具套件
-提升日常工作效率的实用技能。
+#### 9. 🎭 设计系统套件
+**适用场景**：设计系统建设、UI 规范、品牌统一
+
+**包含技能**：`frontend-design`, `modern-frontend-design`, `theme-factory`, `brand-guidelines`, `canvas-design`
+
+---
+
+### 📝 内容创作套件
+
+#### 10. ✍️ 内容创作套件
+**适用场景**：内容创作者、营销人员、社交媒体运营
+
+**包含技能**：`content-research-writer`, `brand-guidelines`, `internal-comms`, `slack-gif-creator`, `changelog-generator`
+
+#### 11. 📊 研究分析套件
+**适用场景**：市场研究、竞品分析、数据洞察
+
+**包含技能**：`lead-research-assistant`, `developer-growth-analysis`, `competitive-ads-extractor`, `meeting-insights-analyzer`
+
+#### 12. 🎬 媒体处理套件
+**适用场景**：图片处理、视频编辑、创意设计
+
+**包含技能**：`image-enhancer`, `video-downloader`, `canvas-design`, `algorithmic-art`, `slack-gif-creator`
+
+#### 13. ⚡ 效率工具套件
+**适用场景**：日常办公、文件管理、效率提升
 
 **包含技能**：`file-organizer`, `invoice-organizer`, `meeting-insights-analyzer`, `raffle-winner-picker`, `domain-name-brainstormer`
+
+---
+
+### 🔬 科学研究套件（138+ 专业技能）
+
+#### 14. 💊 药物发现套件 ⭐
+**适用场景**：药物设计、分子筛选、ADMET 预测、化合物优化
+
+**包含技能**：`rdkit`, `deepchem`, `datamol`, `molfeat`, `diffdock`, `medchem`, `torchdrug`, `chembl-database`, `pubchem-database`, `drugbank-database`, `zinc-database`
+
+**核心能力**：虚拟筛选、分子对接、理化性质计算、药物数据库检索
+
+#### 15. 🧬 基因组学与生物信息学套件 ⭐
+**适用场景**：序列分析、单细胞 RNA-seq、基因调控网络、进化分析
+
+**包含技能**：`biopython`, `scanpy`, `anndata`, `scvi-tools`, `arboreto`, `pysam`, `gget`, `scikit-bio`, `etetoolkit`, `deeptools`, `ensembl-database`, `ncbi-gene-database`
+
+**核心能力**：基因组序列处理、单细胞数据分析、系统发育树构建、基因表达分析
+
+#### 16. 🏥 临床研究套件 ⭐
+**适用场景**：临床试验、变异解读、药物基因组学、精准医疗
+
+**包含技能**：`clinical-decision-support`, `clinical-reports`, `treatment-plans`, `pyhealth`, `neurokit2`, `clinvar-database`, `clinpgx-database`, `clinicaltrials-database`, `cosmic-database`, `fda-database`
+
+**核心能力**：临床决策支持、变异致病性评估、电子病历分析、药物相互作用预测
+
+#### 17. 🤖 机器学习与深度学习套件
+**适用场景**：PyTorch、scikit-learn、强化学习、模型解释
+
+**包含技能**：`pytorch-lightning`, `transformers`, `scikit-learn`, `scikit-survival`, `shap`, `stable-baselines3`, `pufferlib`, `pymc`, `pymoo`, `torch_geometric`, `umap-learn`, `aeon`
+
+#### 18. 🔮 量子计算与物理套件
+**适用场景**：量子计算、天文学、材料科学
+
+**包含技能**：`qiskit`, `pennylane`, `cirq`, `qutip`, `astropy`, `pymatgen`, `sympy`
+
+#### 19. 📊 科学数据可视化套件
+**适用场景**：统计分析、网络可视化、出版级图表
+
+**包含技能**：`matplotlib`, `seaborn`, `plotly`, `scientific-visualization`, `networkx`, `statsmodels`, `statistical-analysis`, `exploratory-data-analysis`, `polars`, `dask`, `vaex`
+
+#### 20. 🗄️ 科学数据库套件
+**适用场景**：文献检索、蛋白质结构、通路分析
+
+**包含技能**：`pubmed-database`, `uniprot-database`, `pdb-database`, `alphafold-database`, `kegg-database`, `reactome-database`, `string-database`, `opentargets-database`, `openalex-database`, `biorxiv-database`, `geo-database`, `ena-database`
+
+**数据库覆盖**：PubMed、UniProt、PDB、AlphaFold、KEGG、Reactome 等 28+ 科学数据库
+
+#### 21. 🔬 科学写作与交流套件
+**适用场景**：论文写作、同行评审、海报制作、文献管理
+
+**包含技能**：`scientific-writing`, `literature-review`, `peer-review`, `citation-management`, `scientific-slides`, `latex-posters`, `pptx-posters`, `scientific-schematics`, `paper-2-web`, `venue-templates`
+
+**核心能力**：学术论文撰写、参考文献管理、学术海报设计、研究演示制作
 
 ---
 
@@ -172,21 +280,38 @@ pnpm preview
 
 ---
 
-## 技能分类
+## 🗂️ 技能分类体系
 
-| 分类 | 说明 | 技能数 |
-|------|------|--------|
-| **前端开发** | UI 设计、组件、响应式布局 | 6 |
-| **后端开发** | API、数据库、认证 | 4 |
-| **测试质量** | E2E 测试、代码审查 | 3 |
-| **DevOps** | CI/CD、Docker、部署 | 3 |
-| **文档处理** | PDF、Word、PPT、Excel | 2 |
-| **知识管理** | Obsidian、笔记系统、知识库 | 3 |
-| **媒体处理** | 图片、视频、GIF | 1 |
-| **内容创作** | 品牌、沟通、研究 | 5 |
-| **工具集成** | MCP、浏览器自动化 | 4 |
-| **效率提升** | 文件整理、会议分析 | 5 |
-| **科学研究** | 生物信息、化学、医学 | 138 |
+### 主分类（16 大领域）
+
+| 分类 | 说明 | 技能数 | 适用人群 |
+|------|------|--------|---------|
+| 🎨 **前端开发** | UI 设计、组件、响应式布局 | 15+ | 前端工程师、设计师 |
+| ⚙️ **后端开发** | API、数据库、认证 | 10+ | 后端工程师、架构师 |
+| ✅ **测试质量** | E2E 测试、代码审查 | 5+ | QA 工程师、测试开发 |
+| 🚀 **DevOps** | CI/CD、Docker、部署 | 8+ | 运维工程师、SRE |
+| 📄 **文档处理** | PDF、Word、PPT、Excel | 6+ | 技术写作、文档管理 |
+| 📓 **知识管理** | Obsidian、笔记系统、知识库 | 5+ | 知识工作者、研究员 |
+| 🎬 **媒体处理** | 图片、视频、GIF | 5+ | 设计师、内容创作者 |
+| 🧠 **思维方法** | 问题分析、决策辅助 | 3+ | 产品经理、分析师 |
+| 🛠️ **开发工具** | MCP、浏览器自动化 | 6+ | 工具开发者 |
+| 📊 **数据分析** | 统计分析、可视化 | 15+ | 数据分析师、科学家 |
+
+### 科学研究子分类（138+ 专业技能）
+
+| 子分类 | 说明 | 技能数 | 适用场景 |
+|--------|------|--------|---------|
+| 🧬 **生物信息学** | 基因组学、序列分析、单细胞分析 | 25+ | 基因组研究、转录组分析 |
+| 🧪 **化学信息学** | 药物发现、分子设计、虚拟筛选 | 20+ | 药物研发、化合物设计 |
+| 🏥 **临床医学** | 临床研究、精准医疗、变异解读 | 18+ | 临床研究、精准医学 |
+| 🤖 **机器学习与 AI** | 深度学习、强化学习、模型解释 | 15+ | AI 研究、模型开发 |
+| 🔮 **物理与材料** | 量子计算、天文学、材料科学 | 10+ | 物理研究、材料工程 |
+| 📊 **数据可视化** | 统计分析、网络分析、科学绘图 | 15+ | 数据展示、论文插图 |
+| 🗄️ **科学数据库** | PubMed、UniProt、ChEMBL 等 | 28+ | 文献检索、数据挖掘 |
+| 📝 **科学写作** | 论文写作、同行评审、海报制作 | 12+ | 学术写作、会议展示 |
+| 🔧 **实验室自动化** | 液体处理、实验流程自动化 | 10+ | 高通量实验、实验室管理 |
+
+**总计：240+ 技能覆盖 16 大领域 + 9 个科学研究子领域**
 
 ---
 
@@ -275,4 +400,43 @@ MIT License - 详见 [LICENSE](./LICENSE)
 
 ---
 
-**让每一次 Claude Code 对话都拥有专家级能力**
+## 🌟 为什么选择 Skills Hub？
+
+### 对于开发者
+- ⚡ **提升开发效率** - 精选的技能让 Claude Code 成为更强大的开发助手
+- 🎯 **场景化打包** - 按工作场景一键获取所需全部技能，无需逐个查找
+- 🔄 **持续更新** - 紧跟社区动态，及时收录最新优质技能
+
+### 对于科研工作者
+- 🔬 **专业深度** - 138+ 科学技能覆盖生物、化学、医学、物理等多个学科
+- 📚 **数据库丰富** - 集成 28+ 科学数据库，快速检索文献、蛋白质、化合物
+- 📝 **学术写作** - 从论文撰写到海报制作，全流程支持
+
+### 对于团队
+- 📦 **统一标准** - 团队共享技能包，保持 AI 助手能力一致性
+- 🚀 **快速上手** - 新成员无需学习，下载即用
+- 💡 **最佳实践** - 汇集社区智慧，避免重复造轮子
+
+---
+
+## 📊 项目数据
+
+- 🎯 **9+ 个**精选开源项目
+- 📦 **240+ 个**高质量技能
+- 🎁 **21 个**场景化技能包
+- 🔬 **138+ 个**科学研究专业技能
+- 🗄️ **28+ 个**科学数据库集成
+- 🌍 **16 大**技能领域分类
+
+---
+
+## 🔗 快速链接
+
+- 🌐 **在线网站**：[skillscontroller.pages.dev](https://skillscontroller.pages.dev)
+- 📦 **GitHub 仓库**：[github.com/marovole/skillscontroller](https://github.com/marovole/skillscontroller)
+- 💬 **问题反馈**：[GitHub Issues](https://github.com/marovole/skillscontroller/issues)
+- 📖 **Claude Code 文档**：[docs.anthropic.com/claude/docs/claude-code](https://docs.anthropic.com/claude/docs/claude-code)
+
+---
+
+**🚀 让每一次 Claude Code 对话都拥有专家级能力！**
