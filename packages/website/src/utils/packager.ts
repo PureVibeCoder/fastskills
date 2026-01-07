@@ -1,57 +1,12 @@
 import JSZip from 'jszip';
 import type { Skill } from '../data/skills';
+import { SKILL_TO_SOURCE } from '../data/skill-sources';
 
 export interface SkillForPackage {
   id: string;
   name: string;
   content: string;
 }
-
-// 技能到源目录的映射
-const SKILL_TO_SOURCE: Record<string, { source: string; path: string }> = {
-  // anthropic-skills
-  'frontend-design': { source: 'anthropic', path: 'frontend-design' },
-  'modern-frontend-design': { source: 'anthropic', path: 'modern-frontend-design' },
-  'brand-guidelines': { source: 'anthropic', path: 'brand-guidelines' },
-  'canvas-design': { source: 'anthropic', path: 'canvas-design' },
-  'theme-factory': { source: 'anthropic', path: 'theme-factory' },
-  'pdf': { source: 'anthropic', path: 'pdf' },
-  'doc-coauthoring': { source: 'anthropic', path: 'doc-coauthoring' },
-  'docx': { source: 'anthropic', path: 'docx' },
-  'pptx': { source: 'anthropic', path: 'pptx' },
-  'xlsx': { source: 'anthropic', path: 'xlsx' },
-  'algorithmic-art': { source: 'anthropic', path: 'algorithmic-art' },
-  'slack-gif-creator': { source: 'anthropic', path: 'slack-gif-creator' },
-  'mcp-builder': { source: 'anthropic', path: 'mcp-builder' },
-  'skill-creator': { source: 'anthropic', path: 'skill-creator' },
-  'internal-comms': { source: 'anthropic', path: 'internal-comms' },
-  'web-artifacts-builder': { source: 'anthropic', path: 'web-artifacts-builder' },
-  'webapp-testing': { source: 'anthropic', path: 'webapp-testing' },
-  // claudekit-skills
-  'backend-development': { source: 'claudekit', path: 'backend-development' },
-  'database-design': { source: 'claudekit', path: 'databases' },
-  'devops': { source: 'claudekit', path: 'devops' },
-  'sequential-thinking': { source: 'claudekit', path: 'sequential-thinking' },
-  'code-review': { source: 'claudekit', path: 'code-review' },
-  'document-skills': { source: 'claudekit', path: 'document-skills' },
-  // community skills
-  'react-components': { source: 'community', path: 'react-components' },
-  'docker': { source: 'community', path: 'docker' },
-  'browser-automation': { source: 'community', path: 'browser-automation' },
-  'image-enhancer': { source: 'community', path: 'image-enhancer' },
-  // scientific skills
-  'biopython': { source: 'scientific', path: 'biopython' },
-  'rdkit': { source: 'scientific', path: 'rdkit' },
-  'scanpy': { source: 'scientific', path: 'scanpy' },
-  'deepchem': { source: 'scientific', path: 'deepchem' },
-  'pubmed': { source: 'scientific', path: 'pubmed' },
-  // obsidian skills
-  'obsidian-markdown': { source: 'obsidian', path: 'obsidian-markdown' },
-  'obsidian-bases': { source: 'obsidian', path: 'obsidian-bases' },
-  'json-canvas': { source: 'obsidian', path: 'json-canvas' },
-  // planning
-  'planning-with-files': { source: 'planning', path: 'planning-with-files' }
-};
 
 /**
  * 尝试从本地文件读取 SKILL.md 内容（通过 API 端点）

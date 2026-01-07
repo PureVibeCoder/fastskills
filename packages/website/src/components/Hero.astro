@@ -1,4 +1,5 @@
 ---
+import InstallCommand from './InstallCommand.astro';
 ---
 
 <section class="hero">
@@ -28,6 +29,20 @@
         <div class="stat">
           <span class="stat-number">9+</span>
           <span class="stat-label">开源项目</span>
+        </div>
+      </div>
+
+      <!-- 快速安装入口 -->
+      <div class="quick-install-section">
+        <div class="quick-install-header">
+          <h3 class="quick-install-title">快速开始</h3>
+          <p class="quick-install-desc">一键安装全栈开发者套件，包含 6 个核心技能</p>
+        </div>
+        <div class="quick-install-command">
+          <InstallCommand packId="fullstack-developer" />
+        </div>
+        <div class="quick-install-actions">
+          <a href="#all-packages" class="btn btn-secondary">浏览更多技能包</a>
         </div>
       </div>
     </div>
@@ -95,5 +110,57 @@
     .stat-number {
       font-size: 2rem;
     }
+
+    .quick-install-section {
+      margin-top: var(--spacing-lg);
+      padding: var(--spacing-md);
+    }
+
+    .quick-install-title {
+      font-size: 1.25rem;
+    }
+  }
+
+  /* 快速安装区域样式 */
+  .quick-install-section {
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    border-radius: var(--radius-lg);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .quick-install-header {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .quick-install-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 var(--spacing-xs);
+    color: var(--color-text);
+  }
+
+  .quick-install-desc {
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  .quick-install-command {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .quick-install-actions {
+    display: flex;
+    justify-content: center;
+  }
+
+  .quick-install-actions .btn {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    font-size: 0.9375rem;
   }
 </style>

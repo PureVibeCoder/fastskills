@@ -7,13 +7,13 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const SOURCE_BASE_PATHS: Record<string, string> = {
   'anthropic': path.resolve(__dirname, '../../../anthropic-skills/skills'),
-  'scientific': path.resolve(__dirname, '../../../scientific-skills/skills'),
+  'scientific': path.resolve(__dirname, '../../../scientific-skills/scientific-skills'),
   'claudekit': path.resolve(__dirname, '../../../claudekit-skills/.claude/skills'),
-  'community': path.resolve(__dirname, '../../../awesome-claude-skills/skills'),
+  'community': path.resolve(__dirname, '../../../awesome-claude-skills'),
   'composio': path.resolve(__dirname, '../../../composio-skills/skills'),
   'voltagent': path.resolve(__dirname, '../../../voltagent-skills/skills'),
   'obsidian': path.resolve(__dirname, '../../../obsidian-skills/skills'),
-  'planning': path.resolve(__dirname, '../../../planning-with-files/skills')
+  'planning': path.resolve(__dirname, '../../../planning-with-files')
 };
 
 export const GET: APIRoute = async ({ url }) => {

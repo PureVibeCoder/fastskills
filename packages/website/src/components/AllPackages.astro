@@ -1,5 +1,6 @@
 ---
 import { skillPackages, getRecommendedPackages } from '../data/packages';
+import InstallCommand from './InstallCommand.astro';
 
 const recommendedPackages = getRecommendedPackages();
 const developmentPackages = skillPackages.filter(pkg => 
@@ -38,9 +39,17 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
             <div class="package-meta">
               <span class="skill-count">{pkg.skills.length} 个技能</span>
             </div>
-            <button class="btn btn-primary btn-download-pack" data-pack-id={pkg.id}>
-              ⬇️ 下载
-            </button>
+            <div class="package-actions">
+              <button class="btn btn-primary btn-download-pack" data-pack-id={pkg.id}>
+                ⬇️ 下载
+              </button>
+              <button class="btn btn-secondary btn-show-install" data-pack-id={pkg.id}>
+                ⚡ 安装
+              </button>
+            </div>
+            <div class="install-command-wrapper" data-pack-id={pkg.id} style="display: none;">
+              <InstallCommand packId={pkg.id} />
+            </div>
           </div>
         ))}
       </div>
@@ -65,9 +74,17 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
             <div class="package-meta">
               <span class="skill-count">{pkg.skills.length} 个技能</span>
             </div>
-            <button class="btn btn-primary btn-download-pack" data-pack-id={pkg.id}>
-              下载
-            </button>
+            <div class="package-actions">
+              <button class="btn btn-primary btn-download-pack" data-pack-id={pkg.id}>
+                下载
+              </button>
+              <button class="btn btn-secondary btn-show-install" data-pack-id={pkg.id}>
+                ⚡ 安装
+              </button>
+            </div>
+            <div class="install-command-wrapper" data-pack-id={pkg.id} style="display: none;">
+              <InstallCommand packId={pkg.id} />
+            </div>
           </div>
         ))}
       </div>
@@ -92,9 +109,17 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
             <div class="package-meta">
               <span class="skill-count">{pkg.skills.length} 个技能</span>
             </div>
-            <button class="btn btn-primary btn-download-pack" data-pack-id={pkg.id}>
-              下载
-            </button>
+            <div class="package-actions">
+              <button class="btn btn-primary btn-download-pack" data-pack-id={pkg.id}>
+                下载
+              </button>
+              <button class="btn btn-secondary btn-show-install" data-pack-id={pkg.id}>
+                ⚡ 安装
+              </button>
+            </div>
+            <div class="install-command-wrapper" data-pack-id={pkg.id} style="display: none;">
+              <InstallCommand packId={pkg.id} />
+            </div>
           </div>
         ))}
       </div>
@@ -122,9 +147,17 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
             <div class="package-meta">
               <span class="skill-count">{pkg.skills.length} 个技能</span>
             </div>
-            <button class="btn btn-primary btn-download-pack" data-pack-id={pkg.id}>
-              下载
-            </button>
+            <div class="package-actions">
+              <button class="btn btn-primary btn-download-pack" data-pack-id={pkg.id}>
+                下载
+              </button>
+              <button class="btn btn-secondary btn-show-install" data-pack-id={pkg.id}>
+                ⚡ 安装
+              </button>
+            </div>
+            <div class="install-command-wrapper" data-pack-id={pkg.id} style="display: none;">
+              <InstallCommand packId={pkg.id} />
+            </div>
           </div>
         ))}
       </div>
@@ -225,7 +258,32 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
   }
 
   .btn-download-pack {
-    width: 100%;
+    flex: 1;
+  }
+
+  .package-actions {
+    display: flex;
+    gap: var(--spacing-xs);
+  }
+
+  .package-actions .btn {
+    flex: 1;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 0.875rem;
+  }
+
+  .package-actions .btn-secondary {
+    background: var(--color-bg-secondary);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+  }
+
+  .package-actions .btn-secondary:hover {
+    background: var(--color-bg-tertiary, #e9ecef);
+  }
+
+  .install-command-wrapper {
+    margin-top: var(--spacing-sm);
   }
 
   @media (max-width: 768px) {
@@ -281,6 +339,28 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
           button.disabled = false;
         }, 2000);
       }
+    });
+  });
+
+  // 安装按钮点击事件 - 展开/折叠安装命令
+  document.querySelectorAll('.btn-show-install').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const packId = (e.target as HTMLElement).dataset.packId;
+      if (!packId) return;
+
+      const button = e.target as HTMLButtonElement;
+      const card = button.closest('.package-card');
+      if (!card) return;
+
+      const installWrapper = card.querySelector(`.install-command-wrapper[data-pack-id="${packId}"]`) as HTMLElement;
+      if (!installWrapper) return;
+
+      // 切换显示/隐藏
+      const isVisible = installWrapper.style.display !== 'none';
+      installWrapper.style.display = isVisible ? 'none' : 'block';
+
+      // 更新按钮文本
+      button.textContent = isVisible ? '⚡ 安装' : '✕ 收起';
     });
   });
 </script>
