@@ -10,11 +10,13 @@ const ALLOWED_PREFIXES = [
   path.join(os.homedir(), 'Developer'),
   path.join(os.homedir(), 'code'),
   '/tmp',
+  '/private/tmp',
+  '/var/folders',
+  '/private/var/folders',
 ];
 
 const BLOCKED_PATHS = [
   '/etc',
-  '/var',
   '/usr',
   '/bin',
   '/sbin',

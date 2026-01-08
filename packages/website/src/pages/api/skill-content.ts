@@ -9,17 +9,17 @@ export const prerender = false;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const SOURCE_BASE_PATHS: Record<string, string> = {
-  'anthropic': path.resolve(__dirname, '../../../anthropic-skills/skills'),
-  'scientific': path.resolve(__dirname, '../../../scientific-skills/scientific-skills'),
-  'claudekit': path.resolve(__dirname, '../../../claudekit-skills/.claude/skills'),
-  'community': path.resolve(__dirname, '../../../awesome-claude-skills'),
-  'composio': path.resolve(__dirname, '../../../composio-skills/skills'),
-  'voltagent': path.resolve(__dirname, '../../../voltagent-skills/skills'),
-  'obsidian': path.resolve(__dirname, '../../../obsidian-skills/skills'),
-  'planning': path.resolve(__dirname, '../../../planning-with-files'),
-  'deep-research': path.resolve(__dirname, '../../../deep-research-skills/.claude/skills'),
-  'superpowers': path.resolve(__dirname, '../../../superpowers/skills'),
-  'skill-from-masters': path.resolve(__dirname, '../../../skill-from-masters/skill-from-masters')
+  'anthropic': path.resolve(__dirname, '../../../../../anthropic-skills/skills'),
+  'scientific': path.resolve(__dirname, '../../../../../scientific-skills/scientific-skills'),
+  'claudekit': path.resolve(__dirname, '../../../../../claudekit-skills/.claude/skills'),
+  'community': path.resolve(__dirname, '../../../../../awesome-claude-skills'),
+  'composio': path.resolve(__dirname, '../../../../../composio-skills/skills'),
+  'voltagent': path.resolve(__dirname, '../../../../../voltagent-skills/skills'),
+  'obsidian': path.resolve(__dirname, '../../../../../obsidian-skills/skills'),
+  'planning': path.resolve(__dirname, '../../../../../planning-with-files'),
+  'deep-research': path.resolve(__dirname, '../../../../../deep-research-skills/.claude/skills'),
+  'superpowers': path.resolve(__dirname, '../../../../../superpowers/skills'),
+  'skill-from-masters': path.resolve(__dirname, '../../../../../skill-from-masters/skill-from-masters')
 };
 
 /**

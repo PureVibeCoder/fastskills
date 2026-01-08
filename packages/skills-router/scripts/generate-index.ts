@@ -117,15 +117,41 @@ function inferSource(filePath: string): string {
 function inferCategory(filePath: string, description: string): string {
   const searchText = (filePath + ' ' + description).toLowerCase();
   
-  for (const [category, patterns] of Object.entries(CATEGORY_PATTERNS)) {
+  const priorityOrder = [
+    'bioinformatics',
+    'cheminformatics', 
+    'clinical',
+    'ml-ai',
+    'physics-materials',
+    'data-viz',
+    'sci-databases',
+    'sci-communication',
+    'lab-automation',
+    'scientific',
+    'frontend',
+    'backend',
+    'testing',
+    'devops',
+    'document',
+    'knowledge',
+    'media',
+    'thinking',
+    'tools',
+    'skill-dev',
+  ];
+  
+  for (const category of priorityOrder) {
+    const patterns = CATEGORY_PATTERNS[category];
+    if (!patterns) continue;
     for (const pattern of patterns) {
-      if (searchText.includes(pattern)) {
+      const regex = new RegExp(`\\b${pattern}\\b`, 'i');
+      if (regex.test(searchText)) {
         return category;
       }
     }
   }
   
-  return 'tools'; // Default category
+  return 'tools';
 }
 
 /**
@@ -137,17 +163,19 @@ async function generateIndex(): Promise<void> {
   
   console.log('🔍 Scanning for SKILL.md files...');
   
-  // Find all SKILL.md files
+  // Find all SKILL.md files (including hidden directories like .claude/)
   const skillFiles = await glob('**/SKILL.md', {
     cwd: projectRoot,
     ignore: [
       'node_modules/**',
       '.git/**',
+      '**/.*/**/.git/**', // Ignore .git inside hidden dirs
       'packages/skills-router/**',
       'packages/website/**',
       'dist/**',
     ],
     absolute: true,
+    dot: true, // Include hidden directories like .claude/
   });
   
   console.log(`📁 Found ${skillFiles.length} skill files`);

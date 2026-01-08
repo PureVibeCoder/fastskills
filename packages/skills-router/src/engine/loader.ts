@@ -2,14 +2,24 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 import * as os from 'os';
 import { LoadResult, UnloadResult } from '../types.js';
-import { validateSkillPath } from './security.js';
+import { validateSkillPath, sanitizeSkillId } from './security.js';
+
+export interface SkillLoaderOptions {
+  claudeSkillsDir?: string;
+}
 
 export class SkillLoader {
   private claudeSkillsDir: string;
   private loadedSkills: Map<string, string> = new Map();
 
-  constructor() {
-    this.claudeSkillsDir = path.join(os.homedir(), '.claude', 'skills');
+  constructor(options: SkillLoaderOptions = {}) {
+    this.claudeSkillsDir = options.claudeSkillsDir ?? 
+      process.env.FASTSKILLS_CLAUDE_SKILLS_DIR ?? 
+      path.join(os.homedir(), '.claude', 'skills');
+  }
+
+  getSkillsDir(): string {
+    return this.claudeSkillsDir;
   }
 
   private async ensureDir(): Promise<void> {
@@ -17,6 +27,16 @@ export class SkillLoader {
   }
 
   async loadSkill(skillId: string, sourcePath: string): Promise<LoadResult> {
+    // Sanitize skillId to prevent path traversal
+    const safeSkillId = sanitizeSkillId(skillId);
+    if (safeSkillId !== skillId) {
+      return {
+        status: 'error',
+        skillId,
+        error: `无效的技能 ID: ${skillId}，已被清理为: ${safeSkillId}`
+      };
+    }
+
     const validation = validateSkillPath(sourcePath);
     if (!validation.valid) {
       return { 
@@ -28,73 +48,108 @@ export class SkillLoader {
 
     await this.ensureDir();
     
-    const targetPath = path.join(this.claudeSkillsDir, skillId);
+    const targetPath = path.join(this.claudeSkillsDir, safeSkillId);
     
-    if (this.loadedSkills.has(skillId)) {
-      return { status: 'already_loaded', path: targetPath, skillId };
+    if (this.loadedSkills.has(safeSkillId)) {
+      return { status: 'already_loaded', path: targetPath, skillId: safeSkillId };
     }
     
     try {
       const stat = await fs.lstat(targetPath);
       if (stat.isSymbolicLink() || stat.isDirectory()) {
-        this.loadedSkills.set(skillId, targetPath);
-        return { status: 'already_exists', path: targetPath, skillId };
+        this.loadedSkills.set(safeSkillId, targetPath);
+        return { status: 'already_exists', path: targetPath, skillId: safeSkillId };
       }
-    } catch {
+    } catch (error: unknown) {
+      // Only ignore ENOENT (file not found), rethrow other errors
+      if (error instanceof Error && 'code' in error && error.code !== 'ENOENT') {
+        return {
+          status: 'error',
+          skillId: safeSkillId,
+          error: `检查目标路径失败: ${error.message}`
+        };
+      }
       // Target doesn't exist, continue to create
     }
     
     try {
       const absoluteSource = path.resolve(sourcePath);
       
-      const sourceExists = await fs.access(absoluteSource)
-        .then(() => true)
-        .catch(() => false);
-      
-      if (!sourceExists) {
-        return { 
-          status: 'error', 
-          skillId, 
-          error: `源路径不存在: ${absoluteSource}` 
-        };
+      // Verify source exists and is a directory
+      try {
+        const sourceStat = await fs.stat(absoluteSource);
+        if (!sourceStat.isDirectory()) {
+          return {
+            status: 'error',
+            skillId: safeSkillId,
+            error: `源路径不是目录: ${absoluteSource}`
+          };
+        }
+      } catch (error: unknown) {
+        if (error instanceof Error && 'code' in error && error.code === 'ENOENT') {
+          return { 
+            status: 'error', 
+            skillId: safeSkillId, 
+            error: `源路径不存在: ${absoluteSource}` 
+          };
+        }
+        throw error;
       }
       
       await fs.symlink(absoluteSource, targetPath, 'dir');
       
-      this.loadedSkills.set(skillId, targetPath);
+      this.loadedSkills.set(safeSkillId, targetPath);
       
       return { 
         status: 'loaded', 
         path: targetPath,
-        skillId,
-        message: `技能 ${skillId} 已加载，Claude Code 将自动检测`
+        skillId: safeSkillId,
+        message: `技能 ${safeSkillId} 已加载，Claude Code 将自动检测`
       };
-    } catch (error) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
       return { 
         status: 'error', 
-        skillId, 
-        error: `创建 symlink 失败: ${error instanceof Error ? error.message : String(error)}` 
+        skillId: safeSkillId, 
+        error: `创建 symlink 失败: ${errorMessage}` 
       };
     }
   }
 
   async unloadSkill(skillId: string): Promise<UnloadResult> {
-    const targetPath = path.join(this.claudeSkillsDir, skillId);
+    const safeSkillId = sanitizeSkillId(skillId);
+    const targetPath = path.join(this.claudeSkillsDir, safeSkillId);
     
     try {
       const stat = await fs.lstat(targetPath);
       if (stat.isSymbolicLink()) {
         await fs.unlink(targetPath);
-        this.loadedSkills.delete(skillId);
-        return { status: 'unloaded', skillId };
+        this.loadedSkills.delete(safeSkillId);
+        return { status: 'unloaded', skillId: safeSkillId };
       }
       return { 
         status: 'not_symlink', 
-        skillId, 
+        skillId: safeSkillId, 
         message: '目标不是由本工具创建的 symlink' 
       };
-    } catch {
-      return { status: 'not_found', skillId };
+    } catch (error: unknown) {
+      if (error instanceof Error && 'code' in error && error.code === 'ENOENT') {
+        return { status: 'not_found', skillId: safeSkillId };
+      }
+      // Handle permission errors
+      if (error instanceof Error && 'code' in error && 
+          (error.code === 'EACCES' || error.code === 'EPERM')) {
+        return {
+          status: 'error',
+          skillId: safeSkillId,
+          message: `权限不足: ${error.message}`
+        };
+      }
+      return { 
+        status: 'error', 
+        skillId: safeSkillId, 
+        message: `卸载失败: ${error instanceof Error ? error.message : String(error)}` 
+      };
     }
   }
 
@@ -106,8 +161,17 @@ export class SkillLoader {
       return entries
         .filter(e => e.isSymbolicLink() || e.isDirectory())
         .map(e => e.name);
-    } catch {
-      return [];
+    } catch (error: unknown) {
+      if (error instanceof Error && 'code' in error && error.code === 'ENOENT') {
+        return [];
+      }
+      // Log and return empty for permission errors
+      if (error instanceof Error && 'code' in error && 
+          (error.code === 'EACCES' || error.code === 'EPERM')) {
+        console.error(`[SkillLoader] Permission error listing skills: ${error.message}`);
+        return [];
+      }
+      throw error;
     }
   }
 
@@ -127,7 +191,11 @@ export class SkillLoader {
           if (entry.isSymbolicLink()) {
             try {
               realPath = await fs.readlink(fullPath);
-            } catch {
+            } catch (error: unknown) {
+              // Log but continue with fallback
+              if (error instanceof Error) {
+                console.error(`[SkillLoader] Failed to read symlink ${fullPath}: ${error.message}`);
+              }
               realPath = fullPath;
             }
           }
@@ -139,8 +207,16 @@ export class SkillLoader {
           });
         }
       }
-    } catch {
-      // Directory might not exist
+    } catch (error: unknown) {
+      if (error instanceof Error && 'code' in error && error.code === 'ENOENT') {
+        return [];
+      }
+      if (error instanceof Error && 'code' in error && 
+          (error.code === 'EACCES' || error.code === 'EPERM')) {
+        console.error(`[SkillLoader] Permission error getting skill info: ${error.message}`);
+        return [];
+      }
+      throw error;
     }
     
     return result;
