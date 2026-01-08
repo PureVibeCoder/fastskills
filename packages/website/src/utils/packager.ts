@@ -114,7 +114,7 @@ export async function downloadSkillPack(
 
 ## 扫描说明
 
-本报告由 Skills Controller 安全扫描器自动生成。扫描器已检查以下类型的潜在安全问题：
+本报告由 FastSkills 安全扫描器自动生成。扫描器已检查以下类型的潜在安全问题：
 
 - Shell 命令执行模式
 - 动态代码执行
@@ -156,7 +156,7 @@ function generatePackReadme(
 
   return `# ${packName}
 
-本技能包由 Skills Controller (https://github.com/PureVibeCoder/fastskills) 聚合提供，共包含 ${skills.length} 个技能。
+本技能包由 FastSkills (https://github.com/PureVibeCoder/fastskills) 聚合提供，共包含 ${skills.length} 个技能。
 
 > [!IMPORTANT]
 > **使用前必读**：在导入任何技能到 Claude Code 之前，请务必：
@@ -206,7 +206,7 @@ ${skills.map(s => `- **${s.name}** (\`${s.id}\`)`).join('\n')}
 
 ## 技能来源
 
-Skills Controller - https://github.com/PureVibeCoder/fastskills
+FastSkills - https://github.com/PureVibeCoder/fastskills
 
 ## 许可证
 

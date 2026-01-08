@@ -347,7 +347,7 @@ export function generateDetailedSecurityReport(reports: SecurityReport[]): strin
 
 ## 扫描说明
 
-本报告由 Skills Controller 安全扫描器自动生成。扫描器检测以下类型的潜在安全问题：
+本报告由 FastSkills 安全扫描器自动生成。扫描器检测以下类型的潜在安全问题：
 
 ### 高风险模式
 - Shell 命令执行 (exec, spawn, system)

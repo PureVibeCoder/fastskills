@@ -1,6 +1,6 @@
-# Skills Controller 官网
+# FastSkills 官网
 
-这是 Skills Controller 项目的官方网站，使用 Astro 构建的静态站点。
+这是 FastSkills 项目的官方网站，使用 Astro 构建的静态站点。
 
 ## 功能特性
 

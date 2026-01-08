@@ -1,4 +1,4 @@
-# Claude Code Skills Hub
+# Claude Code FastSkills
 
 > Claude Code 技能收录与场景化打包平台 - 汇集 GitHub 高星开源项目的 240+ 精选技能
 
@@ -12,7 +12,7 @@
 
 ## 📖 项目简介
 
-**Claude Code Skills Hub** 是一个专业的 Claude Code 技能聚合平台，致力于打造最全面的技能收录和场景化打包解决方案。
+**Claude Code FastSkills** 是一个专业的 Claude Code 技能聚合平台，致力于打造最全面的技能收录和场景化打包解决方案。
 
 ### 🎯 核心功能
 
@@ -252,7 +252,7 @@
 
 ### ⬇️ 方式一：下载并集成（推荐）
 
-1. 访问 [Skills Hub 网站](https://fastskills.pages.dev)
+1. 访问 [FastSkills 网站](https://fastskills.pages.dev)
 2. 浏览并下载感兴趣的技能或场景包
 3. **⚠️ 安全审查（必做）**：
    - 解压下载的文件
@@ -463,7 +463,7 @@ MIT License - 详见 [LICENSE](./LICENSE)
 
 ---
 
-## 🌟 为什么选择 Skills Hub？
+## 🌟 为什么选择 FastSkills？
 
 ### 对于开发者
 - 🛡️ **安全可控** - 强调下载后审查，确保每一行导入的代码都安全可靠
