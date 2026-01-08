@@ -27,7 +27,7 @@
 
 **核心目录结构**:
 ```
-skillscontroller/
+fastskills/
 ├── packages/website/          # 主应用 - Astro网站
 │   ├── src/
 │   │   ├── components/        # UI组件

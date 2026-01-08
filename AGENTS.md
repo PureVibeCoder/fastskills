@@ -9,7 +9,7 @@ This file provides guidance to AI coding agents working in this repository.
 ### Repository Structure
 
 ```
-skillscontroller/
+fastskills/
 ├── packages/website/          # Main Astro website (primary codebase)
 │   ├── src/
 │   │   ├── components/        # Astro components (.astro)

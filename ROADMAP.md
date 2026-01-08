@@ -208,8 +208,8 @@
 
 ## 联系方式
 
-- **GitHub**: [github.com/marovole/skillscontroller](https://github.com/marovole/skillscontroller)
-- **Issues**: [提交问题或建议](https://github.com/marovole/skillscontroller/issues)
+- **GitHub**: [github.com/PureVibeCoder/fastskills](https://github.com/PureVibeCoder/fastskills)
+- **Issues**: [提交问题或建议](https://github.com/PureVibeCoder/fastskills/issues)
 
 ---
 

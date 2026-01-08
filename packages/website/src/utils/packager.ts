@@ -156,7 +156,7 @@ function generatePackReadme(
 
   return `# ${packName}
 
-本技能包由 Skills Controller (https://github.com/marovole/skillscontroller) 聚合提供，共包含 ${skills.length} 个技能。
+本技能包由 Skills Controller (https://github.com/PureVibeCoder/fastskills) 聚合提供，共包含 ${skills.length} 个技能。
 
 > [!IMPORTANT]
 > **使用前必读**：在导入任何技能到 Claude Code 之前，请务必：
@@ -206,7 +206,7 @@ ${skills.map(s => `- **${s.name}** (\`${s.id}\`)`).join('\n')}
 
 ## 技能来源
 
-Skills Controller - https://github.com/marovole/skillscontroller
+Skills Controller - https://github.com/PureVibeCoder/fastskills
 
 ## 许可证
 

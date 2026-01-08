@@ -1,0 +1,49 @@
+{
+  "name": "@fastskills/router",
+  "version": "1.0.0",
+  "description": "FastSkills Router - 智能技能发现与动态加载，从 200+ 技能中自动推荐最相关的能力",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc && npm run copy-data",
+    "copy-data": "mkdir -p dist/data && cp src/data/skills.json dist/data/",
+    "generate-index": "tsx scripts/generate-index.ts",
+    "prebuild": "npm run generate-index",
+    "start": "node dist/index.js",
+    "dev": "tsx watch src/index.ts",
+    "package": "npm run build && npm pack",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "fastskills",
+    "claude-code",
+    "skills",
+    "mcp",
+    "plugin",
+    "ai-assistant"
+  ],
+  "author": "marovole",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PureVibeCoder/fastskills.git",
+    "directory": "packages/skills-router"
+  },
+  "homepage": "https://fastskills.xyz",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "natural": "^8.0.1",
+    "glob": "^10.3.0",
+    "gray-matter": "^4.0.3",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.0",
+    "tsx": "^4.7.0"
+  }
+}

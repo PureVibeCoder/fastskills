@@ -1,5 +1,5 @@
 {
-  "name": "skillscontroller-website",
+  "name": "fastskills-website",
   "version": "2.0.0",
   "private": true,
   "description": "Claude Code Skills Hub - 精选 Claude Code 技能收录与场景化打包平台",
@@ -21,12 +21,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/marovole/skillscontroller.git"
+    "url": "https://github.com/PureVibeCoder/fastskills.git"
   },
   "bugs": {
-    "url": "https://github.com/marovole/skillscontroller/issues"
+    "url": "https://github.com/PureVibeCoder/fastskills/issues"
   },
-  "homepage": "https://github.com/marovole/skillscontroller#readme",
+  "homepage": "https://github.com/PureVibeCoder/fastskills#readme",
   "engines": {
     "node": ">=18.0.0",
     "pnpm": ">=8.0.0"

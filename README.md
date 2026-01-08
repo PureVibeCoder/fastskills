@@ -6,7 +6,7 @@
 [![Skills](https://img.shields.io/badge/Skills-241+-green)](#技能来源)
 [![Packages](https://img.shields.io/badge/Packages-21-blue)](#场景化技能包)
 [![Static Site](https://img.shields.io/badge/Static-Astro-orange)](https://astro.build/)
-[![Website](https://img.shields.io/badge/Website-Live-success)](https://skillscontroller.pages.dev)
+[![Website](https://img.shields.io/badge/Website-Live-success)](https://fastskills.pages.dev)
 
 ---
 
@@ -252,7 +252,7 @@
 
 ### ⬇️ 方式一：下载并集成（推荐）
 
-1. 访问 [Skills Hub 网站](https://skillscontroller.pages.dev)
+1. 访问 [Skills Hub 网站](https://fastskills.pages.dev)
 2. 浏览并下载感兴趣的技能或场景包
 3. **⚠️ 安全审查（必做）**：
    - 解压下载的文件
@@ -271,10 +271,10 @@
 
 ```bash
 # 克隆本仓库
-git clone https://github.com/marovole/skillscontroller.git
+git clone https://github.com/PureVibeCoder/fastskills.git
 
 # 复制需要的技能到你的项目
-cp -r skillscontroller/anthropic-skills/skills/frontend-design ~/.claude/skills/
+cp -r fastskills/anthropic-skills/skills/frontend-design ~/.claude/skills/
 ```
 
 ### 方式三：使用 git submodule
@@ -305,7 +305,7 @@ your-project/
 ## 项目结构
 
 ```
-skillscontroller/
+fastskills/
 ├── packages/
 │   └── website/                 # Astro 静态网站
 │       ├── src/
@@ -457,9 +457,9 @@ MIT License - 详见 [LICENSE](./LICENSE)
 
 ## 链接
 
-- [GitHub 仓库](https://github.com/marovole/skillscontroller)
-- [问题反馈](https://github.com/marovole/skillscontroller/issues)
-- [在线网站](https://skillscontroller.pages.dev)
+- [GitHub 仓库](https://github.com/PureVibeCoder/fastskills)
+- [问题反馈](https://github.com/PureVibeCoder/fastskills/issues)
+- [在线网站](https://fastskills.pages.dev)
 
 ---
 
@@ -495,9 +495,9 @@ MIT License - 详见 [LICENSE](./LICENSE)
 
 ## 🔗 快速链接
 
-- 🌐 **在线网站**：[skillscontroller.pages.dev](https://skillscontroller.pages.dev)
-- 📦 **GitHub 仓库**：[github.com/marovole/skillscontroller](https://github.com/marovole/skillscontroller)
-- 💬 **问题反馈**：[GitHub Issues](https://github.com/marovole/skillscontroller/issues)
+- 🌐 **在线网站**：[fastskills.pages.dev](https://fastskills.pages.dev)
+- 📦 **GitHub 仓库**：[github.com/PureVibeCoder/fastskills](https://github.com/PureVibeCoder/fastskills)
+- 💬 **问题反馈**：[GitHub Issues](https://github.com/PureVibeCoder/fastskills/issues)
 - 📖 **Claude Code 文档**：[docs.anthropic.com/claude/docs/claude-code](https://docs.anthropic.com/claude/docs/claude-code)
 
 ---
