@@ -1,4 +1,4 @@
-# FastSkills Router
+# FastSkills MCP
 
 > 智能技能发现与动态加载系统 - 基于 Claude Code 热加载能力
 
@@ -32,7 +32,7 @@ pnpm build
 ```json
 {
   "mcpServers": {
-    "fastskills-router": {
+    "fastskills": {
       "command": "node",
       "args": ["/path/to/packages/skills-router/dist/index.js"]
     }

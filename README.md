@@ -27,7 +27,7 @@
 
 **Core Advantage: No need to pre-install 200+ skills! Load on-demand via MCP server, keeping context window lean.**
 
-### 推荐方式：FastSkills Router (MCP) / Recommended: FastSkills Router
+### 推荐方式：FastSkills MCP / Recommended: FastSkills MCP
 
 适用于 **Claude Code / OpenCode / 任何 MCP 兼容工具**
 
@@ -48,7 +48,7 @@ pnpm install && pnpm build
 // OpenCode: opencode.jsonc
 {
   "mcpServers": {
-    "fastskills-router": {
+    "fastskills": {
       "command": "node",
       "args": ["/path/to/fastskills/packages/skills-router/dist/index.js"]
     }
@@ -66,8 +66,8 @@ pnpm install && pnpm build
 | `list_active_skills` | 列出已加载技能 / List active skills | - |
 
 ```
-传统方式 ❌                    FastSkills 方式 ✅
-├── 复制 200+ 技能              ├── 安装 skills-router
+传统方式 ❌                    FastSkills MCP ✅
+├── 复制 200+ 技能              ├── 安装 FastSkills MCP
 ├── 全部预加载                  ├── find_skills → 智能搜索
 ├── 上下文膨胀 💥               ├── load_skills → 按需加载
 └── 响应变慢                    └── 上下文精简 🎯
