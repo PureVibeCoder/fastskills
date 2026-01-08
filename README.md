@@ -21,73 +21,86 @@
 
 ---
 
-## 🚀 Install Skills Instantly / 一键安装技能
+## 🚀 按需动态加载技能 / Dynamic Skill Loading
 
-### For Claude Code / Claude Code 用户
+**核心优势：不需要预装 200+ 技能！通过 MCP 服务器按需加载，保持上下文窗口精简。**
 
-Use the `/plugin` command to install skills directly:
+**Core Advantage: No need to pre-install 200+ skills! Load on-demand via MCP server, keeping context window lean.**
 
-使用 `/plugin` 命令直接安装技能：
+### 推荐方式：FastSkills Router (MCP) / Recommended: FastSkills Router
 
-```bash
-# Add marketplace / 添加市场
-/plugin marketplace add mrgoonie/claudekit-skills
+适用于 **Claude Code / OpenCode / 任何 MCP 兼容工具**
 
-# Install plugin categories / 安装插件分类
-/plugin install ai-ml-tools@claudekit-skills
-/plugin install web-dev-tools@claudekit-skills
-/plugin install devops-tools@claudekit-skills
-```
+Works with **Claude Code / OpenCode / Any MCP-compatible tool**
 
-Available categories: `ai-ml-tools`, `web-dev-tools`, `devops-tools`, `backend-tools`, `document-processing`, `debugging-tools`, `problem-solving-tools`, `platform-tools`, `meta-tools`, `media-tools`, `research-tools`, `specialized-tools`
-
-### For OpenCode / OpenCode 用户
-
-OpenCode auto-discovers skills from `.claude/skills/` directory (Claude-compatible):
-
-OpenCode 自动从 `.claude/skills/` 目录发现技能（兼容 Claude 格式）：
+#### Step 1: 安装 MCP 服务器 / Install MCP Server
 
 ```bash
-# Clone repository / 克隆仓库
-git clone --recursive https://github.com/PureVibeCoder/fastskills.git
-
-# Copy skills to project or global directory / 复制到项目或全局目录
-# Project scope / 项目级别
-cp -r fastskills/claudekit-skills/.claude/skills/* .claude/skills/
-
-# Global scope / 全局级别
-cp -r fastskills/claudekit-skills/.claude/skills/* ~/.claude/skills/
+git clone https://github.com/PureVibeCoder/fastskills.git
+cd fastskills/packages/skills-router
+pnpm install && pnpm build
 ```
 
-| Scope | Path |
-|-------|------|
-| Project (Claude-compatible) | `.claude/skills/<skill-name>/SKILL.md` |
-| Global (Claude-compatible) | `~/.claude/skills/<skill-name>/SKILL.md` |
-| Project (OpenCode native) | `.opencode/skill/<skill-name>/SKILL.md` |
-| Global (OpenCode native) | `~/.config/opencode/skill/<skill-name>/SKILL.md` |
-
-Verify installation: Ask OpenCode *"What skills do you have available?"*
-
-验证安装：询问 OpenCode *"你有哪些可用的技能？"*
-
-### MCP Integration / MCP 集成
-
-Both Claude Code and OpenCode support MCP servers:
-
-Claude Code 和 OpenCode 都支持 MCP 服务器：
+#### Step 2: 添加到配置 / Add to Config
 
 ```jsonc
 // Claude Code: ~/.claude/claude_desktop_config.json
 // OpenCode: opencode.jsonc
 {
   "mcpServers": {
-    "mcp-manager": {
-      "command": "npx",
-      "args": ["-y", "@anthropic/mcp-manager"]
+    "fastskills-router": {
+      "command": "node",
+      "args": ["/path/to/fastskills/packages/skills-router/dist/index.js"]
     }
   }
 }
 ```
+
+#### Step 3: 使用 MCP 工具 / Use MCP Tools
+
+| Tool | Description | Example |
+|------|-------------|---------|
+| `find_skills` | 智能搜索技能 / Smart skill search | `{"query": "分析单细胞RNA数据"}` |
+| `load_skills` | 动态加载技能 / Load skills dynamically | `{"skills": ["scanpy", "anndata"]}` |
+| `unload_skill` | 卸载技能 / Unload skill | `{"skill_id": "scanpy"}` |
+| `list_active_skills` | 列出已加载技能 / List active skills | - |
+
+```
+传统方式 ❌                    FastSkills 方式 ✅
+├── 复制 200+ 技能              ├── 安装 skills-router
+├── 全部预加载                  ├── find_skills → 智能搜索
+├── 上下文膨胀 💥               ├── load_skills → 按需加载
+└── 响应变慢                    └── 上下文精简 🎯
+```
+
+---
+
+### 备选方式 / Alternative Methods
+
+<details>
+<summary><b>Claude Code Plugin (仅限 Claude Code)</b></summary>
+
+```bash
+/plugin marketplace add mrgoonie/claudekit-skills
+/plugin install ai-ml-tools@claudekit-skills
+```
+
+</details>
+
+<details>
+<summary><b>手动复制 (OpenCode / 其他工具)</b></summary>
+
+```bash
+git clone --recursive https://github.com/PureVibeCoder/fastskills.git
+cp -r fastskills/claudekit-skills/.claude/skills/* ~/.claude/skills/
+```
+
+| Scope | Path |
+|-------|------|
+| Project | `.claude/skills/<skill-name>/SKILL.md` |
+| Global | `~/.claude/skills/<skill-name>/SKILL.md` |
+
+</details>
 
 > 📖 **More details**: Visit [fastskills.xyz](https://fastskills.xyz) for interactive guides.
 > 
@@ -107,12 +120,12 @@ Claude Code 和 OpenCode 都支持 MCP 服务器：
 
 | Feature | Description |
 |---------|-------------|
+| **🎯 Dynamic Loading** 按需加载 | Load skills on-demand via MCP, no context bloat |
+| **🔍 Smart Search** 智能搜索 | TF-IDF semantic search finds the right skills |
 | **Skill Aggregation** 技能聚合 | 225+ skills from 10+ curated open-source projects |
 | **Scenario Packs** 场景打包 | 25 ready-to-use skill packs for different workflows |
 | **Category Filtering** 分类筛选 | 20 categories including 9 scientific sub-domains |
-| **One-Click Download** 一键下载 | Download individual skills or entire packs as ZIP |
 | **Security Scanning** 安全扫描 | Auto-generated security reports for each download |
-| **Static & Fast** 静态高速 | Built with Astro, deployed on Cloudflare Pages |
 
 ---
 
