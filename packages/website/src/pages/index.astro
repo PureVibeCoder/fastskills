@@ -598,31 +598,6 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
     }
   });
 
-  // 查看详情功能
-  document.addEventListener('click', (e) => {
-    const target = e.target;
-    const viewBtn = target.closest('.btn-view');
-
-    if (viewBtn) {
-      const skillName = viewBtn.dataset.skillName;
-      const skillDescription = viewBtn.dataset.skillDescription;
-      const skillTriggers = viewBtn.dataset.skillTriggers;
-
-      createModal({
-        id: 'skill-detail-modal',
-        title: '技能详情',
-        content: `
-          <div class="skill-detail-name">${skillName}</div>
-          <p class="skill-detail-description">${skillDescription}</p>
-          <div class="skill-detail-triggers">
-            <h4>触发词：</h4>
-            <p>${skillTriggers}</p>
-          </div>
-        `
-      });
-    }
-  });
-
   // 技能包配置
   const skillPacks = {
     'frontend-developer': { name: '前端开发者套件', description: '适合前端工程师，包含 UI 设计、组件开发、响应式布局等技能' },

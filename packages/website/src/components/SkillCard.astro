@@ -45,15 +45,12 @@ const sourceLabels: Record<string, string> = {
     </div>
 
     <div class="card-footer">
-      <button
+      <a
         class="btn btn-outline btn-view"
-        data-skill-id={skill.id}
-        data-skill-name={skill.name}
-        data-skill-description={skill.description}
-        data-skill-triggers={skill.triggers.join(', ')}
+        href={`/skill/${skill.id}`}
       >
         <span class="btn-text">DETAILS</span>
-      </button>
+      </a>
       <button
         class="btn btn-primary btn-download"
         data-skill-id={skill.id}
@@ -234,6 +231,7 @@ const sourceLabels: Record<string, string> = {
     transition: all 0.2s ease;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    text-decoration: none;
   }
 
   .btn-outline {
