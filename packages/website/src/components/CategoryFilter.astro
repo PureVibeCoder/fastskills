@@ -9,60 +9,146 @@ interface Props {
 const { categories, selectedCategory } = Astro.props;
 ---
 
-<div class="category-filter">
-  <button
-    class={`category-button ${selectedCategory === null ? 'active' : ''}`}
-    data-category="all"
-  >
-    全部
-  </button>
-  {categories.map(category => (
+<div class="category-filter-container animate-in delay-2">
+  <div class="category-filter-label">
+    <span class="prompt">$</span> SELECT_MODULE:
+  </div>
+  
+  <div class="category-scroll-area">
     <button
-      class={`category-button ${selectedCategory === category.id ? 'active' : ''}`}
-      data-category={category.id}
+      class={`category-button ${selectedCategory === null ? 'active' : ''}`}
+      data-category="all"
     >
-      <span class="category-icon">{category.icon}</span>
-      <span class="category-name">{category.name}</span>
+      <span class="category-text">ALL</span>
     </button>
-  ))}
+    {categories.map(category => (
+      <button
+        class={`category-button ${selectedCategory === category.id ? 'active' : ''}`}
+        data-category={category.id}
+      >
+        <span class="category-icon">{category.icon}</span>
+        <span class="category-text">{category.name}</span>
+      </button>
+    ))}
+  </div>
 </div>
 
 <style>
-  .category-filter {
+  .category-filter-container {
+    width: 100%;
+    margin-bottom: var(--spacing-xl);
+    position: relative;
+  }
+
+  .category-filter-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-dim);
+    margin-bottom: var(--spacing-sm);
+    margin-left: var(--spacing-xs);
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-xs);
-    justify-content: center;
-    margin-bottom: var(--spacing-lg);
+    align-items: center;
+    gap: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  
+  .prompt {
+    color: var(--color-primary);
+    font-weight: bold;
+  }
+
+  /* Command Palette Container */
+  .category-scroll-area {
+    display: flex;
+    flex-wrap: nowrap; /* Horizontal scroll on mobile */
+    overflow-x: auto;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    
+    /* Scrollbar styling */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    
+    /* Glass effect */
+    backdrop-filter: blur(10px);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .category-scroll-area::-webkit-scrollbar {
+    display: none;
   }
 
   .category-button {
-    display: flex;
+    flex: 0 0 auto;
+    display: inline-flex;
     align-items: center;
-    gap: var(--spacing-xs);
-    padding: var(--spacing-xs) var(--spacing-sm);
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
     background: transparent;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-full);
-    font-size: 0.9375rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
     color: var(--color-text-secondary);
     cursor: pointer;
-    transition: all 0.2s;
-    font-family: var(--font-sans);
+    transition: all 0.25s var(--ease-expo);
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
   }
 
+  /* Hover State */
   .category-button:hover {
-    border-color: var(--color-primary);
+    border-color: var(--color-text-secondary);
     color: var(--color-text);
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.03);
   }
 
+  /* Active State */
   .category-button.active {
-    background: var(--color-primary);
+    background: rgba(0, 240, 255, 0.1);
     border-color: var(--color-primary);
-    color: var(--color-white);
+    color: var(--color-primary);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 0 10px rgba(0, 240, 255, 0.05);
+    text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
   }
 
   .category-icon {
-    font-size: 1rem;
+    font-size: 1.1em;
+    filter: grayscale(1);
+    transition: filter 0.2s;
+  }
+  
+  .category-button:hover .category-icon,
+  .category-button.active .category-icon {
+    filter: grayscale(0);
+  }
+  
+  .category-text {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Desktop View */
+  @media (min-width: 768px) {
+    .category-scroll-area {
+      flex-wrap: wrap; /* Wrap on desktop */
+      justify-content: center;
+      padding: var(--spacing-lg);
+      overflow-x: visible;
+    }
+    
+    .category-filter-label {
+      justify-content: center;
+    }
+    
+    .category-button {
+      padding: 0.6rem 1.2rem;
+    }
   }
 </style>

@@ -1,165 +1,520 @@
 ---
 ---
 
-<section class="hero">
+<section class="hero-wrapper" id="hero">
+  <!-- Background Elements -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+  <div class="floating-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+
   <div class="container">
-    <div class="hero-content animate-fade-in">
-      <h1 class="hero-title">
-        FastSkills<br/>
-        技能聚合与场景化打包平台
-      </h1>
-      <p class="hero-description">
-        汇集 GitHub 高星开源项目的 240+ 精选技能，精心打造 21 个场景化技能包，
-        覆盖开发、科研、办公等多个领域。让每一次 Claude Code 对话都拥有专家级能力。
-      </p>
-      <div class="hero-stats">
-        <div class="stat">
-          <span class="stat-number">240+</span>
-          <span class="stat-label">技能</span>
+    <div class="hero-layout">
+      <!-- Left Content -->
+      <div class="hero-content">
+        <div class="status-badge animate-slide-in" style="--delay: 0.1s">
+          <span class="status-dot"></span>
+          <span class="status-text">SYSTEM ONLINE // V2.0 READY</span>
         </div>
-        <div class="stat">
-          <span class="stat-number">16</span>
-          <span class="stat-label">大领域</span>
+
+        <h1 class="hero-title animate-slide-in" style="--delay: 0.2s">
+          FastSkills
+        </h1>
+
+        <div class="typewriter-container animate-slide-in" style="--delay: 0.3s">
+          <span class="prompt">></span>
+          <h2 class="hero-subtitle">技能聚合与场景化打包平台_</h2>
         </div>
-        <div class="stat">
-          <span class="stat-number">21</span>
-          <span class="stat-label">场景包</span>
-        </div>
-        <div class="stat">
-          <span class="stat-number">9+</span>
-          <span class="stat-label">开源项目</span>
+
+        <p class="hero-description animate-slide-in" style="--delay: 0.4s">
+          <span class="highlight">:: INITIALIZING...</span> 汇集 GitHub 高星开源项目的 <span class="text-primary">240+</span> 精选技能，精心打造 21 个场景化技能包。让每一次 Claude Code 对话都拥有专家级能力。
+        </p>
+
+        <div class="cta-group animate-slide-in" style="--delay: 0.5s">
+          <a href="#all-packages" class="btn btn-primary glow-effect">
+            <span class="btn-content">
+              [ 浏览技能包 ]
+            </span>
+            <div class="btn-glitch"></div>
+          </a>
+          <a href="#features" class="btn btn-secondary">
+            <span class="btn-content">
+              // 了解核心功能
+            </span>
+          </a>
         </div>
       </div>
 
-      <!-- 浏览与下载入口 -->
-      <div class="quick-action-section">
-        <div class="quick-action-header">
-          <h3 class="quick-action-title">立即开始</h3>
-          <p class="quick-action-desc">浏览 21 个场景化技能包，选择最适合你的专家助手</p>
+      <!-- Right Visuals (Stats) -->
+      <div class="hero-visuals animate-fade-in" style="--delay: 0.6s">
+        
+        <!-- Terminal Card 1: Total Skills -->
+        <div class="terminal-card card-main floating" style="--float-duration: 6s">
+          <div class="terminal-header">
+            <div class="dots">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <div class="title">stats.json</div>
+          </div>
+          <div class="terminal-body">
+            <div class="line"><span class="cmd">total_skills:</span> <span class="val cyan">240+</span></div>
+            <div class="line"><span class="cmd">categories:</span> <span class="val">16</span></div>
+            <div class="line"><span class="cmd">status:</span> <span class="val green">ACTIVE</span></div>
+          </div>
         </div>
-        <div class="quick-action-actions">
-          <a href="#all-packages" class="btn btn-primary">浏览技能包</a>
-          <a href="#features" class="btn btn-secondary">了解核心功能</a>
+
+        <!-- Terminal Card 2: Packs -->
+        <div class="terminal-card card-secondary floating" style="--float-duration: 5s; --float-delay: -2s">
+          <div class="terminal-header">
+            <div class="title">packs.config</div>
+          </div>
+          <div class="terminal-body">
+            <div class="line"><span class="comment"># Scenario Packs</span></div>
+            <div class="line"><span class="cmd">count:</span> <span class="val purple">21</span></div>
+            <div class="line"><span class="cmd">type:</span> <span class="val">"expert"</span></div>
+          </div>
         </div>
+
+        <!-- Terminal Card 3: Sources -->
+        <div class="terminal-card card-tertiary floating" style="--float-duration: 7s; --float-delay: -1s">
+          <div class="terminal-header">
+            <div class="title">source.git</div>
+          </div>
+          <div class="terminal-body">
+            <div class="line"><span class="cmd">repos:</span> <span class="val">9+</span></div>
+            <div class="line"><span class="cmd">stars:</span> <span class="val">20k+</span></div>
+          </div>
+        </div>
+
+        <!-- Decorative Elements -->
+        <div class="decor-grid">
+          <svg width="100" height="100" viewBox="0 0 100 100" class="spin-slow">
+            <circle cx="50" cy="50" r="48" fill="none" stroke="var(--color-primary)" stroke-width="1" stroke-dasharray="10 5" opacity="0.3"/>
+            <circle cx="50" cy="50" r="30" fill="none" stroke="var(--color-secondary)" stroke-width="1" stroke-dasharray="5 5" opacity="0.3"/>
+          </svg>
+        </div>
+
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  .hero {
-    padding: var(--spacing-2xl) var(--spacing-md);
-    text-align: center;
-  }
-
-  .hero-title {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin-bottom: var(--spacing-md);
-    color: var(--color-text);
-  }
-
-  .hero-description {
-    font-size: 1.125rem;
-    color: var(--color-text-secondary);
-    max-width: 600px;
-    margin: 0 auto var(--spacing-lg);
-    line-height: 1.7;
-  }
-
-  .hero-stats {
+  /* --- Layout & Background --- */
+  .hero-wrapper {
+    position: relative;
+    min-height: 90vh;
     display: flex;
-    justify-content: center;
-    gap: var(--spacing-xl);
-    flex-wrap: wrap;
+    align-items: center;
+    overflow: hidden;
+    background-color: var(--color-bg);
+    padding: var(--spacing-4xl) 0;
   }
 
-  .stat {
-    display: flex;
-    flex-direction: column;
+  .bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: 0;
+    mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+  }
+
+  .bg-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(circle, rgba(0, 240, 255, 0.05) 0%, transparent 70%);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .floating-orbs {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+  }
+
+  .orb-1 {
+    width: 300px;
+    height: 300px;
+    background: var(--color-primary);
+    top: -50px;
+    right: -50px;
+    animation: float 10s infinite ease-in-out;
+  }
+
+  .orb-2 {
+    width: 400px;
+    height: 400px;
+    background: var(--color-secondary);
+    bottom: -100px;
+    left: -100px;
+    animation: float 12s infinite ease-in-out reverse;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+  }
+
+  .hero-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--spacing-3xl);
     align-items: center;
   }
 
-  .stat-number {
-    font-size: 2.5rem;
-    font-weight: 700;
+  /* --- Left Content --- */
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-xs) var(--spacing-md);
+    background: rgba(0, 240, 255, 0.1);
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    border-radius: 999px;
+    margin-bottom: var(--spacing-lg);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
     color: var(--color-primary);
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--color-primary);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--color-primary);
+    animation: pulse 2s infinite;
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 6vw, 5.5rem);
+    font-weight: 900;
     line-height: 1;
+    margin-bottom: var(--spacing-xs);
+    background: linear-gradient(135deg, #fff 0%, #b0b0b0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
   }
 
-  .stat-label {
-    font-size: 0.9375rem;
-    color: var(--color-text-secondary);
-    margin-top: var(--spacing-xs);
+  .typewriter-container {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+    font-family: var(--font-mono);
+    color: var(--color-primary);
   }
 
-  /* 快速操作区域样式 */
-  .quick-action-section {
-    margin-top: var(--spacing-xl);
-    padding: var(--spacing-lg);
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
-    border: 1px solid rgba(102, 126, 234, 0.2);
-    border-radius: var(--radius-lg);
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .quick-action-header {
-    margin-bottom: var(--spacing-md);
-  }
-
-  .quick-action-title {
+  .prompt {
     font-size: 1.5rem;
-    font-weight: 600;
-    margin: 0 0 var(--spacing-xs);
-    color: var(--color-text);
+    font-weight: 700;
   }
 
-  .quick-action-desc {
-    font-size: 0.9375rem;
-    color: var(--color-text-secondary);
+  .hero-subtitle {
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    font-weight: 500;
     margin: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid var(--color-primary);
+    animation: typing 3.5s steps(30, end), blink-caret 0.75s step-end infinite;
+    max-width: 100%;
   }
 
-  .quick-action-actions {
+  .hero-description {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-2xl);
+    max-width: 90%;
+  }
+
+  .highlight {
+    font-family: var(--font-mono);
+    color: var(--color-text-secondary);
+    opacity: 0.7;
+    font-size: 0.9em;
+    margin-right: var(--spacing-xs);
+  }
+
+  .text-primary {
+    color: var(--color-primary);
+    font-weight: 700;
+  }
+
+  /* --- Buttons --- */
+  .cta-group {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    position: relative;
+    padding: var(--spacing-md) var(--spacing-xl);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+
+  .btn-primary {
+    background: var(--color-primary);
+    color: #000;
+    border: 1px solid var(--color-primary);
+  }
+
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--color-primary);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--color-text);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  /* --- Right Visuals (Terminals) --- */
+  .hero-visuals {
+    position: relative;
+    height: 500px;
     display: flex;
     justify-content: center;
-    gap: var(--spacing-md);
+    align-items: center;
+    perspective: 1000px;
   }
 
-  .quick-action-actions .btn {
-    padding: var(--spacing-sm) var(--spacing-lg);
-    font-size: 0.9375rem;
+  .terminal-card {
+    position: absolute;
+    background: rgba(10, 10, 12, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 0;
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.05);
+    font-family: var(--font-mono);
+    width: 280px;
+    transition: transform 0.3s ease;
+    z-index: 2;
   }
 
-  @media (max-width: 768px) {
-    .hero {
-      padding: var(--spacing-xl) var(--spacing-sm);
+  .terminal-card:hover {
+    z-index: 10;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+  }
+
+  .terminal-header {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+  }
+
+  .dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .red { background: #FF5F56; }
+  .yellow { background: #FFBD2E; }
+  .green { background: #27C93F; }
+
+  .title {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    margin-left: auto;
+  }
+
+  .terminal-body {
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .line {
+    font-size: 0.9rem;
+    color: var(--color-text);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .cmd { color: var(--color-text-secondary); }
+  .val { font-weight: 700; }
+  .val.cyan { color: var(--color-primary); text-shadow: 0 0 10px var(--color-primary); }
+  .val.green { color: #27C93F; }
+  .val.purple { color: var(--color-secondary); }
+
+  /* Card Positions */
+  .card-main {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotateY(-10deg);
+    width: 300px;
+  }
+
+  .card-secondary {
+    top: 15%;
+    right: 0%;
+    transform: translate(0, 0) rotateZ(5deg);
+    z-index: 1;
+    width: 240px;
+  }
+
+  .card-tertiary {
+    bottom: 10%;
+    left: 0%;
+    transform: translate(0, 0) rotateZ(-5deg);
+    z-index: 1;
+    width: 220px;
+  }
+
+  .decor-grid {
+    position: absolute;
+    right: -50px;
+    top: 50%;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  /* --- Animations --- */
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(0, 240, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+
+  .floating {
+    animation: float var(--float-duration) ease-in-out infinite;
+    animation-delay: var(--float-delay, 0s);
+  }
+
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+
+  @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: var(--color-primary) }
+  }
+
+  .spin-slow {
+    animation: spin 20s linear infinite;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* --- Responsive --- */
+  @media (max-width: 968px) {
+    .hero-layout {
+      grid-template-columns: 1fr;
+      text-align: center;
+      gap: var(--spacing-xl);
     }
 
-    .hero-stats {
-      gap: var(--spacing-md);
+    .hero-content {
+      align-items: center;
     }
 
-    .stat-number {
-      font-size: 2rem;
+    .typewriter-container {
+      justify-content: center;
+    }
+    
+    .hero-subtitle {
+      border-right: none;
+      animation: none;
+      white-space: normal;
     }
 
-    .quick-action-section {
-      margin-top: var(--spacing-lg);
-      padding: var(--spacing-md);
+    .cta-group {
+      justify-content: center;
     }
 
-    .quick-action-title {
-      font-size: 1.25rem;
+    .hero-visuals {
+      height: 400px;
     }
 
-    .quick-action-actions {
-      flex-direction: column;
-      gap: var(--spacing-sm);
+    .card-secondary, .card-tertiary {
+      display: none; /* Simplify on tablet/mobile */
+    }
+
+    .card-main {
+      transform: translate(-50%, -50%) !important;
+      width: 90%;
+      max-width: 340px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title {
+      font-size: 2.5rem;
+    }
+    
+    .hero-visuals {
+      height: 250px;
     }
   }
 </style>

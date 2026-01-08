@@ -15,35 +15,47 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
 <Layout title="FastSkills - 智能技能编排控制器">
   <Hero />
 
-  <section id="features" class="features-section section-secondary">
+  <section id="features" class="features-section">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">核心功能</h2>
+        <h2 class="section-title">
+          <span class="bracket">[</span> SYSTEM_CORE_FEATURES <span class="bracket">]</span>
+        </h2>
       </div>
-      <div class="features-grid grid-auto grid-auto-3">
-        <div class="feature-card card card-hover">
-          <div class="feature-icon">🗂️</div>
-          <h3 class="feature-title">技能聚合与分类</h3>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <div class="feature-icon">🗂️</div>
+          </div>
+          <h3 class="feature-title">SKILL_AGGREGATION</h3>
           <p class="feature-description">汇集 9+ 个 GitHub 高星开源项目的 240+ 精选技能，按 16 大类别科学分类</p>
         </div>
-        <div class="feature-card card card-hover">
-          <div class="feature-icon">📦</div>
-          <h3 class="feature-title">场景化技能包</h3>
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <div class="feature-icon">📦</div>
+          </div>
+          <h3 class="feature-title">SCENARIO_PACKS</h3>
           <p class="feature-description">精心打造 22 个场景化技能包，覆盖开发、科研、办公等多个领域</p>
         </div>
-        <div class="feature-card card card-hover">
-          <div class="feature-icon">🔍</div>
-          <h3 class="feature-title">智能搜索与筛选</h3>
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <div class="feature-icon">🔍</div>
+          </div>
+          <h3 class="feature-title">SMART_SEARCH</h3>
           <p class="feature-description">支持按名称、描述、分类快速定位所需技能</p>
         </div>
-        <div class="feature-card card card-hover">
-          <div class="feature-icon">⬇️</div>
-          <h3 class="feature-title">安全下载与集成</h3>
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <div class="feature-icon">⬇️</div>
+          </div>
+          <h3 class="feature-title">SECURE_INTEGRATION</h3>
           <p class="feature-description">提供技能下载并倡导安全审查，支持手动集成到本地环境</p>
         </div>
-        <div class="feature-card card card-hover">
-          <div class="feature-icon">📚</div>
-          <h3 class="feature-title">详细使用指南</h3>
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <div class="feature-icon">📚</div>
+          </div>
+          <h3 class="feature-title">FULL_DOCUMENTATION</h3>
           <p class="feature-description">每个技能都有完整的文档和使用示例</p>
         </div>
       </div>
@@ -56,12 +68,14 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
 
   <AllPackages />
 
-  <div class="skills-container section-base">
+  <div class="skills-container">
     <div class="container">
       <div class="skills-header">
-        <h2 class="section-title">技能库</h2>
-        <button class="btn btn-secondary download-pack-btn" id="download-pack">
-          📦 下载技能包
+        <h2 class="section-title terminal-style">
+          <span class="prompt">&gt;</span> ACCESS_SKILL_LIBRARY<span class="cursor">_</span>
+        </h2>
+        <button class="btn download-pack-btn" id="download-pack">
+          <span class="btn-icon">📦</span> INITIALIZE_DOWNLOAD
         </button>
       </div>
       <CategoryFilter categories={categories} selectedCategory={null} />
@@ -72,24 +86,123 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
 
 <style>
   .features-section {
-    padding: var(--spacing-2xl) var(--spacing-md);
+    padding: var(--spacing-4xl) 0;
+    background: var(--color-bg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .features-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.3), transparent);
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: var(--spacing-3xl);
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--color-text);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .bracket {
+    color: var(--color-primary);
+    font-family: var(--font-mono);
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-xl);
+    padding: 0 var(--spacing-md);
+    max-width: 1400px;
+    margin: 0 auto;
   }
 
   .feature-card {
-    padding: var(--spacing-md);
-    text-align: center;
+    background: rgba(13, 17, 23, 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(230, 237, 243, 0.1);
+    padding: var(--spacing-xl);
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 0;
+    animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .feature-card:nth-child(1) { animation-delay: 0.1s; }
+  .feature-card:nth-child(2) { animation-delay: 0.2s; }
+  .feature-card:nth-child(3) { animation-delay: 0.3s; }
+  .feature-card:nth-child(4) { animation-delay: 0.4s; }
+  .feature-card:nth-child(5) { animation-delay: 0.5s; }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .feature-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.1);
+    transform: translateY(-5px);
+  }
+
+  .feature-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at top right, rgba(0, 240, 255, 0.05), transparent 40%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  .feature-card:hover::after {
+    opacity: 1;
+  }
+
+  .feature-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 240, 255, 0.05);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    margin-bottom: var(--spacing-lg);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
   }
 
   .feature-icon {
-    font-size: 2.5rem;
-    margin-bottom: var(--spacing-sm);
+    font-size: 2rem;
   }
 
   .feature-title {
+    font-family: var(--font-display);
     font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: var(--spacing-sm);
     color: var(--color-text);
+    margin-bottom: var(--spacing-md);
+    font-weight: 600;
+    letter-spacing: 0.05em;
   }
 
   .feature-description {
@@ -97,37 +210,86 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
     font-size: 0.9375rem;
     line-height: 1.6;
     margin: 0;
+    font-family: var(--font-mono);
   }
 
   .skills-container {
-    padding: var(--spacing-2xl) 0;
+    padding: var(--spacing-3xl) 0;
+    background: var(--color-bg-secondary);
+    border-top: 1px solid rgba(230, 237, 243, 0.1);
   }
 
   .skills-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--spacing-lg);
-    max-width: 1200px;
+    margin-bottom: var(--spacing-xl);
+    padding: 0 var(--spacing-md);
+    max-width: 1400px;
     margin-left: auto;
     margin-right: auto;
-    padding: 0 var(--spacing-md);
   }
 
-  .skills-header h2 {
+  .terminal-style {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    color: var(--color-text);
     margin: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .prompt {
+    color: var(--color-secondary);
+    margin-right: 0.5rem;
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 10px;
+    height: 2px;
+    background: var(--color-primary);
+    margin-left: 5px;
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
   }
 
   .download-pack-btn {
-    padding: var(--spacing-sm) var(--spacing-md);
+    background: transparent;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+    font-family: var(--font-mono);
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-transform: uppercase;
   }
 
+  .download-pack-btn:hover {
+    background: rgba(0, 240, 255, 0.1);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+    text-shadow: 0 0 5px var(--color-primary);
+  }
 
   /* 技能详情模态框 */
   .skill-detail-name {
+    font-family: var(--font-display);
     font-size: 1.5rem;
     font-weight: 600;
+    color: var(--color-primary);
     margin-bottom: var(--spacing-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   .skill-detail-meta {
@@ -136,25 +298,33 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
     margin-bottom: var(--spacing-md);
     font-size: 0.875rem;
     color: var(--color-text-secondary);
+    font-family: var(--font-mono);
   }
 
   .skill-detail-triggers {
     margin-bottom: var(--spacing-md);
+    background: rgba(0, 240, 255, 0.05);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    padding: var(--spacing-md);
   }
 
   .skill-detail-triggers h4 {
     margin-bottom: var(--spacing-xs);
+    color: var(--color-secondary);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    font-size: 0.875rem;
   }
 
   @media (max-width: 768px) {
     .skills-header {
       flex-direction: column;
-      gap: var(--spacing-sm);
+      gap: var(--spacing-md);
       text-align: center;
     }
-
-    .features-grid {
-      grid-template-columns: 1fr;
+    
+    .section-title {
+      font-size: 1.5rem;
     }
   }
 </style>
@@ -167,7 +337,8 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(3, 4, 7, 0.85);
+    backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -175,47 +346,75 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
   }
 
   .modal-content {
-    background: var(--color-white);
-    border-radius: var(--radius-lg);
+    background: rgba(13, 17, 23, 0.95);
+    border: 1px solid var(--color-primary);
+    border-radius: 0;
     max-width: 600px;
     width: 90%;
     max-height: 80vh;
     overflow-y: auto;
+    box-shadow: 0 0 50px rgba(0, 240, 255, 0.15);
+    position: relative;
+  }
+
+  .modal-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--color-primary);
+    box-shadow: 0 0 10px var(--color-primary);
   }
 
   .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--spacing-md);
-    border-bottom: 1px solid var(--color-border);
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid rgba(230, 237, 243, 0.1);
   }
 
   .modal-header h2 {
     margin: 0;
+    font-family: var(--font-display);
     font-size: 1.5rem;
+    color: var(--color-text);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   .modal-close {
     background: transparent;
-    border: none;
+    border: 1px solid rgba(230, 237, 243, 0.2);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 1.5rem;
     cursor: pointer;
     color: var(--color-text-secondary);
-    transition: color 0.2s;
+    transition: all 0.2s;
   }
 
   .modal-close:hover {
-    color: var(--color-text);
+    color: var(--color-secondary);
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 10px rgba(255, 46, 99, 0.3);
   }
 
   .modal-body {
-    padding: var(--spacing-md);
+    padding: var(--spacing-lg);
+    color: var(--color-text);
   }
 
   .modal-description {
     color: var(--color-text-secondary);
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
   }
 
   .pack-list {
@@ -226,27 +425,68 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
 
   .pack-button {
     padding: var(--spacing-md);
-    background: var(--color-bg-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(230, 237, 243, 0.1);
+    border-radius: 0;
     text-align: left;
     cursor: pointer;
     transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
   }
 
   .pack-button:hover {
     border-color: var(--color-primary);
-    background: var(--color-bg);
+    background: rgba(0, 240, 255, 0.05);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
+  }
+
+  .pack-button::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--color-primary);
+    transform: scaleY(0);
+    transition: transform 0.2s ease;
+  }
+
+  .pack-button:hover::before {
+    transform: scaleY(1);
   }
 
   .pack-name {
+    font-family: var(--font-display);
     font-weight: 600;
     margin-bottom: var(--spacing-xs);
+    color: var(--color-text);
+    text-transform: uppercase;
+  }
+
+  .pack-button:hover .pack-name {
+    color: var(--color-primary);
   }
 
   .pack-description {
     font-size: 0.875rem;
     color: var(--color-text-secondary);
+    font-family: var(--font-mono);
+  }
+
+  /* Scrollbar for modal */
+  .modal-content::-webkit-scrollbar {
+    width: 6px;
+  }
+  .modal-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+  }
+  .modal-content::-webkit-scrollbar-thumb {
+    background: rgba(230, 237, 243, 0.2);
+  }
+  .modal-content::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary);
   }
 </style>
 

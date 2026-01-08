@@ -1,146 +1,160 @@
 ---
 ---
 
-<section id="sources" class="sources-section section-white">
+<section id="sources" class="sources-section">
   <div class="container">
     <div class="section-header">
-      <h2 class="section-title">技能来源</h2>
-      <p class="section-subtitle">
-        本项目聚合优秀的开源技能以促进共享。所有技能均来自 GitHub 开源项目，
-        请在下载导入前进行<strong>安全审查</strong>，以确保本地运行环境的安全。
-      </p>
+      <div class="header-badge">
+        <span class="blink">_</span> SOURCE_REGISTRY
+      </div>
+      <h2 class="section-title">PROJECT_REPOSITORIES</h2>
+      
+      <div class="security-alert">
+        <div class="alert-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+        </div>
+        <div class="alert-content">
+          <span class="alert-title">SECURITY_PROTOCOL_INIT</span>
+          <p>All skills aggregated from external repositories. <span class="highlight-warning">MANUAL_AUDIT_REQUIRED</span> before local execution.</p>
+        </div>
+      </div>
     </div>
 
     <div class="sources-table-wrapper">
+      <div class="corner-marker top-left"></div>
+      <div class="corner-marker top-right"></div>
+      <div class="corner-marker bottom-left"></div>
+      <div class="corner-marker bottom-right"></div>
+
       <table class="sources-table">
         <thead>
           <tr>
-            <th>项目</th>
-            <th>Stars</th>
-            <th>技能数</th>
-            <th>领域</th>
-            <th>许可证</th>
+            <th>PROJECT_NAME</th>
+            <th>STARS</th>
+            <th>SKILLS</th>
+            <th>DOMAIN</th>
+            <th>LICENSE</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>
               <a href="https://github.com/obra/superpowers" target="_blank" class="project-link">
-                <img src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" class="github-icon" />
+                <svg class="github-icon" viewBox="0 0 16 16" width="16" height="16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
                 <span>Superpowers</span>
               </a>
             </td>
             <td><span class="badge badge-stars">⭐ 13k</span></td>
-            <td>14</td>
-            <td>通用开发</td>
+            <td class="text-mono">14</td>
+            <td class="text-dim">General Dev</td>
             <td><span class="badge badge-license">MIT</span></td>
           </tr>
           <tr>
             <td>
               <a href="https://github.com/anthropics/skills" target="_blank" class="project-link">
-                <img src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" class="github-icon" />
+                <svg class="github-icon" viewBox="0 0 16 16" width="16" height="16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
                 <span>Anthropic Skills</span>
               </a>
             </td>
-            <td><span class="badge badge-official">🔥 官方</span></td>
-            <td>16+</td>
-            <td>官方推荐</td>
+            <td><span class="badge badge-official">🔥 OFFICIAL</span></td>
+            <td class="text-mono">16+</td>
+            <td class="text-dim">Official</td>
             <td><span class="badge badge-license">MIT</span></td>
           </tr>
           <tr>
             <td>
               <a href="https://github.com/ComposioHQ/awesome-claude-skills" target="_blank" class="project-link">
-                <img src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" class="github-icon" />
+                <svg class="github-icon" viewBox="0 0 16 16" width="16" height="16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
                 <span>Awesome Claude Skills</span>
               </a>
             </td>
             <td><span class="badge badge-stars">⭐ 3.9k</span></td>
-            <td>25+</td>
-            <td>社区精选</td>
+            <td class="text-mono">25+</td>
+            <td class="text-dim">Community</td>
             <td><span class="badge badge-license">MIT</span></td>
           </tr>
           <tr>
             <td>
               <a href="https://github.com/mrgoonie/claudekit-skills" target="_blank" class="project-link">
-                <img src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" class="github-icon" />
+                <svg class="github-icon" viewBox="0 0 16 16" width="16" height="16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
                 <span>ClaudeKit</span>
               </a>
             </td>
             <td><span class="badge badge-stars">⭐ 1.1k</span></td>
-            <td>39</td>
-            <td>全栈开发</td>
+            <td class="text-mono">39</td>
+            <td class="text-dim">Full-Stack</td>
             <td><span class="badge badge-license">MIT</span></td>
           </tr>
           <tr class="highlight-row">
             <td>
               <a href="https://github.com/K-Dense-AI/claude-scientific-skills" target="_blank" class="project-link">
-                <img src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" class="github-icon" />
+                <svg class="github-icon" viewBox="0 0 16 16" width="16" height="16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
                 <span>Scientific Skills</span>
               </a>
             </td>
             <td><span class="badge badge-stars">⭐ 2.9k</span></td>
-            <td><strong>138</strong></td>
-            <td>科学研究</td>
+            <td class="text-mono text-accent">138</td>
+            <td class="text-dim">Scientific</td>
             <td><span class="badge badge-license">MIT</span></td>
           </tr>
           <tr>
             <td>
               <a href="https://github.com/liangdabiao/Claude-Code-Deep-Research-main" target="_blank" class="project-link">
-                <img src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" class="github-icon" />
+                <svg class="github-icon" viewBox="0 0 16 16" width="16" height="16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
                 <span>Deep Research</span>
               </a>
             </td>
             <td><span class="badge badge-stars">⭐ 55</span></td>
-            <td>5</td>
-            <td>深度研究</td>
-            <td>-</td>
+            <td class="text-mono">5</td>
+            <td class="text-dim">Research</td>
+            <td><span class="text-dim">-</span></td>
           </tr>
           <tr>
             <td>
               <a href="https://github.com/kepano/obsidian-skills" target="_blank" class="project-link">
-                <img src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" class="github-icon" />
+                <svg class="github-icon" viewBox="0 0 16 16" width="16" height="16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
                 <span>Obsidian Skills</span>
               </a>
             </td>
             <td><span class="badge badge-stars">⭐ 160</span></td>
-            <td>3</td>
-            <td>知识管理</td>
+            <td class="text-mono">3</td>
+            <td class="text-dim">Knowledge</td>
             <td><span class="badge badge-license">MIT</span></td>
           </tr>
           <tr>
             <td>
               <a href="https://github.com/VoltAgent/voltagent" target="_blank" class="project-link">
-                <img src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" class="github-icon" />
+                <svg class="github-icon" viewBox="0 0 16 16" width="16" height="16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
                 <span>VoltAgent</span>
               </a>
             </td>
-            <td><span class="badge badge-new">🚀 新增</span></td>
-            <td>10+</td>
-            <td>AI Agent</td>
-            <td>-</td>
+            <td><span class="badge badge-new">🚀 NEW</span></td>
+            <td class="text-mono">10+</td>
+            <td class="text-dim">AI Agent</td>
+            <td><span class="text-dim">-</span></td>
           </tr>
           <tr>
             <td>
               <a href="https://github.com/marovole/planning-with-files" target="_blank" class="project-link">
-                <img src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" class="github-icon" />
+                <svg class="github-icon" viewBox="0 0 16 16" width="16" height="16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
                 <span>Planning with Files</span>
               </a>
             </td>
-            <td><span class="badge badge-new">🧠 新增</span></td>
-            <td>1</td>
-            <td>任务规划</td>
+            <td><span class="badge badge-new">🧠 NEW</span></td>
+            <td class="text-mono">1</td>
+            <td class="text-dim">Planning</td>
             <td><span class="badge badge-license">MIT</span></td>
           </tr>
           <tr>
             <td>
               <a href="https://github.com/ComposioHQ/awesome-claude-skills" target="_blank" class="project-link">
-                <img src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" class="github-icon" />
+                <svg class="github-icon" viewBox="0 0 16 16" width="16" height="16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
                 <span>Composio Skills</span>
               </a>
             </td>
             <td><span class="badge badge-stars">⭐ 3.9k</span></td>
-            <td>20+</td>
-            <td>工具集成</td>
+            <td class="text-mono">20+</td>
+            <td class="text-dim">Integration</td>
             <td><span class="badge badge-license">MIT</span></td>
           </tr>
         </tbody>
@@ -148,7 +162,9 @@
     </div>
 
     <div class="sources-summary">
-      <strong>总计：241+ 技能覆盖 16 大领域</strong>
+      <div class="terminal-line">
+        <span class="prompt">></span> SUMMARY: <span class="highlight">241+ SKILLS</span> ACROSS <span class="highlight">16 DOMAINS</span>_
+      </div>
     </div>
   </div>
 </section>
@@ -156,64 +172,224 @@
 <style>
   .sources-section {
     padding: var(--spacing-2xl) var(--spacing-md);
+    position: relative;
+    overflow: hidden;
   }
 
+  .sources-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      linear-gradient(90deg, var(--color-bg) 0%, transparent 10%, transparent 90%, var(--color-bg) 100%),
+      linear-gradient(180deg, var(--color-bg) 0%, transparent 10%, transparent 90%, var(--color-bg) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary-dim);
+    background: rgba(0, 240, 255, 0.05);
+    padding: 4px 12px;
+    margin-bottom: var(--spacing-md);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .blink {
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--spacing-lg);
+    background: linear-gradient(180deg, #fff 0%, var(--color-text-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Terminal Alert */
+  .security-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    background: rgba(210, 153, 34, 0.05);
+    border: 1px solid var(--color-warning);
+    padding: var(--spacing-md);
+    max-width: 600px;
+    margin: 0 auto;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--color-text);
+    position: relative;
+    box-shadow: 0 0 20px rgba(210, 153, 34, 0.05);
+  }
+
+  .security-alert::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--color-warning);
+  }
+
+  .alert-icon {
+    color: var(--color-warning);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .alert-title {
+    display: block;
+    color: var(--color-warning);
+    font-weight: 700;
+    font-size: 0.8rem;
+    margin-bottom: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  .alert-content p {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .highlight-warning {
+    color: var(--color-warning);
+    font-weight: 600;
+  }
+
+  /* Table Wrapper & Decoration */
   .sources-table-wrapper {
     max-width: 1000px;
     margin: 0 auto;
     overflow-x: auto;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
+    background: rgba(13, 17, 23, 0.5);
+    border: 1px solid var(--color-border);
+    position: relative;
+    z-index: 2;
+    padding: 2px; /* For corner markers overlap */
   }
 
+  .corner-marker {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-color: var(--color-primary);
+    border-style: solid;
+    z-index: 5;
+    pointer-events: none;
+  }
+
+  .top-left { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+  .top-right { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+  .bottom-left { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+  .bottom-right { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+  /* Table Styles */
   .sources-table {
     width: 100%;
     border-collapse: collapse;
-    background: var(--color-white);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
   }
 
   .sources-table thead {
-    background: var(--color-bg-secondary);
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .sources-table th {
     padding: var(--spacing-md);
     text-align: left;
-    font-weight: 600;
-    font-size: 0.875rem;
-    color: var(--color-text);
-    border-bottom: 2px solid var(--color-border);
+    font-weight: 500;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-secondary);
   }
 
   .sources-table td {
     padding: var(--spacing-md);
-    border-bottom: 1px solid var(--color-border);
-    font-size: 0.9375rem;
+    border-bottom: 1px solid rgba(48, 54, 61, 0.5);
+    color: var(--color-text);
+    transition: all var(--transition-base);
   }
 
   .sources-table tbody tr {
-    transition: background-color var(--transition-base);
+    transition: background-color 0.2s ease;
   }
 
   .sources-table tbody tr:hover {
-    background: var(--color-bg);
+    background: rgba(0, 240, 255, 0.03);
+  }
+  
+  .sources-table tbody tr:hover td {
+    color: var(--color-white);
+  }
+  
+  .sources-table tbody tr:last-child td {
+    border-bottom: none;
   }
 
+  /* Highlight Row */
   .highlight-row {
-    background: rgba(232, 168, 124, 0.08);
+    background: rgba(0, 240, 255, 0.05);
+    position: relative;
+  }
+
+  .highlight-row::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--color-primary);
+    box-shadow: 0 0 10px var(--color-primary);
   }
 
   .highlight-row:hover {
-    background: rgba(232, 168, 124, 0.12);
+    background: rgba(0, 240, 255, 0.08) !important;
   }
 
+  /* Project Link */
   .project-link {
     display: flex;
     align-items: center;
-    gap: var(--spacing-xs);
-    text-decoration: none;
+    gap: var(--spacing-sm);
     color: var(--color-text);
-    transition: color var(--transition-base);
+    font-weight: 600;
+    text-decoration: none;
   }
 
   .project-link:hover {
@@ -221,29 +397,106 @@
   }
 
   .github-icon {
-    width: 16px;
-    height: 16px;
+    color: var(--color-text-secondary);
+    transition: color 0.2s ease;
   }
 
+  .project-link:hover .github-icon {
+    color: var(--color-white);
+  }
+
+  /* Badges */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid transparent;
+  }
+
+  .badge-stars {
+    background: rgba(210, 153, 34, 0.1);
+    color: var(--color-warning);
+    border-color: rgba(210, 153, 34, 0.3);
+    box-shadow: 0 0 10px rgba(210, 153, 34, 0.1);
+  }
+
+  .badge-official {
+    background: rgba(0, 240, 255, 0.1);
+    color: var(--color-primary);
+    border-color: rgba(0, 240, 255, 0.3);
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
+  }
+
+  .badge-new {
+    background: rgba(46, 160, 67, 0.1);
+    color: var(--color-success);
+    border-color: rgba(46, 160, 67, 0.3);
+    box-shadow: 0 0 10px rgba(46, 160, 67, 0.1);
+  }
+
+  .badge-license {
+    background: rgba(110, 118, 129, 0.1);
+    color: var(--color-text-secondary);
+    border-color: rgba(110, 118, 129, 0.3);
+  }
+
+  /* Text Utils */
+  .text-mono { font-family: var(--font-mono); }
+  .text-dim { color: var(--color-text-secondary); }
+  .text-accent { color: var(--color-primary); font-weight: 700; text-shadow: 0 0 8px rgba(0, 240, 255, 0.4); }
+
+  /* Summary */
   .sources-summary {
     text-align: center;
     margin-top: var(--spacing-lg);
-    font-size: 1.125rem;
-    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    z-index: 2;
+    position: relative;
   }
 
+  .terminal-line {
+    display: inline-block;
+    padding: 8px 16px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+  }
+
+  .prompt {
+    color: var(--color-text-dim);
+    margin-right: 8px;
+  }
+
+  .highlight {
+    color: var(--color-white);
+    font-weight: 600;
+  }
+
+  /* Responsive */
   @media (max-width: 768px) {
     .sources-table {
-      font-size: 0.75rem;
+      font-size: 0.8rem;
     }
 
-    .sources-table th,
+    .sources-table th, 
     .sources-table td {
       padding: var(--spacing-sm);
     }
-
-    .github-icon {
-      display: none;
+    
+    .badge {
+      font-size: 0.7rem;
+      padding: 2px 6px;
+    }
+    
+    .project-link span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 120px;
     }
   }
 </style>

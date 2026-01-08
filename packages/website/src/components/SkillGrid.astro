@@ -12,42 +12,201 @@ const { skills, selectedCategory } = Astro.props;
 const filteredSkills = selectedCategory
   ? skills.filter(skill => skill.category.id === selectedCategory)
   : skills;
+
+// Sort by priority then name
+const sortedSkills = [...filteredSkills].sort((a, b) => {
+  return (b.priority || 0) - (a.priority || 0) || a.name.localeCompare(b.name);
+});
 ---
 
-<section id="skills" class="skills-section section-white">
+<section id="skills" class="skills-section">
   <div class="container">
     <div class="section-header">
-      <h2 class="section-title">技能库</h2>
-      <p class="section-subtitle">浏览所有可用的技能，点击下载即可使用</p>
+      <div class="header-decoration"></div>
+      <h2 class="section-title">SKILL DATABASE</h2>
+      <p class="section-subtitle">
+        <span class="count">{sortedSkills.length}</span> MODULES AVAILABLE
+      </p>
     </div>
 
-    {filteredSkills.length > 0 ? (
-      <div class="skills-grid grid-auto grid-auto-4">
-        {filteredSkills.map(skill => (
-          <SkillCard skill={skill} />
+    {sortedSkills.length > 0 ? (
+      <div class="skills-grid">
+        {sortedSkills.map((skill, index) => (
+          <div class="skill-wrapper" style={`animation-delay: ${index * 0.05}s`}>
+            <SkillCard skill={skill} />
+          </div>
         ))}
       </div>
     ) : (
-      <p class="no-skills">该分类下暂无技能</p>
+      <div class="no-skills-state">
+        <div class="empty-icon">!</div>
+        <p class="no-skills-text">NO MODULES FOUND IN THIS SECTOR</p>
+        <button class="btn-reset" id="reset-filters-btn">
+          RESET FILTERS
+        </button>
+      </div>
     )}
   </div>
 </section>
 
+<script>
+  const resetBtn = document.getElementById('reset-filters-btn');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      const allBtn = document.querySelector('.category-btn[data-category="all"]') as HTMLElement;
+      if (allBtn) allBtn.click();
+    });
+  }
+</script>
+
 <style>
   .skills-section {
-    padding: var(--spacing-2xl) var(--spacing-md);
+    padding: 4rem 0 6rem;
+    background: var(--color-background);
+    position: relative;
+    min-height: 60vh;
   }
 
-  .no-skills {
-    text-align: center;
-    color: var(--color-text-secondary);
-    font-size: 1.125rem;
-    padding: var(--spacing-xl);
+  .skills-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-header {
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 1.5rem;
+  }
+
+  .header-decoration {
+    width: 12px;
+    height: 12px;
+    background: var(--color-primary);
+    box-shadow: 0 0 10px var(--color-primary);
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+
+  .section-subtitle {
+    font-family: var(--font-mono);
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  .count {
+    color: var(--color-primary);
+    font-weight: 700;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-wrapper {
+    animation: fadeSlideUp 0.5s ease backwards;
+  }
+
+  @keyframes fadeSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .no-skills-state {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem 2rem;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .empty-icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: 2px solid var(--color-text-muted);
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+
+  .no-skills-text {
+    font-family: var(--font-mono);
+    color: var(--color-text-muted);
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    letter-spacing: 0.05em;
+  }
+
+  .btn-reset {
+    background: transparent;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+    font-family: var(--font-mono);
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-reset:hover {
+    background: var(--color-primary);
+    color: #000;
   }
 
   @media (max-width: 768px) {
     .skills-grid {
       grid-template-columns: 1fr;
+    }
+    
+    .section-header {
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: flex-start;
     }
   }
 </style>

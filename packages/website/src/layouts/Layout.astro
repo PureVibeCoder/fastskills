@@ -6,7 +6,7 @@ interface Props {
 
 const {
 	title,
-	description = "FastSkills - 智能技能编排控制器，让每一次 AI 对话都拥有专家级能力"
+	description = "FastSkills - Empower your AI with expert-level capabilities. 200+ curated skills for developers and researchers."
 } = Astro.props;
 
 import Header from '../components/Header.astro';
@@ -20,13 +20,13 @@ import '../styles/global.css';
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+		<meta name="generator" content={Astro.generator} />
 		<title>{title} - FastSkills</title>
 		<meta name="description" content={description} />
+		<meta name="theme-color" content="#030407" />
 	</head>
 	<body>
+		<div class="noise-overlay"></div>
 		<Header />
 		<main>
 			<slot />
@@ -44,5 +44,7 @@ import '../styles/global.css';
 
 	main {
 		flex: 1;
+		position: relative;
+		z-index: 1;
 	}
 </style>
