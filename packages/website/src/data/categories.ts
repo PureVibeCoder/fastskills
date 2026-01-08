@@ -151,6 +151,13 @@ export const categories: Category[] = [
     nameEn: 'Tools',
     description: 'MCP、工具开发、自动化',
     icon: '🛠️'
+  },
+  {
+    id: 'skill-dev',
+    name: '技能开发',
+    nameEn: 'Skill Development',
+    description: '技能创建、开发最佳实践、专家方法论',
+    icon: '🧙'
   }
 ];
 

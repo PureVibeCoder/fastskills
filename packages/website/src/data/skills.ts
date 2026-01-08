@@ -5,7 +5,7 @@ export interface Skill {
   name: string;
   description: string;
   category: Category;
-  source: 'anthropic' | 'claudekit' | 'scientific' | 'community' | 'composio' | 'voltagent' | 'obsidian' | 'planning' | 'superpowers' | 'deep-research';
+  source: 'anthropic' | 'claudekit' | 'scientific' | 'community' | 'composio' | 'voltagent' | 'obsidian' | 'planning' | 'superpowers' | 'deep-research' | 'skill-from-masters';
   triggers: string[];
   priority: number;
   content: string;
@@ -32,6 +32,7 @@ const categoryIndex: Record<string, number> = {
   'media': 16,
   'thinking': 17,
   'tools': 18,
+  'skill-dev': 19,
 };
 
 export const skills: Skill[] = [
@@ -2275,7 +2276,7 @@ export const skills: Skill[] = [
     priority: 5,
     content: ''
   },
-  {
+    {
     id: 'writing-skills',
     name: 'writing-skills',
     description: 'Use when creating new skills, editing existing skills, or verifying skills work before deployment',
@@ -2283,6 +2284,17 @@ export const skills: Skill[] = [
     source: 'superpowers',
     triggers: ['writing', 'skills', 'creating', 'editing'],
     priority: 5,
+    content: ''
+  },
+  // skill-from-masters skills
+  {
+    id: 'skill-from-masters',
+    name: 'Skill From Masters',
+    description: 'Help users create high-quality skills by discovering and incorporating proven methodologies from domain experts. Use BEFORE skill-creator when creating new skills - it enhances skill-creator by first identifying expert frameworks and best practices.',
+    category: categories[categoryIndex['skill-dev'] ?? 0],
+    source: 'skill-from-masters',
+    triggers: ['create', 'skill', 'skill-from-masters', 'help me create a skill', 'I want to make a skill', 'methodology', 'expert', 'framework', 'best practices'],
+    priority: 8,
     content: ''
   },
 ];

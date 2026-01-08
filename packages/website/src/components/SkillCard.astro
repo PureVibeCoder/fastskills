@@ -6,12 +6,17 @@ interface Props {
 }
 
 const { skill } = Astro.props;
-const sourceLabels = {
+const sourceLabels: Record<string, string> = {
   anthropic: 'Anthropic',
   claudekit: 'ClaudeKit',
   community: '社区',
   composio: 'Composio',
-  voltagent: 'VoltaAgent'
+  voltagent: 'VoltaAgent',
+  scientific: 'Scientific',
+  obsidian: 'Obsidian',
+  planning: 'Planning',
+  superpowers: 'Superpowers',
+  'deep-research': 'Research'
 };
 ---
 
@@ -47,7 +52,7 @@ const sourceLabels = {
       data-skill-id={skill.id}
       data-skill-name={skill.name}
     >
-      下载
+      ⬇️ 下载技能
     </button>
   </div>
 </div>

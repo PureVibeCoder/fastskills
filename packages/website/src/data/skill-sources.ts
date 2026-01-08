@@ -1,5 +1,5 @@
 // 技能到源目录的映射
-// 供 packager.ts 和 install.sh.ts 共用
+// 供 packager.ts 使用
 // 自动生成于 2026-01-07
 
 export interface SkillSource {
@@ -241,6 +241,8 @@ export const SKILL_TO_SOURCE: Record<string, SkillSource> = {
   'question-refiner': { source: 'deep-research', path: 'question-refiner' },
   'research-executor': { source: 'deep-research', path: 'research-executor' },
   'synthesizer': { source: 'deep-research', path: 'synthesizer' },
+  // skill-from-masters skills
+  'skill-from-masters': { source: 'skill-from-masters', path: 'skill-from-masters' },
 };
 
 // 根据技能 ID 获取源信息

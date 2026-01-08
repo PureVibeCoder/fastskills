@@ -22,15 +22,4 @@ export function downloadSingleSkill(skill: Skill): void {
   URL.revokeObjectURL(url);
 }
 
-/**
- * 复制技能内容到剪贴板
- */
-export async function copySkillToClipboard(skill: Skill): Promise<boolean> {
-  try {
-    await navigator.clipboard.writeText(skill.content);
-    return true;
-  } catch (err) {
-    console.error('Failed to copy skill:', err);
-    return false;
-  }
-}
+

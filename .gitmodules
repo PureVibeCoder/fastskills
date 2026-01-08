@@ -29,3 +29,6 @@
 [submodule "planning-with-files"]
 	path = planning-with-files
 	url = https://github.com/marovole/planning-with-files.git
+[submodule "skill-from-masters"]
+	path = skill-from-masters
+	url = https://github.com/GBSOSS/skill-from-masters.git

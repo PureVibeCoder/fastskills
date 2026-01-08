@@ -1,6 +1,5 @@
 ---
 import { skillPackages, getRecommendedPackages } from '../data/packages';
-import InstallCommand from './InstallCommand.astro';
 
 const recommendedPackages = getRecommendedPackages();
 const developmentPackages = skillPackages.filter(pkg => 
@@ -41,14 +40,8 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
             </div>
             <div class="package-actions">
               <button class="btn btn-primary btn-download-pack" data-pack-id={pkg.id}>
-                ⬇️ 下载
+                ⬇️ 下载技能包
               </button>
-              <button class="btn btn-secondary btn-show-install" data-pack-id={pkg.id}>
-                ⚡ 安装
-              </button>
-            </div>
-            <div class="install-command-wrapper" data-pack-id={pkg.id} style="display: none;">
-              <InstallCommand packId={pkg.id} />
             </div>
           </div>
         ))}
@@ -76,14 +69,8 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
             </div>
             <div class="package-actions">
               <button class="btn btn-primary btn-download-pack" data-pack-id={pkg.id}>
-                下载
+                ⬇️ 下载技能包
               </button>
-              <button class="btn btn-secondary btn-show-install" data-pack-id={pkg.id}>
-                ⚡ 安装
-              </button>
-            </div>
-            <div class="install-command-wrapper" data-pack-id={pkg.id} style="display: none;">
-              <InstallCommand packId={pkg.id} />
             </div>
           </div>
         ))}
@@ -111,14 +98,8 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
             </div>
             <div class="package-actions">
               <button class="btn btn-primary btn-download-pack" data-pack-id={pkg.id}>
-                下载
+                ⬇️ 下载技能包
               </button>
-              <button class="btn btn-secondary btn-show-install" data-pack-id={pkg.id}>
-                ⚡ 安装
-              </button>
-            </div>
-            <div class="install-command-wrapper" data-pack-id={pkg.id} style="display: none;">
-              <InstallCommand packId={pkg.id} />
             </div>
           </div>
         ))}
@@ -149,14 +130,8 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
             </div>
             <div class="package-actions">
               <button class="btn btn-primary btn-download-pack" data-pack-id={pkg.id}>
-                下载
+                ⬇️ 下载技能包
               </button>
-              <button class="btn btn-secondary btn-show-install" data-pack-id={pkg.id}>
-                ⚡ 安装
-              </button>
-            </div>
-            <div class="install-command-wrapper" data-pack-id={pkg.id} style="display: none;">
-              <InstallCommand packId={pkg.id} />
             </div>
           </div>
         ))}
@@ -295,17 +270,16 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
 </style>
 
 <script>
+  // 下载按钮点击事件
   document.querySelectorAll('.btn-download-pack').forEach(btn => {
     btn.addEventListener('click', async (e) => {
-      const packId = (e.target as HTMLElement).dataset.packId;
+      const packId = (e.currentTarget as HTMLElement).dataset.packId;
       if (!packId) return;
 
-      const button = e.target as HTMLButtonElement;
+      const button = e.currentTarget as HTMLButtonElement;
       const originalText = button.textContent;
-      button.textContent = '下载中...';
+      button.textContent = '准备中...';
       button.disabled = true;
-      button.classList.remove('btn-primary');
-      button.classList.add('btn-secondary');
 
       try {
         const { skillPackages } = await import('../data/packages');
@@ -318,49 +292,21 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
           await downloadSkillPack(packSkills, pack.name);
         }
 
-        button.textContent = '✅ 已下载';
-        button.classList.remove('btn-secondary', 'btn-primary');
+        button.textContent = '✅ 已启动下载';
         button.classList.add('btn-success');
         setTimeout(() => {
           button.textContent = originalText;
           button.classList.remove('btn-success');
-          button.classList.add('btn-primary');
           button.disabled = false;
         }, 2000);
       } catch (error) {
         console.error('Download failed:', error);
         button.textContent = '❌ 下载失败';
-        button.classList.remove('btn-secondary', 'btn-primary');
-        button.classList.add('btn-success');
         setTimeout(() => {
           button.textContent = originalText;
-          button.classList.remove('btn-success');
-          button.classList.add('btn-primary');
           button.disabled = false;
         }, 2000);
       }
-    });
-  });
-
-  // 安装按钮点击事件 - 展开/折叠安装命令
-  document.querySelectorAll('.btn-show-install').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const packId = (e.target as HTMLElement).dataset.packId;
-      if (!packId) return;
-
-      const button = e.target as HTMLButtonElement;
-      const card = button.closest('.package-card');
-      if (!card) return;
-
-      const installWrapper = card.querySelector(`.install-command-wrapper[data-pack-id="${packId}"]`) as HTMLElement;
-      if (!installWrapper) return;
-
-      // 切换显示/隐藏
-      const isVisible = installWrapper.style.display !== 'none';
-      installWrapper.style.display = isVisible ? 'none' : 'block';
-
-      // 更新按钮文本
-      button.textContent = isVisible ? '⚡ 安装' : '✕ 收起';
     });
   });
 </script>

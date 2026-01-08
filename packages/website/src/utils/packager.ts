@@ -1,6 +1,7 @@
 import JSZip from 'jszip';
 import type { Skill } from '../data/skills';
 import { SKILL_TO_SOURCE } from '../data/skill-sources';
+import { scanSkillContent, generateSecuritySummary, generateDetailedSecurityReport, type SecurityReport } from './security-scanner';
 
 export interface SkillForPackage {
   id: string;
@@ -82,14 +83,25 @@ export async function downloadSkillPack(
     })
   );
 
+  // 生成安全扫描报告
+  const securityReports = skillContents.map(skill => 
+    scanSkillContent(skill.id, skill.name, skill.content)
+  );
+
   // 添加技能文件
   skillContents.forEach(skill => {
     zip.file(`${skill.id}/SKILL.md`, skill.content);
   });
 
-  // 生成 README
-  const readme = generatePackReadme(skillContents, packName);
+  // 生成 README（包含安全扫描报告）
+  const readme = generatePackReadme(skillContents, packName, securityReports);
   zip.file('README.md', readme);
+
+  // 添加安全扫描详细报告
+  if (securityReports.some(r => r.findings.length > 0)) {
+    const detailedReport = generateDetailedSecurityReport(securityReports);
+    zip.file('SECURITY_REPORT.md', detailedReport);
+  }
 
   // 生成 ZIP 文件
   const content = await zip.generateAsync({ type: 'blob' });
@@ -112,31 +124,60 @@ export async function downloadSkillPack(
  */
 function generatePackReadme(
   skills: SkillForPackage[],
-  packName: string
+  packName: string,
+  securityReports: SecurityReport[]
 ): string {
+  const securitySummary = generateSecuritySummary(securityReports);
+
   return `# ${packName}
 
-本技能包包含 ${skills.length} 个技能，由 Skills Controller 提供。
+本技能包由 Skills Controller (https://github.com/marovole/skillscontroller) 聚合提供，共包含 ${skills.length} 个技能。
+
+> [!IMPORTANT]
+> **使用前必读**：在导入任何技能到 Claude Code 之前，请务必：
+> 1. 下载并阅读每个技能目录下的 \`SKILL.md\` 文件
+> 2. 检查技能的触发词、操作指南和预期行为
+> 3. 确保您理解技能将执行的所有操作
+> 4. 仅导入来自可信来源的技能
+
+${securitySummary}
 
 ## 包含的技能
 
 ${skills.map(s => `- **${s.name}** (\`${s.id}\`)`).join('\n')}
 
-## 安装方法
+## 集成方法
 
-### 方法一：手动安装
-
-1. 解压本文件
-2. 将技能目录复制到 \`~/.claude/skills/\` 目录
-3. 重启 Claude Code
-
-### 方法二：项目集成
-
-如果你想将这些技能集成到你的项目中：
+### 方式一：全局集成 (推荐)
 
 1. 解压本文件
-2. 将技能目录复制到项目的技能目录（如 \`./anthropic-skills/skills/\`）
-3. 确保 Skills Controller 配置了正确的技能路径
+2. 将需要的技能目录（如 \`frontend-design/\`）复制到您的全局技能目录：
+   - macOS/Linux: \`~/.claude/skills/\`
+3. 重新启动 Claude Code
+
+### 方式二：项目局部集成
+
+1. 解压本文件
+2. 将技能目录复制到您当前项目的 \`.claude/skills/\` 目录中
+3. 重新启动 Claude Code
+
+## 安全建议
+
+### 下载后检查清单
+
+- [ ] 检查 \`SKILL.md\` 文件的来源是否可信
+- [ ] 确认触发词不会与您的其他技能冲突
+- [ ] 验证操作指南中的命令不会执行危险操作
+- [ ] 检查是否有网络请求或文件操作
+- [ ] 确保理解所有操作的后果
+
+### 危险信号（发现时请谨慎）
+
+- 要求执行未知的 shell 命令
+- 尝试访问敏感文件或目录
+- 使用 \`eval()\` 或类似动态代码执行
+- 包含硬编码的 API 密钥或密码
+- 尝试修改系统配置
 
 ## 技能来源
 
