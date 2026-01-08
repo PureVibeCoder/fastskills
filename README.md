@@ -23,31 +23,62 @@
 
 ## 🚀 Install Skills Instantly / 一键安装技能
 
-### Plugin Installation (Recommended) / 插件安装（推荐）
+### For Claude Code / Claude Code 用户
 
-Use the `/plugin` command in Claude Code to install skills directly:
+Use the `/plugin` command to install skills directly:
 
-在 Claude Code 中使用 `/plugin` 命令直接安装技能：
+使用 `/plugin` 命令直接安装技能：
 
 ```bash
-# Install a single skill pack / 安装单个技能包
-/plugin claudekit-skills
+# Add marketplace / 添加市场
+/plugin marketplace add mrgoonie/claudekit-skills
 
-# Install specific skills / 安装特定技能
-/plugin scientific-skills
-/plugin superpowers
+# Install plugin categories / 安装插件分类
+/plugin install ai-ml-tools@claudekit-skills
+/plugin install web-dev-tools@claudekit-skills
+/plugin install devops-tools@claudekit-skills
 ```
 
-Available plugins: `claudekit-skills`, `scientific-skills`, `superpowers`, `anthropic-skills`, `obsidian-skills`
+Available categories: `ai-ml-tools`, `web-dev-tools`, `devops-tools`, `backend-tools`, `document-processing`, `debugging-tools`, `problem-solving-tools`, `platform-tools`, `meta-tools`, `media-tools`, `research-tools`, `specialized-tools`
+
+### For OpenCode / OpenCode 用户
+
+OpenCode auto-discovers skills from `.claude/skills/` directory (Claude-compatible):
+
+OpenCode 自动从 `.claude/skills/` 目录发现技能（兼容 Claude 格式）：
+
+```bash
+# Clone repository / 克隆仓库
+git clone --recursive https://github.com/PureVibeCoder/fastskills.git
+
+# Copy skills to project or global directory / 复制到项目或全局目录
+# Project scope / 项目级别
+cp -r fastskills/claudekit-skills/.claude/skills/* .claude/skills/
+
+# Global scope / 全局级别
+cp -r fastskills/claudekit-skills/.claude/skills/* ~/.claude/skills/
+```
+
+| Scope | Path |
+|-------|------|
+| Project (Claude-compatible) | `.claude/skills/<skill-name>/SKILL.md` |
+| Global (Claude-compatible) | `~/.claude/skills/<skill-name>/SKILL.md` |
+| Project (OpenCode native) | `.opencode/skill/<skill-name>/SKILL.md` |
+| Global (OpenCode native) | `~/.config/opencode/skill/<skill-name>/SKILL.md` |
+
+Verify installation: Ask OpenCode *"What skills do you have available?"*
+
+验证安装：询问 OpenCode *"你有哪些可用的技能？"*
 
 ### MCP Integration / MCP 集成
 
-For advanced users, integrate with Model Context Protocol:
+Both Claude Code and OpenCode support MCP servers:
 
-高级用户可以集成 MCP 协议：
+Claude Code 和 OpenCode 都支持 MCP 服务器：
 
-```json
-// Add to your Claude config / 添加到 Claude 配置
+```jsonc
+// Claude Code: ~/.claude/claude_desktop_config.json
+// OpenCode: opencode.jsonc
 {
   "mcpServers": {
     "mcp-manager": {
@@ -58,13 +89,9 @@ For advanced users, integrate with Model Context Protocol:
 }
 ```
 
-Then use MCP tools in your conversations for dynamic skill loading and sub-agent orchestration.
-
-然后在对话中使用 MCP 工具进行动态技能加载和子代理编排。
-
-> 📖 **More details**: Visit [fastskills.xyz](https://fastskills.xyz) for interactive installation guides.
+> 📖 **More details**: Visit [fastskills.xyz](https://fastskills.xyz) for interactive guides.
 > 
-> 📖 **更多详情**：访问 [fastskills.xyz](https://fastskills.xyz) 获取交互式安装指南。
+> 📖 **更多详情**：访问 [fastskills.xyz](https://fastskills.xyz) 获取交互式指南。
 
 ---
 
