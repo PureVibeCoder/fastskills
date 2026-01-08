@@ -2,9 +2,24 @@
 
 This file provides guidance to AI coding agents working in this repository.
 
+## Project Status
+
+| Item | Status |
+|------|--------|
+| **GitHub Repository** | https://github.com/PureVibeCoder/fastskills |
+| **Live Website** | https://fastskills.pages.dev |
+| **Deployment Method** | Wrangler CLI (manual) |
+
+### Deployment Command
+
+```bash
+# Build and deploy to Cloudflare Pages
+cd packages/website && pnpm build && wrangler pages deploy dist --project-name=fastskills --commit-dirty=true
+```
+
 ## Project Overview
 
-**Skills Controller** is a Claude Code skills aggregation platform built with Astro. It collects 241+ skills from 10+ GitHub open-source projects and packages them into 21 scenario-based skill packs for developers and researchers.
+**FastSkills** is a Claude Code skills aggregation platform built with Astro. It collects 241+ skills from 10+ GitHub open-source projects and packages them into 21 scenario-based skill packs for developers and researchers.
 
 ### Repository Structure
 
