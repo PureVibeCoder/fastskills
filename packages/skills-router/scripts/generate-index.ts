@@ -14,8 +14,9 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Stopwords for trigger extraction
+// Stopwords for trigger extraction - expanded to avoid ambiguous triggers
 const STOPWORDS = new Set([
+  // Basic English stopwords
   'a', 'an', 'the', 'is', 'are', 'was', 'were', 'be', 'been', 'being',
   'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could',
   'should', 'may', 'might', 'must', 'shall', 'can', 'need', 'dare',
@@ -27,7 +28,25 @@ const STOPWORDS = new Set([
   'same', 'so', 'than', 'too', 'very', 's', 't', 'just', 'don', 'now',
   'and', 'but', 'if', 'or', 'because', 'until', 'while', 'this', 'that',
   'these', 'those', 'it', 'its', 'use', 'using', 'used', 'skill', 'skills',
-  'when', 'which', 'who', 'whom', 'your', 'you', 'what'
+  'when', 'which', 'who', 'whom', 'your', 'you', 'what',
+  // Overly generic words that cause ambiguity
+  'any', 'them', 'also', 'like', 'get', 'got', 'set', 'way', 'about',
+  'make', 'made', 'new', 'first', 'one', 'two', 'see', 'him', 'her',
+  'they', 'their', 'my', 'me', 'our', 'we', 'out', 'up', 'down',
+  'well', 'back', 'even', 'still', 'want', 'give', 'let', 'take',
+  'come', 'came', 'keep', 'every', 'good', 'great', 'best', 'much',
+  'many', 'over', 'under', 'between', 'into', 'through', 'both',
+  'provides', 'provide', 'includes', 'include', 'including', 'allows',
+  'enables', 'supports', 'support', 'offers', 'offer', 'help', 'helps',
+  'based', 'various', 'different', 'specific', 'general', 'common',
+  'available', 'multiple', 'several', 'wide', 'range', 'features',
+  // Generic action words
+  'create', 'creating', 'build', 'building', 'implement', 'implementing',
+  'guide', 'guides', 'develop', 'developing', 'easy', 'simple', 'quick',
+  // Frequently overused terms causing collision
+  'data', 'analysis', 'toolkit', 'database', 'access', 'research',
+  'python', 'api', 'query', 'comprehensive', 'search', 'files',
+  'working', 'models', 'learning', 'framework', 'platform',
 ]);
 
 // Source directory mapping
@@ -79,24 +98,31 @@ interface SkillMeta {
 
 /**
  * Extract triggers from description text
+ * Prioritizes: skill ID parts > unique domain terms > frequent words
  */
-function extractTriggers(text: string): string[] {
+function extractTriggers(text: string, skillId: string): string[] {
+  const idParts = skillId.toLowerCase()
+    .split(/[-_]/)
+    .filter(p => p.length > 2 && !STOPWORDS.has(p));
+  
   const words = text.toLowerCase()
-    .replace(/[^\w\s]/g, ' ')
+    .replace(/[^\w\s-]/g, ' ')
     .split(/\s+/)
     .filter(w => w.length > 2)
     .filter(w => !STOPWORDS.has(w));
   
-  // Count word frequency and return top unique words
   const wordCount = new Map<string, number>();
   for (const word of words) {
     wordCount.set(word, (wordCount.get(word) || 0) + 1);
   }
   
-  return [...wordCount.entries()]
+  const sortedWords = [...wordCount.entries()]
     .sort((a, b) => b[1] - a[1])
-    .slice(0, 10)
     .map(([word]) => word);
+  
+  const uniqueTriggers = [...new Set([...idParts, ...sortedWords])];
+  
+  return uniqueTriggers.slice(0, 10);
 }
 
 /**
@@ -205,7 +231,7 @@ async function generateIndex(): Promise<void> {
         description: description.slice(0, 300),
         category: inferCategory(filePath, description),
         source: inferSource(filePath),
-        triggers: extractTriggers(description + ' ' + name),
+        triggers: extractTriggers(description + ' ' + name, id),
         path: path.dirname(filePath),
         fullDescription: body.slice(0, 2000),
       };
