@@ -1,5 +1,45 @@
+# Dependencies
 node_modules/
+
+# Build outputs
+dist/
+.astro/
+
+# Logs
 *.log
-.DS_Store
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment files
 .env
+.env.*
+!.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Package files
 *.tgz
+
+# Cache directories
+.ruff_cache/
+.wrangler/
+.turbo/
+.cache/
+
+# Test/Debug artifacts
+.playwright-mcp/
+.sisyphus/
+
+# Temporary files
+*.tmp
+*.temp
