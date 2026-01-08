@@ -250,9 +250,9 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
   }
 </style>
 
-<script type="module">
+<script type="module" define:vars={{ skills }}>
   // 技能数据（从服务器传递）
-  const skillsData = [];
+  const skillsData = skills;
 
   // 监听分类按钮点击
   document.addEventListener('click', (e) => {
@@ -458,9 +458,7 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
 
   // 下载技能包
   async function downloadSkillPack(skills, packName) {
-    // 从 CDN 加载 JSZip
-    const jszipModule = await import('https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm');
-    const JSZip = jszipModule.default;
+    const JSZip = (await import('jszip')).default;
 
     const zip = new JSZip();
     

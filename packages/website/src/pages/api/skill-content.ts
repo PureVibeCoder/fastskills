@@ -108,7 +108,8 @@ export const GET: APIRoute = async ({ url }) => {
   } catch (err) {
     const error = err as NodeJS.ErrnoException;
     if (error.code === 'ENOENT') {
-      return new Response(JSON.stringify({ error: 'File not found', path: fullPath }), {
+      // Don't expose full path in error response to prevent information disclosure
+      return new Response(JSON.stringify({ error: 'File not found' }), {
         status: 404,
         headers: { 'Content-Type': 'application/json' }
       });

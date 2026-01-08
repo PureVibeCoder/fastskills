@@ -101,6 +101,31 @@ export async function downloadSkillPack(
   if (securityReports.some(r => r.findings.length > 0)) {
     const detailedReport = generateDetailedSecurityReport(securityReports);
     zip.file('SECURITY_REPORT.md', detailedReport);
+  } else {
+    const cleanReport = `# 安全扫描报告
+
+生成时间: ${new Date().toLocaleString('zh-CN')}
+
+## 扫描结果
+
+✅ **所有技能均通过安全扫描**
+
+本技能包中的 ${skillContents.length} 个技能均未检测到明显的安全问题。
+
+## 扫描说明
+
+本报告由 Skills Controller 安全扫描器自动生成。扫描器已检查以下类型的潜在安全问题：
+
+- Shell 命令执行模式
+- 动态代码执行
+- 硬编码的密钥或密码
+- 文件系统操作
+- 路径遍历风险
+- 网络请求模式
+
+**重要提示**: 自动扫描仅能检测已知模式，不能替代人工代码审查。在导入技能前，请务必仔细阅读每个技能的 SKILL.md 文件。
+`;
+    zip.file('SECURITY_REPORT.md', cleanReport);
   }
 
   // 生成 ZIP 文件

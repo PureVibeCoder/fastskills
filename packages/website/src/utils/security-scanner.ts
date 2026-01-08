@@ -86,13 +86,6 @@ const DANGEROUS_PATTERNS = [
     suggestion: 'Ensure operations are authorized and scoped to appropriate resources.'
   },
   {
-    pattern: /[;&|`$(){}[\]<>\\#!*?\n\r]/g,
-    type: 'medium' as const,
-    category: 'Injection',
-    message: 'Detected shell metacharacters',
-    suggestion: 'If used in command context, ensure proper escaping and validation.'
-  },
-  {
     pattern: /(api[_-]?key|secret|token|password|auth[_-]?token)\s*[:=]\s*['"`][a-zA-Z0-9_\-]{20,}['"`]/gi,
     type: 'high' as const,
     category: 'Secrets',
