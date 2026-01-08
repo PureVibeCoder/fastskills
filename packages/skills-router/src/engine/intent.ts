@@ -1,5 +1,53 @@
 import { IntentType, IntentPattern } from '../types.js';
 
+/**
+ * Domain-specific context keywords that override generic intent detection
+ * When these keywords appear, the intent should be mapped to RESEARCH instead of DESIGN
+ */
+const CHEMISTRY_DOMAIN_KEYWORDS = [
+  /\b(molecule|molecular|compound|drug|ligand|protein|rdkit|smiles|chemical|chemistry|cheminformatics)\b/i,
+  /分子|化合物|药物|配体|蛋白质|化学/i,
+  /\b(gene|genomic|dna|rna|sequencing|biological|bioinformatics)\b/i,
+  /基因|基因组|序列|生物信息/i,
+  /\b(quantum|physics|atom|particle)\b/i,
+  /量子|物理|原子|粒子/i,
+];
+
+const DEVOPS_DOMAIN_KEYWORDS = [
+  /\b(kubernetes|k8s|docker|container|helm|terraform|ansible|cicd|pipeline)\b/i,
+  /ci\/cd/i,
+  /容器|编排|运维|集群/i,
+];
+
+const BACKEND_DOMAIN_KEYWORDS = [
+  /\b(graphql|mongodb|postgresql|redis|backend)\b/i,
+  /服务端|后端/i,
+];
+
+const BROWSER_AUTOMATION_KEYWORDS = [
+  /\b(playwright|puppeteer|selenium|scraping|crawler|crawl)\b/i,
+  /爬虫|抓取/i,
+];
+
+/**
+ * Check if query contains domain-specific keywords
+ */
+function detectDomainContext(query: string): 'chemistry' | 'devops' | 'backend' | 'browser' | null {
+  for (const pattern of CHEMISTRY_DOMAIN_KEYWORDS) {
+    if (pattern.test(query)) return 'chemistry';
+  }
+  for (const pattern of DEVOPS_DOMAIN_KEYWORDS) {
+    if (pattern.test(query)) return 'devops';
+  }
+  for (const pattern of BACKEND_DOMAIN_KEYWORDS) {
+    if (pattern.test(query)) return 'backend';
+  }
+  for (const pattern of BROWSER_AUTOMATION_KEYWORDS) {
+    if (pattern.test(query)) return 'browser';
+  }
+  return null;
+}
+
 const INTENT_PATTERNS: IntentPattern[] = [
   {
     intent: IntentType.CREATE,
@@ -44,7 +92,7 @@ const INTENT_PATTERNS: IntentPattern[] = [
   {
     intent: IntentType.TEST,
     patterns: [
-      /测试|单元测试|集成测试|e2e|覆盖率/i,
+      /测试|单元测试|集成测试|e2e|覆盖率|pytest|jest|vitest/i,
       /test|testing|unit\s*test|e2e|coverage|spec/i,
     ],
     weight: 1.0
@@ -77,7 +125,7 @@ const INTENT_PATTERNS: IntentPattern[] = [
     intent: IntentType.DESIGN,
     patterns: [
       /设计|ui|ux|界面|样式|布局/i,
-      /design|ui|ux|interface|style|layout|frontend/i,
+      /\bdesign\b|ui|ux|interface|style|layout|frontend/i,
     ],
     weight: 1.0
   },
@@ -92,6 +140,12 @@ const INTENT_PATTERNS: IntentPattern[] = [
 ];
 
 export function detectIntent(query: string): IntentType {
+  const domainContext = detectDomainContext(query);
+  
+  if (domainContext === 'chemistry') {
+    return IntentType.RESEARCH;
+  }
+  
   let bestMatch = { intent: IntentType.UNKNOWN, score: 0 };
   
   for (const pattern of INTENT_PATTERNS) {
@@ -103,6 +157,17 @@ export function detectIntent(query: string): IntentType {
         }
       }
     }
+  }
+  
+  if (bestMatch.intent !== IntentType.UNKNOWN) {
+    return bestMatch.intent;
+  }
+  
+  if (domainContext === 'devops') {
+    return IntentType.DEPLOY;
+  }
+  if (domainContext === 'browser') {
+    return IntentType.CREATE;
   }
   
   return bestMatch.intent;
