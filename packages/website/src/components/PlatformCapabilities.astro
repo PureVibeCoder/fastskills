@@ -1,0 +1,493 @@
+---
+---
+
+<section id="platform-capabilities" class="platform-section">
+  <!-- Background Grid Effect -->
+  <div class="cyber-grid"></div>
+  
+  <div class="container">
+    <div class="section-header">
+      <div class="status-line">
+        <span class="status-dot pulse"></span>
+        <span class="status-text">ADVANCED_CAPABILITIES</span>
+      </div>
+      <h2 class="section-title">
+        <span class="bracket">[</span> PLATFORM_CORE_MODULES <span class="bracket">]</span>
+      </h2>
+      <p class="section-subtitle">// 超越技能聚合，解锁 Claude Code 高级能力</p>
+    </div>
+
+    <div class="capabilities-grid">
+      <!-- Card 1: Plugin Installation -->
+      <div class="capability-card">
+        <div class="card-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <div class="card-badge cyan">PLUGIN_SYSTEM</div>
+        </div>
+        
+        <div class="card-body">
+          <div class="icon-box cyan-glow">
+            <span class="icon">🔌</span>
+          </div>
+          
+          <h3 class="card-title">插件安装系统</h3>
+          <p class="card-description">
+            支持通过命令行快速安装和管理技能集，实现一键部署专业能力包
+          </p>
+          
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-label">TERMINAL</span>
+            </div>
+            <pre class="code-content"><code><span class="cmd">&gt;</span> <span class="keyword">/plugin</span> marketplace add mrgoonie/claudekit-skills
+<span class="output">✓ Plugin added successfully</span>
+
+<span class="cmd">&gt;</span> <span class="keyword">/plugin</span> install ai-ml-tools@claudekit-skills
+<span class="output">✓ 12 skills installed</span></code></pre>
+          </div>
+          
+          <ul class="feature-list">
+            <li>
+              <span class="check">✓</span>
+              <span>Marketplace 插件市场集成</span>
+            </li>
+            <li>
+              <span class="check">✓</span>
+              <span>版本化技能包管理</span>
+            </li>
+            <li>
+              <span class="check">✓</span>
+              <span>本地 + 全局安装支持</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Card 2: MCP Support -->
+      <div class="capability-card">
+        <div class="card-header">
+          <div class="terminal-controls">
+            <span class="control red"></span>
+            <span class="control yellow"></span>
+            <span class="control green"></span>
+          </div>
+          <div class="card-badge pink">MCP_PROTOCOL</div>
+        </div>
+        
+        <div class="card-body">
+          <div class="icon-box pink-glow">
+            <span class="icon">🔧</span>
+          </div>
+          
+          <h3 class="card-title">MCP 协议支持</h3>
+          <p class="card-description">
+            深度集成 Model Context Protocol，连接外部工具而不膨胀上下文窗口
+          </p>
+          
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-label">MCP_CONFIG</span>
+            </div>
+            <pre class="code-content"><code><span class="comment"># mcp-manager 子代理模式</span>
+<span class="key">servers:</span>
+  <span class="key">- name:</span> <span class="string">"markitdown-mcp"</span>
+    <span class="key">type:</span> <span class="string">"scientific"</span>
+  <span class="key">- name:</span> <span class="string">"database-tools"</span>
+    <span class="key">type:</span> <span class="string">"utility"</span></code></pre>
+          </div>
+          
+          <ul class="feature-list">
+            <li>
+              <span class="check">✓</span>
+              <span>MCP 服务器构建工具</span>
+            </li>
+            <li>
+              <span class="check">✓</span>
+              <span>子代理隔离架构</span>
+            </li>
+            <li>
+              <span class="check">✓</span>
+              <span>科学研究专用 MCP 服务</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="cta-row">
+      <a href="#all-packages" class="cta-link">
+        <span class="cta-text">探索技能包</span>
+        <span class="cta-arrow">→</span>
+      </a>
+      <a href="https://github.com/PureVibeCoder/fastskills" target="_blank" rel="noopener" class="cta-link secondary">
+        <span class="cta-text">查看文档</span>
+        <span class="cta-icon">↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  :root {
+    --neon-cyan: #00F0FF;
+    --neon-pink: #FF2E63;
+    --bg-dark: #030407;
+    --bg-card: #0a0a0c;
+    --border-dim: #1a1a1f;
+    --border-bright: #333;
+    --font-mono: 'Courier New', Courier, monospace;
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  .platform-section {
+    position: relative;
+    padding: 5rem 1rem;
+    background: linear-gradient(180deg, var(--bg-dark) 0%, #080810 100%);
+    overflow: hidden;
+    color: #fff;
+    font-family: var(--font-sans);
+  }
+
+  /* Cyber Grid Background */
+  .cyber-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      linear-gradient(rgba(0, 240, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 240, 255, 0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+    pointer-events: none;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .section-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+
+  .status-line {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--neon-cyan);
+    opacity: 0.8;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--neon-cyan);
+    border-radius: 50%;
+  }
+
+  .status-dot.pulse {
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.5); }
+    70% { box-shadow: 0 0 0 8px rgba(0, 240, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0); }
+  }
+
+  .section-title {
+    font-family: var(--font-mono);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  .bracket {
+    color: var(--neon-cyan);
+  }
+
+  .section-subtitle {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+  }
+
+  /* Grid */
+  .capabilities-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  /* Cards */
+  .capability-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-dim);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+  }
+
+  .capability-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .capability-card:first-child::before {
+    background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+  }
+
+  .capability-card:last-child::before {
+    background: linear-gradient(90deg, transparent, var(--neon-pink), transparent);
+  }
+
+  .capability-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--border-bright);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .capability-card:hover::before {
+    opacity: 1;
+  }
+
+  .card-header {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-dim);
+  }
+
+  .terminal-controls {
+    display: flex;
+    gap: 6px;
+  }
+
+  .control {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .control.red { background: #FF5F56; }
+  .control.yellow { background: #FFBD2E; }
+  .control.green { background: #27C93F; }
+
+  .card-badge {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  .card-badge.cyan {
+    background: rgba(0, 240, 255, 0.1);
+    color: var(--neon-cyan);
+    border: 1px solid rgba(0, 240, 255, 0.3);
+  }
+
+  .card-badge.pink {
+    background: rgba(255, 46, 99, 0.1);
+    color: var(--neon-pink);
+    border: 1px solid rgba(255, 46, 99, 0.3);
+  }
+
+  .card-body {
+    padding: 2rem;
+  }
+
+  .icon-box {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 1.25rem;
+    transition: all 0.3s ease;
+  }
+
+  .icon {
+    font-size: 1.75rem;
+  }
+
+  .capability-card:hover .icon-box.cyan-glow {
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.3);
+    border-color: rgba(0, 240, 255, 0.5);
+  }
+
+  .capability-card:hover .icon-box.pink-glow {
+    box-shadow: 0 0 25px rgba(255, 46, 99, 0.3);
+    border-color: rgba(255, 46, 99, 0.5);
+  }
+
+  .card-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-description {
+    font-size: 0.9rem;
+    color: #888;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Code Block */
+  .code-block {
+    background: #0d0d0f;
+    border: 1px solid var(--border-dim);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+
+  .code-header {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 0.4rem 0.75rem;
+    border-bottom: 1px solid var(--border-dim);
+  }
+
+  .code-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .code-content {
+    padding: 1rem;
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    line-height: 1.6;
+    overflow-x: auto;
+  }
+
+  .code-content .cmd { color: #666; }
+  .code-content .keyword { color: var(--neon-cyan); }
+  .code-content .output { color: #27C93F; }
+  .code-content .comment { color: #555; }
+  .code-content .key { color: var(--neon-pink); }
+  .code-content .string { color: #FFBD2E; }
+
+  /* Feature List */
+  .feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .feature-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    color: #aaa;
+  }
+
+  .check {
+    color: #27C93F;
+    font-weight: 700;
+  }
+
+  /* CTA Row */
+  .cta-row {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    background: var(--neon-cyan);
+    color: #000;
+  }
+
+  .cta-link:hover {
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+    transform: translateY(-2px);
+  }
+
+  .cta-link.secondary {
+    background: transparent;
+    color: #888;
+    border: 1px solid var(--border-bright);
+  }
+
+  .cta-link.secondary:hover {
+    color: #fff;
+    border-color: #666;
+    box-shadow: none;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .capabilities-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    .cta-row {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>

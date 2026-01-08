@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
+import PlatformCapabilities from '../components/PlatformCapabilities.astro';
 import WhyChoose from '../components/WhyChoose.astro';
 import SkillSources from '../components/SkillSources.astro';
 import AllPackages from '../components/AllPackages.astro';
@@ -14,6 +15,8 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
 
 <Layout title="FastSkills - 智能技能编排控制器">
   <Hero />
+
+  <PlatformCapabilities />
 
   <section id="features" class="features-section">
     <div class="container">
