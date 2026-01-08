@@ -17,6 +17,7 @@
     "format:check": "prettier --check src/"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^12.6.12",
     "@astrojs/node": "^9.5.1",
     "astro": "^5.16.6",
     "jszip": "^3.10.1"
