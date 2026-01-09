@@ -33,7 +33,37 @@
 
 Works with **Claude Code / OpenCode / Any MCP-compatible tool**
 
-#### 方式 A：HTTP API（零安装）/ HTTP API (Zero Install)
+#### 方式 A：通过 MCP 配置（最推荐）/ MCP Configuration (Highly Recommended)
+
+**将 FastSkills MCP 服务器添加到你的 `.mcp.json` 配置文件**
+
+**Add FastSkills MCP server to your `.mcp.json` configuration file**
+
+```json
+{
+  "mcpServers": {
+    "fastskills": {
+      "command": "node",
+      "args": ["/path/to/fastskills/packages/skills-router/dist/index.js"]
+    }
+  }
+}
+```
+
+**配置位置 / Configuration Paths:**
+- Claude Code: `~/.claude/mcp.json`
+- OpenCode: `.mcp.json` (项目根目录)
+- 项目特定: `.claude/mcp.json`
+
+**优点 / Benefits:**
+- ✅ 智能语义搜索 / Smart semantic search
+- ✅ 动态加载和卸载 / Hot load/unload skills
+- ✅ 上下文优化 / Context optimization
+- ✅ 自动补全 / Auto-completion
+
+> 📖 **详细配置**: [MCP_SETUP.md](./MCP_SETUP.md)
+
+#### 方式 B：HTTP API（零安装）/ HTTP API (Zero Install)
 
 **无需安装任何依赖，直接调用云端 API！**
 
@@ -66,21 +96,25 @@ curl https://mcp.fastskills.xyz/list_skills
 ### 备选方式 / Alternative Methods
 
 <details>
-<summary><b>Claude Code Plugin (仅限 Claude Code)</b></summary>
+<summary><b>方式 C：Claude Code 插件市场 / Plugin Marketplace</b></summary>
+
+在 Claude Code 中使用插件市场安装：
 
 ```bash
-/plugin marketplace add mrgoonie/claudekit-skills
-/plugin install ai-ml-tools@claudekit-skills
+/plugin marketplace add fastskills-skills
+/plugin install ai-ml-tools@fastskills
 ```
 
 </details>
 
 <details>
-<summary><b>手动复制 (OpenCode / 其他工具)</b></summary>
+<summary><b>方式 D：手动复制 / Manual Installation (Offline)</b></summary>
+
+适用于离线环境或特定场景。
 
 ```bash
 git clone --recursive https://github.com/PureVibeCoder/fastskills.git
-cp -r fastskills/claudekit-skills/.claude/skills/* ~/.claude/skills/
+cp -r fastskills/anthropic-skills/.claude/skills/* ~/.claude/skills/
 ```
 
 | Scope | Path |
@@ -187,32 +221,56 @@ All skills are aggregated from reputable open-source projects. Review before imp
 
 ## Quick Start / 快速开始
 
-### Method 1: Download from Website (Recommended) / 网站下载（推荐）
+### 第 1 步：配置 MCP（推荐）/ Step 1: Configure MCP (Recommended)
 
-1. Visit [fastskills.xyz](https://fastskills.xyz)
-2. Browse and download skills or packs
-3. **Review the SKILL.md files** before importing
-4. Copy to `~/.claude/skills/` or `your-project/.claude/skills/`
-5. Restart Claude Code
+**最快的方式：3 分钟即可开始使用**
 
-### Method 2: Clone Repository / 克隆仓库
+编辑 `~/.claude/mcp.json` 或项目的 `.claude/mcp.json`：
 
-```bash
-# Clone with submodules
-git clone --recursive https://github.com/PureVibeCoder/fastskills.git
-
-# Copy skills to your project
-cp -r fastskills/anthropic-skills/skills/frontend-design ~/.claude/skills/
+```json
+{
+  "mcpServers": {
+    "fastskills": {
+      "command": "node",
+      "args": ["/path/to/fastskills/packages/skills-router/dist/index.js"]
+    }
+  }
+}
 ```
 
-### Method 3: Git Submodule / 使用子模块
+重启 Claude Code，开始使用！
+
+> 📖 详见：[MCP_SETUP.md](./MCP_SETUP.md)
+
+### 第 2 步（可选）：HTTP API 快速测试 / Step 2 (Optional): Quick Test with HTTP API
+
+无需任何配置，直接测试：
 
 ```bash
-# Add Anthropic official skills
-git submodule add https://github.com/anthropics/skills.git .claude/skills/anthropic
+# 搜索技能
+curl -X POST https://mcp.fastskills.xyz/find_skills \
+  -H "Content-Type: application/json" \
+  -d '{"query": "前端开发", "limit": 5}'
+```
 
-# Or add scientific skills
-git submodule add https://github.com/K-Dense-AI/claude-scientific-skills.git .claude/skills/scientific
+### 其他方式 / Alternative Methods
+
+**方式 2：从网站下载**
+
+1. 访问 [fastskills.pages.dev](https://fastskills.pages.dev)
+2. 浏览并下载技能或技能包
+3. 审查 SKILL.md 文件内容
+4. 复制到 `~/.claude/skills/` 或 `your-project/.claude/skills/`
+5. 重启 Claude Code
+
+**方式 3：克隆仓库**
+
+```bash
+# 克隆所有子模块
+git clone --recursive https://github.com/PureVibeCoder/fastskills.git
+
+# 复制技能
+cp -r fastskills/anthropic-skills/.claude/skills/* ~/.claude/skills/
 ```
 
 ---
