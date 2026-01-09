@@ -68,7 +68,7 @@ export const REPO_CONFIG: Record<string, RepoConfig> = {
     id: 'superpowers',
     path: 'superpowers',
     url: 'https://github.com/obra/superpowers.git',
-    rawBase: 'https://raw.githubusercontent.com/gptscript-ai/superpowers/main',
+    rawBase: 'https://raw.githubusercontent.com/obra/superpowers/main',
     contentPath: 'skills'
   },
   'deep-research': {

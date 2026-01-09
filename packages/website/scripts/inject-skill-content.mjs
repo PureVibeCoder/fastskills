@@ -125,9 +125,11 @@ function processSkills() {
   let skillsTsContent = fs.readFileSync(skillsTsPath, 'utf-8');
   const originalSize = fs.statSync(skillsTsPath).size;
 
-  const newContent = skillsTsContent.replace(/content:\s*`[\s\S]*?`\s*,/g, "content: '',")
-                                    .replace(/content:\s*'[\s\S]*?'\s*,/g, "content: '',")
-                                    .replace(/content:\s*"[\s\S]*?"\s*,/g, "content: '',");
+  // 使用更精确的正则来处理转义字符
+  // 对于模板字符串：匹配非反引号或转义序列
+  const newContent = skillsTsContent.replace(/content:\s*`(?:[^`\\]|\\.)*`\s*,/g, "content: '',")
+                                    .replace(/content:\s*'(?:[^'\\]|\\.)*'\s*,/g, "content: '',")
+                                    .replace(/content:\s*"(?:[^"\\]|\\.)*"\s*,/g, "content: '',");
 
   fs.writeFileSync(skillsTsPath, newContent);
 
