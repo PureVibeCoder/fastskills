@@ -33,45 +33,33 @@
 
 Works with **Claude Code / OpenCode / Any MCP-compatible tool**
 
-#### Step 1: 安装 MCP 服务器 / Install MCP Server
+#### 方式 A：HTTP API（零安装）/ HTTP API (Zero Install)
+
+**无需安装任何依赖，直接调用云端 API！**
+
+**No installation required, call cloud API directly!**
 
 ```bash
-git clone https://github.com/PureVibeCoder/fastskills.git
-cd fastskills/packages/skills-router
-pnpm install && pnpm build
+# 搜索技能 / Search skills
+curl -X POST https://mcp.fastskills.xyz/find_skills \
+  -H "Content-Type: application/json" \
+  -d '{"query": "单细胞RNA分析", "limit": 5}'
+
+# 获取技能内容 / Get skill content
+curl -X POST https://mcp.fastskills.xyz/load_skills \
+  -H "Content-Type: application/json" \
+  -d '{"skills": ["scanpy", "anndata"]}'
+
+# 列出所有技能 / List all skills
+curl https://mcp.fastskills.xyz/list_skills
 ```
 
-#### Step 2: 添加到配置 / Add to Config
-
-```jsonc
-// Claude Code: ~/.claude/claude_desktop_config.json
-// OpenCode: opencode.jsonc
-{
-  "mcpServers": {
-    "fastskills": {
-      "command": "node",
-      "args": ["/path/to/fastskills/packages/skills-router/dist/index.js"]
-    }
-  }
-}
-```
-
-#### Step 3: 使用 MCP 工具 / Use MCP Tools
-
-| Tool | Description | Example |
-|------|-------------|---------|
-| `find_skills` | 智能搜索技能 / Smart skill search | `{"query": "分析单细胞RNA数据"}` |
-| `load_skills` | 动态加载技能 / Load skills dynamically | `{"skills": ["scanpy", "anndata"]}` |
-| `unload_skill` | 卸载技能 / Unload skill | `{"skill_id": "scanpy"}` |
-| `list_active_skills` | 列出已加载技能 / List active skills | - |
-
-```
-传统方式 ❌                    FastSkills MCP ✅
-├── 复制 200+ 技能              ├── 安装 FastSkills MCP
-├── 全部预加载                  ├── find_skills → 智能搜索
-├── 上下文膨胀 💥               ├── load_skills → 按需加载
-└── 响应变慢                    └── 上下文精简 🎯
-```
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/find_skills` | POST | 智能搜索技能 / Smart skill search |
+| `/load_skills` | POST | 获取技能完整内容 / Get full skill content |
+| `/list_skills` | GET | 列出所有技能 / List all skills |
+| `/health` | GET | 健康检查 / Health check |
 
 ---
 
@@ -120,12 +108,13 @@ cp -r fastskills/claudekit-skills/.claude/skills/* ~/.claude/skills/
 
 | Feature | Description |
 |---------|-------------|
+| **🌐 HTTP API** 云端接口 | Zero-install API at `mcp.fastskills.xyz` |
 | **🎯 Dynamic Loading** 按需加载 | Load skills on-demand via MCP, no context bloat |
 | **🔍 Smart Search** 智能搜索 | TF-IDF semantic search finds the right skills |
-| **Skill Aggregation** 技能聚合 | 225+ skills from 10+ curated open-source projects |
-| **Scenario Packs** 场景打包 | 25 ready-to-use skill packs for different workflows |
-| **Category Filtering** 分类筛选 | 20 categories including 9 scientific sub-domains |
-| **Security Scanning** 安全扫描 | Auto-generated security reports for each download |
+| **📦 Skill Aggregation** 技能聚合 | 225+ skills from 10+ curated open-source projects |
+| **🎁 Scenario Packs** 场景打包 | 25 ready-to-use skill packs for different workflows |
+| **🏷️ Category Filtering** 分类筛选 | 20 categories including 9 scientific sub-domains |
+| **🔒 Security Scanning** 安全扫描 | Auto-generated security reports for each download |
 
 ---
 
@@ -362,6 +351,7 @@ All skills are from these amazing open-source projects:
 ## Links / 链接
 
 - **Website / 网站**: [fastskills.xyz](https://fastskills.xyz)
+- **HTTP API**: [mcp.fastskills.xyz](https://mcp.fastskills.xyz)
 - **GitHub**: [github.com/PureVibeCoder/fastskills](https://github.com/PureVibeCoder/fastskills)
 - **Issues / 问题反馈**: [GitHub Issues](https://github.com/PureVibeCoder/fastskills/issues)
 - **Claude Code Docs**: [docs.anthropic.com/claude/docs/claude-code](https://docs.anthropic.com/claude/docs/claude-code)

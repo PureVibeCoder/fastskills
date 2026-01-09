@@ -45,7 +45,6 @@ fastskills/
 │   │   │   ├── styles/        # Global CSS
 │   │   │   └── utils/         # TypeScript utilities
 │   │   └── dist/              # Build output
-│   └── skills-router/         # Skills routing MCP plugin
 ├── anthropic-skills/          # Git submodule - Anthropic official skills
 ├── awesome-claude-skills/     # Git submodule - Community skills
 ├── claudekit-skills/          # Git submodule - ClaudeKit skills

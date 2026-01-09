@@ -1,6 +1,5 @@
 import JSZip from 'jszip';
 import type { Skill } from '../data/skills';
-import { SKILL_TO_SOURCE } from '../data/skill-sources';
 import { scanSkillContent, generateSecuritySummary, generateDetailedSecurityReport, type SecurityReport } from './security-scanner';
 
 export interface SkillForPackage {
@@ -10,42 +9,15 @@ export interface SkillForPackage {
 }
 
 /**
- * 尝试从本地文件读取 SKILL.md 内容（通过 API 端点）
+ * 获取技能的完整内容（直接使用 skills.ts 中预编译的内容）
  */
-async function tryReadSkillFile(skillId: string): Promise<string | null> {
-  const skillSource = SKILL_TO_SOURCE[skillId];
-  if (!skillSource) return null;
-
-  const apiUrl = `/api/skill-content?source=${skillSource.source}&path=${skillSource.path}`;
-
-  try {
-    const response = await fetch(apiUrl);
-    if (response.ok) {
-      return await response.text();
-    }
-  } catch (error) {
-    console.warn(`[packager] Failed to fetch SKILL.md for ${skillId}:`, error);
-  }
-
-  return null;
-}
-
-/**
- * 获取技能的完整内容（优先从文件读取，否则使用 skills.ts 中的内容）
- */
-async function getSkillContent(skill: Skill): Promise<string> {
-  // 优先尝试从本地文件读取
-  const fileContent = await tryReadSkillFile(skill.id);
-  if (fileContent) {
-    return fileContent;
-  }
-
-  // 回退到 skills.ts 中的 content
+function getSkillContent(skill: Skill): string {
+  // 使用 skills.ts 中的 content
   if (skill.content) {
     return skill.content;
   }
 
-  // 如果都没有，生成一个基础内容
+  // 如果没有内容，生成一个基础内容
   return `---
 name: ${skill.id}
 description: ${skill.description}
@@ -75,13 +47,11 @@ export async function downloadSkillPack(
   // 创建 ZIP 实例
   const zip = new JSZip();
 
-  // 并行获取所有技能内容
-  const skillContents = await Promise.all(
-    skills.map(async (skill) => {
-      const content = await getSkillContent(skill);
-      return { id: skill.id, name: skill.name, content };
-    })
-  );
+  // 获取所有技能内容
+  const skillContents = skills.map((skill) => {
+    const content = getSkillContent(skill);
+    return { id: skill.id, name: skill.name, content };
+  });
 
   // 生成安全扫描报告
   const securityReports = skillContents.map(skill => 

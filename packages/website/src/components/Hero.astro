@@ -90,6 +90,18 @@
           </div>
         </div>
 
+        <!-- Terminal Card 4: HTTP API -->
+        <div class="terminal-card card-api floating" style="--float-duration: 5.5s; --float-delay: -3s">
+          <div class="terminal-header">
+            <div class="title">api.endpoint</div>
+          </div>
+          <div class="terminal-body">
+            <div class="line"><span class="comment"># Zero Install</span></div>
+            <div class="line"><span class="cmd">url:</span> <span class="val api-url">mcp.fastskills.xyz</span></div>
+            <div class="line"><span class="cmd">skills:</span> <span class="val cyan">223</span></div>
+          </div>
+        </div>
+
         <!-- Decorative Elements -->
         <div class="decor-grid">
           <svg width="100" height="100" viewBox="0 0 100 100" class="spin-slow">
@@ -421,6 +433,24 @@
     transform: translate(0, 0) rotateZ(-5deg);
     z-index: 1;
     width: 220px;
+  }
+
+  .card-api {
+    bottom: 5%;
+    right: 5%;
+    transform: translate(0, 0) rotateZ(3deg);
+    z-index: 1;
+    width: 230px;
+    border-color: rgba(0, 240, 255, 0.3);
+  }
+
+  .card-api:hover {
+    border-color: var(--color-primary);
+  }
+
+  .api-url {
+    color: var(--color-primary);
+    font-size: 0.85rem;
   }
 
   .decor-grid {

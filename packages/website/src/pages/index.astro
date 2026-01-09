@@ -61,6 +61,13 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
           <h3 class="feature-title">FULL_DOCUMENTATION</h3>
           <p class="feature-description">每个技能都有完整的文档和使用示例</p>
         </div>
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <div class="feature-icon">🌐</div>
+          </div>
+          <h3 class="feature-title">HTTP_API</h3>
+          <p class="feature-description">零安装云端 API，直接调用 <a href="https://mcp.fastskills.xyz" target="_blank" class="api-link">mcp.fastskills.xyz</a> 搜索和加载技能</p>
+        </div>
       </div>
     </div>
   </section>
@@ -148,6 +155,7 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
   .feature-card:nth-child(3) { animation-delay: 0.3s; }
   .feature-card:nth-child(4) { animation-delay: 0.4s; }
   .feature-card:nth-child(5) { animation-delay: 0.5s; }
+  .feature-card:nth-child(6) { animation-delay: 0.6s; }
 
   @keyframes slideIn {
     from {
@@ -214,6 +222,17 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
     line-height: 1.6;
     margin: 0;
     font-family: var(--font-mono);
+  }
+
+  .feature-description .api-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--color-primary);
+    transition: all 0.2s ease;
+  }
+
+  .feature-description .api-link:hover {
+    text-shadow: 0 0 8px var(--color-primary);
   }
 
   .skills-container {
