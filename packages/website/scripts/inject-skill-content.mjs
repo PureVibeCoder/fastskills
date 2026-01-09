@@ -20,6 +20,41 @@ const OUTPUT_DIR = path.join(__dirname, '../public/data');
 const OUTPUT_FILE = 'skills-content.json';
 
 // ============================================================================
+// 正则工具函数
+// ============================================================================
+
+/**
+ * 创建匹配带引号字符串的正则表达式
+ * 正确处理转义字符，避免提前截断
+ *
+ * @param {string} quote - 引号字符: ` ' "
+ * @returns {RegExp} 匹配 content: <quote>...<quote>, 的正则
+ */
+function createContentPattern(quote) {
+  // 模式说明:
+  // - content:\s*  匹配 "content:" 及后续空白
+  // - <quote>      匹配开始引号
+  // - (?:[^<quote>\\]|\\.)*  匹配: 非引号非反斜杠 或 转义序列
+  // - <quote>\s*,  匹配结束引号及逗号
+  const escaped = quote.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`content:\\s*${escaped}(?:[^${escaped}\\\\]|\\\\.)*${escaped}\\s*,`, 'g');
+}
+
+/**
+ * 创建清理器函数，将所有 content 字段替换为空字符串
+ */
+function createContentCleaner() {
+  const patterns = ['`', "'", '"'].map(createContentPattern);
+
+  return (content) => {
+    return patterns.reduce(
+      (text, pattern) => text.replace(pattern, "content: '',"),
+      content
+    );
+  };
+}
+
+// ============================================================================
 // 从 REPO_CONFIG 动态生成 SOURCE_BASE_PATHS
 // 避免重复维护两份数据
 // ============================================================================
@@ -198,12 +233,8 @@ function cleanSkillsTsContent() {
   const originalContent = fs.readFileSync(SKILLS_TS_PATH, 'utf-8');
   const originalSize = fs.statSync(SKILLS_TS_PATH).size;
 
-  // 使用精确正则处理转义字符
-  // 模式: content: `...`, content: '...', content: "..."
-  const cleanedContent = originalContent
-    .replace(/content:\s*`(?:[^`\\]|\\.)*`\s*,/g, "content: '',")
-    .replace(/content:\s*'(?:[^'\\]|\\.)*'\s*,/g, "content: '',")
-    .replace(/content:\s*"(?:[^"\\]|\\.)*"\s*,/g, "content: '',");
+  const cleanContent = createContentCleaner();
+  const cleanedContent = cleanContent(originalContent);
 
   fs.writeFileSync(SKILLS_TS_PATH, cleanedContent);
 
