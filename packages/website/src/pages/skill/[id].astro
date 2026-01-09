@@ -1,9 +1,27 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { skills, type Skill } from '../../data/skills';
+import fs from 'node:fs';
+import path from 'node:path';
 
 // Pre-render all skill pages at build time
 export const prerender = true;
+
+// Load content map at build time
+let skillsContent: Record<string, string> = {};
+try {
+  // During build, we are running in node
+  const contentPath = path.resolve('./public/data/skills-content.json');
+  if (fs.existsSync(contentPath)) {
+    const raw = fs.readFileSync(contentPath, 'utf-8');
+    skillsContent = JSON.parse(raw);
+  } else {
+    // Maybe we are in dev mode and path is relative differently or file not generated yet
+    // console.warn('skills-content.json not found at', contentPath);
+  }
+} catch (e) {
+  console.warn('Failed to load skills content:', e);
+}
 
 export function getStaticPaths() {
   return skills.map((skill) => ({
@@ -17,6 +35,9 @@ interface Props {
 }
 
 const { skill } = Astro.props;
+
+// Enrich skill with content from external JSON if not present (which it shouldn't be anymore)
+const content = skillsContent[skill.id] || skill.content || 'Content not available. Run build script to generate.';
 
 const sourceLabels: Record<string, string> = {
   anthropic: 'Anthropic',
@@ -81,7 +102,7 @@ const sourceLabel = sourceLabels[skill.source] || skill.source;
       <section class="skill-section skill-content-section">
         <h2 class="section-title">SKILL.md CONTENT</h2>
         <div class="skill-content-wrapper">
-          <div id="skill-content" class="skill-content">{skill.content || 'Content not available for this skill.'}</div>
+          <div id="skill-content" class="skill-content">{content}</div>
         </div>
       </section>
 
@@ -405,7 +426,7 @@ const sourceLabel = sourceLabels[skill.source] || skill.source;
   }
 </style>
 
-<script define:vars={{ skillId: skill.id, skillContent: skill.content }}>
+<script define:vars={{ skillId: skill.id, skillContent: content }}>
   // Download skill function - uses static content from build time
   function downloadSkill() {
     if (!skillContent) {
