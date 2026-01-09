@@ -244,6 +244,8 @@ export const SKILL_TO_SOURCE: Record<string, SkillSource> = {
   'skill-from-masters': { source: 'skill-from-masters', path: '' },
   // purevibecoder skills
   'frontend-designer': { source: 'purevibecoder', path: 'frontend-designer' },
+  // ui-ux-pro-max skills
+  'ui-ux-pro-max': { source: 'ui-ux-pro-max', path: 'ui-ux-pro-max' },
 };
 
 // 根据技能 ID 获取源信息

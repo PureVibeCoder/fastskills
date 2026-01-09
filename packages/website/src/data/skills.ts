@@ -5,7 +5,7 @@ export interface Skill {
   name: string;
   description: string;
   category: Category;
-  source: 'anthropic' | 'claudekit' | 'scientific' | 'community' | 'composio' | 'voltagent' | 'obsidian' | 'planning' | 'superpowers' | 'deep-research' | 'skill-from-masters' | 'purevibecoder';
+  source: 'anthropic' | 'claudekit' | 'scientific' | 'community' | 'composio' | 'voltagent' | 'obsidian' | 'planning' | 'superpowers' | 'deep-research' | 'skill-from-masters' | 'purevibecoder' | 'ui-ux-pro-max';
   triggers: string[];
   priority: number;
   content: string;
@@ -85317,3 +85317,20 @@ export const pureVibeCoderSkills: Skill[] = [
 
 // Merge PureVibeCoder skills into main skills array
 skills.push(...pureVibeCoderSkills);
+
+// UI/UX Pro Max Skills
+export const uiUxProMaxSkills: Skill[] = [
+  {
+    id: 'ui-ux-pro-max',
+    name: 'UI/UX Pro Max',
+    description: 'UI/UX design intelligence with searchable database. 50 styles, 21 palettes, 50 font pairings, 20 charts, 8 stacks (React, Next.js, Vue, Svelte, SwiftUI, React Native, Flutter, Tailwind). Actions: plan, build, create, design, implement, review, fix, improve, optimize, enhance, refactor. Projects: website, landing page, dashboard, admin panel, e-commerce, SaaS, portfolio, blog, mobile app. Elements: button, modal, navbar, sidebar, card, table, form, chart. Styles: glassmorphism, claymorphism, minimalism, brutalism, neumorphism, bento grid, dark mode, responsive, skeuomorphism, flat design.',
+    category: categories[categoryIndex['frontend'] ?? 0],
+    source: 'ui-ux-pro-max',
+    triggers: ['ui', 'ux', 'design', 'style', 'palette', 'font', 'typography', 'landing', 'dashboard', 'glassmorphism', 'claymorphism', 'minimalism', 'brutalism', 'neumorphism', 'bento', 'responsive', 'tailwind', 'react', 'vue', 'svelte', 'nextjs', 'flutter', 'swiftui'],
+    priority: 9,
+    content: ''
+  },
+];
+
+// Merge UI/UX Pro Max skills into main skills array
+skills.push(...uiUxProMaxSkills);

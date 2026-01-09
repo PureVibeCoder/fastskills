@@ -32,3 +32,6 @@
 [submodule "skill-from-masters"]
 	path = skill-from-masters
 	url = https://github.com/GBSOSS/skill-from-masters.git
+[submodule "ui-ux-pro-max-skill"]
+	path = ui-ux-pro-max-skill
+	url = https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git

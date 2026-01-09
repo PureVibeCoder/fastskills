@@ -87,5 +87,11 @@ export const REPO_CONFIG: Record<string, RepoConfig> = {
     url: 'https://github.com/PureVibeCoder/fastskills.git',
     rawBase: 'https://raw.githubusercontent.com/PureVibeCoder/fastskills/main',
     contentPath: 'purevibecoder-skills'
+  },
+  'ui-ux-pro-max': {
+    path: 'ui-ux-pro-max-skill',
+    url: 'https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git',
+    rawBase: 'https://raw.githubusercontent.com/nextlevelbuilder/ui-ux-pro-max-skill/main',
+    contentPath: '.claude/skills'
   }
 };
