@@ -1,8 +1,37 @@
-import { IntentType, IntentPattern } from '../types.js';
+/**
+ * Intent detection for task classification
+ * Detects user intent from query to boost relevant skill categories
+ */
 
 /**
- * Domain-specific context keywords that override generic intent detection
- * When these keywords appear, the intent should be mapped to RESEARCH instead of DESIGN
+ * Intent types for task classification
+ */
+export enum IntentType {
+  CREATE = 'create',
+  RESEARCH = 'research',
+  DEBUG = 'debug',
+  REFACTOR = 'refactor',
+  DOCUMENT = 'document',
+  TEST = 'test',
+  DEPLOY = 'deploy',
+  ANALYZE = 'analyze',
+  CONVERT = 'convert',
+  DESIGN = 'design',
+  OPTIMIZE = 'optimize',
+  UNKNOWN = 'unknown',
+}
+
+/**
+ * Intent pattern for matching
+ */
+interface IntentPattern {
+  intent: IntentType;
+  patterns: RegExp[];
+  weight: number;
+}
+
+/**
+ * Domain-specific context keywords
  */
 const CHEMISTRY_DOMAIN_KEYWORDS = [
   /\b(molecule|molecular|compound|drug|ligand|protein|rdkit|smiles|chemical|chemistry|cheminformatics)\b/i,
@@ -19,11 +48,6 @@ const DEVOPS_DOMAIN_KEYWORDS = [
   /容器|编排|运维|集群/i,
 ];
 
-const BACKEND_DOMAIN_KEYWORDS = [
-  /\b(graphql|mongodb|postgresql|redis|backend)\b/i,
-  /服务端|后端/i,
-];
-
 const BROWSER_AUTOMATION_KEYWORDS = [
   /\b(playwright|puppeteer|selenium|scraping|crawler|crawl)\b/i,
   /爬虫|抓取/i,
@@ -32,15 +56,12 @@ const BROWSER_AUTOMATION_KEYWORDS = [
 /**
  * Check if query contains domain-specific keywords
  */
-function detectDomainContext(query: string): 'chemistry' | 'devops' | 'backend' | 'browser' | null {
+function detectDomainContext(query: string): 'chemistry' | 'devops' | 'browser' | null {
   for (const pattern of CHEMISTRY_DOMAIN_KEYWORDS) {
     if (pattern.test(query)) return 'chemistry';
   }
   for (const pattern of DEVOPS_DOMAIN_KEYWORDS) {
     if (pattern.test(query)) return 'devops';
-  }
-  for (const pattern of BACKEND_DOMAIN_KEYWORDS) {
-    if (pattern.test(query)) return 'backend';
   }
   for (const pattern of BROWSER_AUTOMATION_KEYWORDS) {
     if (pattern.test(query)) return 'browser';
@@ -48,6 +69,9 @@ function detectDomainContext(query: string): 'chemistry' | 'devops' | 'backend' 
   return null;
 }
 
+/**
+ * Intent patterns for matching user queries
+ */
 const INTENT_PATTERNS: IntentPattern[] = [
   {
     intent: IntentType.CREATE,
@@ -85,7 +109,7 @@ const INTENT_PATTERNS: IntentPattern[] = [
     intent: IntentType.DOCUMENT,
     patterns: [
       /文档|注释|说明|readme|文档化/i,
-      /document|readme|comment|explain|describe|doc/i,
+      /\bdocument\b|\breadme\b|\bcomment\b|\bexplain\b|\bdescribe\b|\bdocs\b/i,
     ],
     weight: 1.0
   },
@@ -139,8 +163,12 @@ const INTENT_PATTERNS: IntentPattern[] = [
   },
 ];
 
+/**
+ * Detect the primary intent from a query
+ * @param query - The user's query string
+ * @returns The detected intent type
+ */
 export function detectIntent(query: string): IntentType {
-  // 先检测显式意图（避免域上下文覆盖用户明确的意图）
   let bestMatch = { intent: IntentType.UNKNOWN, score: 0 };
 
   for (const pattern of INTENT_PATTERNS) {
@@ -156,8 +184,7 @@ export function detectIntent(query: string): IntentType {
 
   const domainContext = detectDomainContext(query);
 
-  // 只在意图未知或为 DESIGN 时，化学/生物域才覆盖为 RESEARCH
-  // 保留用户显式的 debug/deploy/create 等意图
+  // Chemistry/biology domain overrides DESIGN intent to RESEARCH
   if (domainContext === 'chemistry' &&
       (bestMatch.intent === IntentType.UNKNOWN || bestMatch.intent === IntentType.DESIGN)) {
     return IntentType.RESEARCH;
@@ -167,7 +194,7 @@ export function detectIntent(query: string): IntentType {
     return bestMatch.intent;
   }
 
-  // 其他域的默认意图
+  // Default intents for other domains
   if (domainContext === 'devops') {
     return IntentType.DEPLOY;
   }
@@ -178,6 +205,11 @@ export function detectIntent(query: string): IntentType {
   return bestMatch.intent;
 }
 
+/**
+ * Get keywords associated with an intent type
+ * @param intent - The intent type
+ * @returns Array of related keywords
+ */
 export function getIntentKeywords(intent: IntentType): string[] {
   const keywordMap: Record<IntentType, string[]> = {
     [IntentType.CREATE]: ['create', 'build', 'implement', 'generate', 'develop'],
@@ -193,6 +225,24 @@ export function getIntentKeywords(intent: IntentType): string[] {
     [IntentType.OPTIMIZE]: ['optimize', 'performance', 'speed', 'cache', 'faster'],
     [IntentType.UNKNOWN]: [],
   };
-  
+
   return keywordMap[intent] || [];
 }
+
+/**
+ * Intent to category mapping for score boosting
+ */
+export const INTENT_CATEGORY_MAP: Record<IntentType, string[]> = {
+  [IntentType.CREATE]: ['frontend', 'backend', 'tools', 'skill-dev'],
+  [IntentType.RESEARCH]: ['scientific', 'bioinformatics', 'cheminformatics', 'sci-databases'],
+  [IntentType.DEBUG]: ['testing', 'thinking', 'tools'],
+  [IntentType.REFACTOR]: ['backend', 'frontend', 'thinking'],
+  [IntentType.DOCUMENT]: ['document', 'sci-communication', 'knowledge'],
+  [IntentType.TEST]: ['testing', 'tools'],
+  [IntentType.DEPLOY]: ['devops', 'tools'],
+  [IntentType.ANALYZE]: ['data-viz', 'ml-ai', 'scientific'],
+  [IntentType.CONVERT]: ['document', 'tools', 'media'],
+  [IntentType.DESIGN]: ['frontend', 'media', 'data-viz'],
+  [IntentType.OPTIMIZE]: ['backend', 'devops', 'ml-ai'],
+  [IntentType.UNKNOWN]: [],
+};

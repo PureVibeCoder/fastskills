@@ -33,18 +33,17 @@
 
 Works with **Claude Code / OpenCode / Any MCP-compatible tool**
 
-#### 方式 A：通过 MCP 配置（最推荐）/ MCP Configuration (Highly Recommended)
+#### 方式 A：远程 MCP（最推荐）/ Remote MCP (Highly Recommended)
 
-**将 FastSkills MCP 服务器添加到你的 `.mcp.json` 配置文件**
+**使用远程 MCP 服务器，无需本地安装！**
 
-**Add FastSkills MCP server to your `.mcp.json` configuration file**
+**Use remote MCP server, no local installation needed!**
 
 ```json
 {
   "mcpServers": {
     "fastskills": {
-      "command": "node",
-      "args": ["/path/to/fastskills/packages/skills-router/dist/index.js"]
+      "url": "https://mcp.fastskills.xyz/sse"
     }
   }
 }
@@ -231,8 +230,7 @@ All skills are aggregated from reputable open-source projects. Review before imp
 {
   "mcpServers": {
     "fastskills": {
-      "command": "node",
-      "args": ["/path/to/fastskills/packages/skills-router/dist/index.js"]
+      "url": "https://mcp.fastskills.xyz/sse"
     }
   }
 }

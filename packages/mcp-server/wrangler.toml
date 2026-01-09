@@ -1,0 +1,13 @@
+name = "fastskills-mcp"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+# 自定义域名
+[[routes]]
+pattern = "mcp.fastskills.xyz"
+custom_domain = true
+
+# 静态技能索引
+[vars]
+SKILLS_INDEX_URL = "https://fastskills.pages.dev/api/skills.json"

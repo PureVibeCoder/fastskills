@@ -11,20 +11,17 @@ FastSkills 是一个 **MCP（Model Context Protocol）服务器**，提供动态
 
 ## 安装方式
 
-### 方式 1：通过 MCP JSON 配置（推荐）
+### 方式 1：远程 MCP 服务器（推荐）✅
 
-这是 **最推荐的方式**，直接在 Claude Code 中配置 MCP 服务器。
+使用云托管的 FastSkills MCP 服务器，无需本地安装！
 
-#### 1.1 本地 MCP 服务器
-
-如果你有本地 FastSkills 项目：
+**服务地址**: `https://mcp.fastskills.xyz`
 
 ```json
 {
   "mcpServers": {
     "fastskills": {
-      "command": "node",
-      "args": ["/path/to/fastskills/packages/skills-router/dist/index.js"]
+      "url": "https://mcp.fastskills.xyz/sse"
     }
   }
 }
@@ -34,38 +31,24 @@ FastSkills 是一个 **MCP（Model Context Protocol）服务器**，提供动态
 - **Claude Code**: `~/.claude/mcp.json`
 - **OpenCode**: 项目根目录 `.mcp.json`
 
-#### 1.2 远程 MCP 服务器
-
-使用云托管的 FastSkills MCP（即将推出）：
-
-```json
-{
-  "mcpServers": {
-    "fastskills": {
-      "command": "npx",
-      "args": ["@fastskills/mcp-client", "--remote=https://mcp.fastskills.xyz"]
-    }
-  }
-}
-```
-
-### 方式 2：HTTP API（零安装）
+### 方式 2：HTTP API（零安装）✅
 
 直接调用云端 API，无需配置 MCP 服务器：
 
 ```bash
 # 搜索技能
-curl -X POST https://mcp.fastskills.xyz/find_skills \
+curl -X POST https://mcp.fastskills.xyz/api/find_skills \
   -H "Content-Type: application/json" \
-  -d '{"query": "单细胞RNA分析", "limit": 5}'
+  -d '{"query": "single cell RNA", "limit": 5}'
 
-# 加载技能
-curl -X POST https://mcp.fastskills.xyz/load_skills \
-  -H "Content-Type: application/json" \
-  -d '{"skills": ["scanpy", "anndata"]}'
+# 获取技能内容
+curl https://mcp.fastskills.xyz/api/skills/scanpy/content
 
 # 列出所有技能
-curl https://mcp.fastskills.xyz/list_skills
+curl https://mcp.fastskills.xyz/api/list_skills
+
+# 按分类筛选
+curl "https://mcp.fastskills.xyz/api/list_skills?category=bioinformatics"
 ```
 
 ### 方式 3：Claude Code 插件
@@ -145,37 +128,7 @@ list_loaded_skills()
 {
   "mcpServers": {
     "fastskills": {
-      "command": "node",
-      "args": ["${CLAUDE_PLUGIN_ROOT}/dist/index.js"],
-      "env": {
-        "LOG_LEVEL": "info",
-        "CACHE_ENABLED": "true"
-      }
-    },
-    "fastskills-remote": {
-      "command": "npx",
-      "args": ["@fastskills/mcp-client", "--remote"],
-      "env": {
-        "FASTSKILLS_API": "https://mcp.fastskills.xyz",
-        "API_TIMEOUT": "30000"
-      }
-    }
-  }
-}
-```
-
-### 仅加载特定分类
-
-```json
-{
-  "mcpServers": {
-    "fastskills-scientific": {
-      "command": "node",
-      "args": ["${CLAUDE_PLUGIN_ROOT}/dist/index.js"],
-      "env": {
-        "SKILL_CATEGORY": "scientific",
-        "MAX_SKILLS": "50"
-      }
+      "url": "https://mcp.fastskills.xyz/sse"
     }
   }
 }
