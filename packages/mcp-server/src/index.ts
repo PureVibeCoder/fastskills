@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
+import { logger } from 'hono/logger';
 import { healthRoutes } from './routes/health';
 import { toolsRoutes } from './routes/tools';
 import { sseRoutes } from './routes/sse';
@@ -7,7 +8,18 @@ import type { Env } from './types';
 
 const app = new Hono<{ Bindings: Env }>();
 
+app.use('*', logger());
 app.use('*', cors());
+
+app.onError((err, c) => {
+  console.error(`${err}`);
+  return c.json({
+    error: {
+      message: err.message,
+      stack: process.env.NODE_ENV === 'production' ? undefined : err.stack
+    }
+  }, 500);
+});
 
 app.route('/health', healthRoutes);
 

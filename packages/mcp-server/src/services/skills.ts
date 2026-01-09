@@ -13,6 +13,7 @@ let searchEngine: TfIdfEngine | null = null;
 let lastFetch = 0;
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
+// Fallback only; prefer Env.GITHUB_RAW_BASE if available in future
 const DEFAULT_GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/PureVibeCoder/fastskills/main';
 
 /**
@@ -20,33 +21,50 @@ const DEFAULT_GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/PureVibeCoder
  */
 async function getSkillsIndex(indexUrl: string): Promise<SkillMeta[]> {
   const now = Date.now();
+  // Return cached index if valid
   if (skillsIndex && (now - lastFetch) < CACHE_TTL) {
     return skillsIndex;
   }
 
-  const response = await fetch(indexUrl);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch skills index: ${response.status}`);
+  try {
+    const response = await fetch(indexUrl);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch skills index: ${response.status} ${response.statusText}`);
+    }
+
+    const newIndex = await response.json() as SkillMeta[];
+
+    // Update cache
+    skillsIndex = newIndex;
+    lastFetch = now;
+
+    // Rebuild search engine with new index
+    searchEngine = new TfIdfEngine();
+    for (const skill of skillsIndex!) {
+      const document = [
+        skill.name,
+        skill.name, // Double weight for name
+        skill.description,
+        skill.triggers.join(' '),
+        skill.category,
+        skill.fullDescription || ''
+      ].join(' ');
+      searchEngine.addDocument(skill.id, document);
+    }
+
+    return skillsIndex!;
+  } catch (error) {
+    console.error('Error fetching skills index:', error);
+
+    // Return stale cache if available
+    if (skillsIndex) {
+      console.warn('Returning stale skills index due to fetch error');
+      return skillsIndex;
+    }
+
+    // Re-throw if no cache available
+    throw error;
   }
-
-  skillsIndex = await response.json();
-  lastFetch = now;
-
-  // Rebuild search engine with new index
-  searchEngine = new TfIdfEngine();
-  for (const skill of skillsIndex!) {
-    const document = [
-      skill.name,
-      skill.name, // Double weight for name
-      skill.description,
-      skill.triggers.join(' '),
-      skill.category,
-      skill.fullDescription || ''
-    ].join(' ');
-    searchEngine.addDocument(skill.id, document);
-  }
-
-  return skillsIndex!;
 }
 
 /**
@@ -171,15 +189,25 @@ export async function getSkillContent(indexUrl: string, skillId: string): Promis
   try {
     const response = await fetch(url);
     if (!response.ok) {
+      if (response.status !== 404) {
+        console.warn(`Failed to fetch SKILL.md for ${skillId}: ${response.status}`);
+      }
+
       const readmeUrl = `${baseUrl}/${skillPath}/README.md`;
       const readmeResponse = await fetch(readmeUrl);
       if (readmeResponse.ok) {
         return await readmeResponse.text();
       }
+
+      if (readmeResponse.status !== 404) {
+        console.warn(`Failed to fetch README.md for ${skillId}: ${readmeResponse.status}`);
+      }
+
       return skill.fullDescription || null;
     }
     return await response.text();
-  } catch {
+  } catch (error) {
+    console.error(`Error fetching content for skill ${skillId}:`, error);
     return skill.fullDescription || null;
   }
 }

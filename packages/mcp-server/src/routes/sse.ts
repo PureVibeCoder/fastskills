@@ -7,6 +7,15 @@ export const sseRoutes = new Hono<{ Bindings: Env }>();
 
 sseRoutes.get('/', async (c) => {
   return streamSSE(c, async (stream) => {
+    const sessionId = crypto.randomUUID();
+
+    // Send endpoint event first to tell client where to post messages
+    await stream.writeSSE({
+      event: 'endpoint',
+      data: `/sse/message?sessionId=${sessionId}`
+    });
+
+    // Send session parameters (standard MCP)
     await stream.writeSSE({
       event: 'open',
       data: JSON.stringify({
