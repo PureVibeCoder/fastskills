@@ -39,7 +39,7 @@ export function createRouterServer(options: RouterServerOptions = {}): RouterSer
   const listSkills = createListSkillsHandler(loader, searchEngine);
 
   const server = new Server(
-    { name: 'fastskills-router', version: '1.0.0' },
+    { name: 'fastskills', version: '1.0.0' },
     { capabilities: { tools: {} } }
   );
 

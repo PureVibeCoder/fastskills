@@ -1,12 +1,12 @@
 {
-  "name": "fastskills-router",
+  "name": "fastskills",
   "version": "1.0.0",
   "description": "FastSkills Router - 智能技能发现与动态加载，从 200+ 技能中自动推荐最相关的能力",
   "author": "marovole",
   "repository": "https://github.com/PureVibeCoder/fastskills",
   "homepage": "https://fastskills.xyz",
   "mcpServers": {
-    "fastskills-router": {
+    "fastskills": {
       "command": "node",
       "args": ["dist/index.js"]
     }
