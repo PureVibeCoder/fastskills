@@ -1,7 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { skills, type Skill } from '../../data/skills';
-import { SKILL_TO_SOURCE } from '../../data/skill-sources';
 
 // Pre-render all skill pages at build time
 export const prerender = true;
@@ -18,9 +17,6 @@ interface Props {
 }
 
 const { skill } = Astro.props;
-
-// Get source info for this skill
-const sourceInfo = SKILL_TO_SOURCE[skill.id];
 
 const sourceLabels: Record<string, string> = {
   anthropic: 'Anthropic',
@@ -81,15 +77,11 @@ const sourceLabel = sourceLabels[skill.source] || skill.source;
         </div>
       </section>
 
-      <!-- Skill Content (loaded dynamically) -->
+      <!-- Skill Content (static from build time) -->
       <section class="skill-section skill-content-section">
         <h2 class="section-title">SKILL.md CONTENT</h2>
         <div class="skill-content-wrapper">
-          <div id="skill-content" class="skill-content loading">
-            <div class="loading-indicator">
-              <span class="loading-text">LOADING CONTENT...</span>
-            </div>
-          </div>
+          <div id="skill-content" class="skill-content">{skill.content || 'Content not available for this skill.'}</div>
         </div>
       </section>
 
@@ -98,9 +90,6 @@ const sourceLabel = sourceLabels[skill.source] || skill.source;
         <button
           class="btn btn-primary btn-download"
           data-skill-id={skill.id}
-          data-skill-name={skill.name}
-          data-source={sourceInfo?.source || ''}
-          data-path={sourceInfo?.path || ''}
         >
           <span class="btn-icon">↓</span>
           <span class="btn-text">DOWNLOAD SKILL</span>
@@ -416,71 +405,27 @@ const sourceLabel = sourceLabels[skill.source] || skill.source;
   }
 </style>
 
-<script define:vars={{ skillId: skill.id, sourceInfo }}>
-  // Fetch skill content from API
-  async function loadSkillContent() {
-    const contentEl = document.getElementById('skill-content');
-    if (!contentEl) return;
-
-    try {
-      if (!sourceInfo) {
-        contentEl.innerHTML = '<span class="error-text">Source information not available for this skill.</span>';
-        contentEl.classList.remove('loading');
-        contentEl.classList.add('error');
-        return;
-      }
-
-      const response = await fetch(`/api/skill-content?source=${sourceInfo.source}&path=${sourceInfo.path}`);
-      
-      if (!response.ok) {
-        throw new Error('Failed to load skill content');
-      }
-
-      const content = await response.text();
-      contentEl.textContent = content;
-      contentEl.classList.remove('loading');
-    } catch (error) {
-      console.error('Error loading skill content:', error);
-      contentEl.innerHTML = '<span class="error-text">Failed to load skill content. Please try again later.</span>';
-      contentEl.classList.remove('loading');
-      contentEl.classList.add('error');
+<script define:vars={{ skillId: skill.id, skillContent: skill.content }}>
+  // Download skill function - uses static content from build time
+  function downloadSkill() {
+    if (!skillContent) {
+      alert('Content not available for this skill.');
+      return;
     }
-  }
 
-  // Download skill function
-  async function downloadSkill() {
-    try {
-      if (!sourceInfo) {
-        alert('Source information not available for this skill.');
-        return;
-      }
-
-      const response = await fetch(`/api/skill-content?source=${sourceInfo.source}&path=${sourceInfo.path}`);
-      
-      if (!response.ok) {
-        throw new Error('Failed to fetch skill content');
-      }
-
-      const content = await response.text();
-      const blob = new Blob([content], { type: 'text/markdown' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `${skillId}-SKILL.md`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Error downloading skill:', error);
-      alert('Failed to download skill. Please try again.');
-    }
+    const blob = new Blob([skillContent], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${skillId}-SKILL.md`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   }
 
   // Setup event listeners
   document.addEventListener('DOMContentLoaded', () => {
-    loadSkillContent();
-
     const downloadBtn = document.querySelector('.btn-download');
     if (downloadBtn) {
       downloadBtn.addEventListener('click', downloadSkill);

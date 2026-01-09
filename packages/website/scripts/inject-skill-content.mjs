@@ -1,13 +1,34 @@
-// 技能到源目录的映射
-// 供 packager.ts 使用
-// 自动生成于 2026-01-07
+#!/usr/bin/env node
+/**
+ * 注入完整的 SKILL.md 内容到 skills.ts
+ * 解决生产环境无法读取 git submodule 文件的问题
+ */
 
-export interface SkillSource {
-  source: string;
-  path: string;
-}
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-export const SKILL_TO_SOURCE: Record<string, SkillSource> = {
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const projectRoot = path.resolve(__dirname, '../../..');
+const skillsPath = path.join(__dirname, '../src/data/skills.ts');
+
+// 源目录映射（与 skill-sources.ts 和 api/skill-content.ts 保持一致）
+const SOURCE_BASE_PATHS = {
+  'anthropic': path.join(projectRoot, 'anthropic-skills/skills'),
+  'claudekit': path.join(projectRoot, 'claudekit-skills/.claude/skills'),
+  'scientific': path.join(projectRoot, 'scientific-skills/scientific-skills'),
+  'community': path.join(projectRoot, 'awesome-claude-skills'),
+  'composio': path.join(projectRoot, 'composio-skills/skills'),
+  'voltagent': path.join(projectRoot, 'voltagent-skills/skills'),
+  'obsidian': path.join(projectRoot, 'obsidian-skills/skills'),
+  'planning': path.join(projectRoot, 'planning-with-files'),
+  'deep-research': path.join(projectRoot, 'deep-research-skills/.claude/skills'),
+  'superpowers': path.join(projectRoot, 'superpowers/skills'),
+  'skill-from-masters': path.join(projectRoot, 'skill-from-masters/skill-from-masters'),
+};
+
+// 从 skill-sources.ts 导入映射
+const SKILL_TO_SOURCE = {
   // anthropic skills
   'algorithmic-art': { source: 'anthropic', path: 'algorithmic-art' },
   'brand-guidelines': { source: 'anthropic', path: 'brand-guidelines' },
@@ -244,12 +265,120 @@ export const SKILL_TO_SOURCE: Record<string, SkillSource> = {
   'skill-from-masters': { source: 'skill-from-masters', path: '' },
 };
 
-// 根据技能 ID 获取源信息
-export function getSkillSource(skillId: string): SkillSource | null {
-  return SKILL_TO_SOURCE[skillId] || null;
+/**
+ * 读取 SKILL.md 文件内容
+ */
+function readSkillContent(skillId) {
+  const sourceInfo = SKILL_TO_SOURCE[skillId];
+  if (!sourceInfo) {
+    return null;
+  }
+
+  const basePath = SOURCE_BASE_PATHS[sourceInfo.source];
+  if (!basePath || !fs.existsSync(basePath)) {
+    return null;
+  }
+
+  const skillPath = path.join(basePath, sourceInfo.path, 'SKILL.md');
+
+  try {
+    if (fs.existsSync(skillPath)) {
+      return fs.readFileSync(skillPath, 'utf-8');
+    }
+  } catch (error) {
+    console.warn(`  Warning: Failed to read ${skillPath}:`, error.message);
+  }
+
+  return null;
 }
 
-// 检查技能是否有源信息
-export function hasSkillSource(skillId: string): boolean {
-  return skillId in SKILL_TO_SOURCE;
+/**
+ * 转义模板字符串中的特殊字符
+ */
+function escapeForTemplateLiteral(str) {
+  return str
+    .replace(/\\/g, '\\\\')  // 转义反斜杠
+    .replace(/`/g, '\\`')    // 转义反引号
+    .replace(/\$\{/g, '\\${'); // 转义模板表达式
 }
+
+/**
+ * 注入内容到 skills.ts
+ */
+function injectContent() {
+  console.log('='.repeat(60));
+  console.log('Skills Content Injector');
+  console.log('='.repeat(60) + '\n');
+
+  console.log('Reading skills.ts...');
+  let content = fs.readFileSync(skillsPath, 'utf-8');
+
+  let injectedCount = 0;
+  let skippedCount = 0;
+  let notFoundCount = 0;
+  const updates = [];
+
+  // 匹配每个 skill 的 id 和对应的 content
+  const idPattern = /id:\s*'([^']+)'/g;
+  let idMatch;
+
+  while ((idMatch = idPattern.exec(content)) !== null) {
+    const skillId = idMatch[1];
+
+    // 在这个 id 后面找到对应的 content: ''
+    const searchStart = idMatch.index;
+    const searchEnd = Math.min(searchStart + 2000, content.length);
+    const searchArea = content.slice(searchStart, searchEnd);
+
+    // 匹配 content: '' 或 content: ``
+    const contentMatch = searchArea.match(/content:\s*(['`])(['`])/);
+    if (!contentMatch) {
+      skippedCount++;
+      continue;
+    }
+
+    // 读取实际的 SKILL.md 内容
+    const skillContent = readSkillContent(skillId);
+    if (!skillContent) {
+      notFoundCount++;
+      continue;
+    }
+
+    // 转义内容
+    const escapedContent = escapeForTemplateLiteral(skillContent);
+
+    const contentStart = searchStart + contentMatch.index;
+    updates.push({
+      start: contentStart,
+      oldText: contentMatch[0],
+      newText: `content: \`${escapedContent}\``,
+      skillId,
+    });
+    injectedCount++;
+  }
+
+  console.log(`\nProcessing ${updates.length} skills...`);
+
+  // 从后向前替换，保持位置正确
+  updates.sort((a, b) => b.start - a.start);
+
+  for (const update of updates) {
+    content = content.slice(0, update.start) + update.newText + content.slice(update.start + update.oldText.length);
+  }
+
+  // 写入更新后的文件
+  console.log('Writing updated skills.ts...');
+  fs.writeFileSync(skillsPath, content);
+
+  const originalSize = fs.statSync(skillsPath).size;
+
+  console.log('\n' + '='.repeat(60));
+  console.log('Summary:');
+  console.log(`  - Skills with content injected: ${injectedCount}`);
+  console.log(`  - Skills skipped (already has content): ${skippedCount}`);
+  console.log(`  - Skills not found in submodules: ${notFoundCount}`);
+  console.log(`  - New file size: ${(originalSize / 1024).toFixed(1)} KB`);
+  console.log('='.repeat(60));
+}
+
+injectContent();
