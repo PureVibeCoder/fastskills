@@ -242,6 +242,8 @@ export const SKILL_TO_SOURCE: Record<string, SkillSource> = {
   'synthesizer': { source: 'deep-research', path: 'synthesizer' },
   // skill-from-masters skills
   'skill-from-masters': { source: 'skill-from-masters', path: '' },
+  // purevibecoder skills
+  'frontend-designer': { source: 'purevibecoder', path: 'frontend-designer' },
 };
 
 // 根据技能 ID 获取源信息

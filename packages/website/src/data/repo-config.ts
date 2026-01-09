@@ -81,5 +81,11 @@ export const REPO_CONFIG: Record<string, RepoConfig> = {
     url: 'https://github.com/marovole/planning-with-files.git',
     rawBase: 'https://raw.githubusercontent.com/PureVibeCoder/fastskills/main',
     contentPath: 'planning-with-files'
+  },
+  purevibecoder: {
+    path: 'purevibecoder-skills',
+    url: 'https://github.com/PureVibeCoder/fastskills.git',
+    rawBase: 'https://raw.githubusercontent.com/PureVibeCoder/fastskills/main',
+    contentPath: 'purevibecoder-skills'
   }
 };

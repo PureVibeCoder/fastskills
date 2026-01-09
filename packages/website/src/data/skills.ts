@@ -5,7 +5,7 @@ export interface Skill {
   name: string;
   description: string;
   category: Category;
-  source: 'anthropic' | 'claudekit' | 'scientific' | 'community' | 'composio' | 'voltagent' | 'obsidian' | 'planning' | 'superpowers' | 'deep-research' | 'skill-from-masters';
+  source: 'anthropic' | 'claudekit' | 'scientific' | 'community' | 'composio' | 'voltagent' | 'obsidian' | 'planning' | 'superpowers' | 'deep-research' | 'skill-from-masters' | 'purevibecoder';
   triggers: string[];
   priority: number;
   content: string;
@@ -85300,3 +85300,20 @@ Which of these approaches resonates with how you want PRDs written? Or should we
 `
   },
 ];
+
+// PureVibeCoder Skills
+export const pureVibeCoderSkills: Skill[] = [
+  {
+    id: 'frontend-designer',
+    name: 'Frontend Designer',
+    description: 'Expert frontend design system for creating distinctive, production-grade interfaces. Use when building or designing web components, pages, or applications; improving UI/UX; creating modern, distinctive frontends that avoid generic aesthetics; working with design systems, typography, colors, or animations. Provides 12+ aesthetic direction templates (neo-brutalist, glassmorphism, art deco, etc.), production-ready code patterns for React/Vue/vanilla JS, typography systems, color theory, and anti-patterns to avoid generic AI-generated looks.',
+    category: categories[categoryIndex['frontend'] ?? 0],
+    source: 'purevibecoder',
+    triggers: ['frontend', 'design', 'ui', 'ux', 'component', 'interface', 'css', 'react', 'vue', 'typography', 'color', 'animation', 'glassmorphism', 'brutalist'],
+    priority: 8,
+    content: ''
+  },
+];
+
+// Merge PureVibeCoder skills into main skills array
+skills.push(...pureVibeCoderSkills);
