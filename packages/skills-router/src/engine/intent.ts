@@ -140,14 +140,9 @@ const INTENT_PATTERNS: IntentPattern[] = [
 ];
 
 export function detectIntent(query: string): IntentType {
-  const domainContext = detectDomainContext(query);
-  
-  if (domainContext === 'chemistry') {
-    return IntentType.RESEARCH;
-  }
-  
+  // 先检测显式意图（避免域上下文覆盖用户明确的意图）
   let bestMatch = { intent: IntentType.UNKNOWN, score: 0 };
-  
+
   for (const pattern of INTENT_PATTERNS) {
     for (const regex of pattern.patterns) {
       if (regex.test(query)) {
@@ -158,18 +153,28 @@ export function detectIntent(query: string): IntentType {
       }
     }
   }
-  
+
+  const domainContext = detectDomainContext(query);
+
+  // 只在意图未知或为 DESIGN 时，化学/生物域才覆盖为 RESEARCH
+  // 保留用户显式的 debug/deploy/create 等意图
+  if (domainContext === 'chemistry' &&
+      (bestMatch.intent === IntentType.UNKNOWN || bestMatch.intent === IntentType.DESIGN)) {
+    return IntentType.RESEARCH;
+  }
+
   if (bestMatch.intent !== IntentType.UNKNOWN) {
     return bestMatch.intent;
   }
-  
+
+  // 其他域的默认意图
   if (domainContext === 'devops') {
     return IntentType.DEPLOY;
   }
   if (domainContext === 'browser') {
     return IntentType.CREATE;
   }
-  
+
   return bestMatch.intent;
 }
 

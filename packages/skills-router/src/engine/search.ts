@@ -64,9 +64,10 @@ function expandQueryWithSynonyms(query: string): string {
     }
   }
   
-  const lowerQuery = query.toLowerCase();
+  // 使用单词边界匹配避免子串误匹配（如 "reaction" 不应匹配 "react"）
   for (const [alias, expansions] of Object.entries(DOMAIN_ALIASES)) {
-    if (lowerQuery.includes(alias)) {
+    const wordBoundary = new RegExp(`\\b${alias}\\b`, 'i');
+    if (wordBoundary.test(query)) {
       expandedTerms.push(...expansions);
     }
   }
@@ -151,8 +152,13 @@ export class SkillSearchEngine {
         const queryLower = query.toLowerCase();
         const skillIdLower = skill.id.toLowerCase();
         const skillNameLower = skill.name.toLowerCase();
-        
-        if (queryLower.includes(skillIdLower) || skillIdLower.includes(queryLower.split(/\s+/)[0])) {
+
+        // 只对长度 >= 4 的首词进行加权，且要求精确匹配或作为技能ID前缀
+        // 避免 "api", "data" 等短词过度抬高大量技能分数
+        const firstWord = queryLower.split(/\s+/)[0];
+        if (queryLower.includes(skillIdLower) ||
+            (firstWord.length >= 4 &&
+             (skillIdLower === firstWord || skillIdLower.startsWith(firstWord + '-')))) {
           adjustedScore *= 3.0;
         }
         if (skill.triggers.some(t => queryLower.includes(t.toLowerCase()))) {
