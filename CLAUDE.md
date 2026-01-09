@@ -9,18 +9,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | **GitHub Repository** | https://github.com/PureVibeCoder/fastskills |
 | **Live Website** | https://fastskills.pages.dev |
 | **Remote MCP** | https://mcp.fastskills.xyz |
-| **Deployment Method** | Wrangler CLI (manual) |
+| **Deployment** | GitHub Actions (auto) + Wrangler CLI (manual) |
 
 ## Quick Commands
 
 ```bash
 # Development
-pnpm install              # Install dependencies (use --recursive for submodules)
+pnpm install              # Install dependencies
 pnpm dev                  # Start website dev server (http://localhost:4321)
 pnpm build                # Build website for production
 pnpm typecheck            # TypeScript checking
-pnpm test                 # Run tests
-pnpm lint                 # ESLint check
+
+# Tests and linting (run from package directories or use --filter)
+pnpm --filter website test
+pnpm --filter website lint
+pnpm --filter @fastskills/mcp-server test
 
 # MCP Server development
 cd packages/mcp-server
@@ -33,7 +36,7 @@ pnpm coverage-report      # Generate skill coverage report
 pnpm --filter website exec vitest run src/utils/__tests__/specific.test.ts
 pnpm --filter @fastskills/mcp-server exec vitest run src/__tests__/specific.test.ts
 
-# Deployment
+# Manual deployment
 cd packages/website && pnpm build && wrangler pages deploy dist --project-name=fastskills --commit-dirty=true
 cd packages/mcp-server && pnpm deploy
 ```
@@ -63,9 +66,9 @@ packages/
 
 ### MCP Server Engine
 
-The `mcp-server` package provides a remote MCP server with three tools:
+The `mcp-server` package provides a remote MCP server with these tools:
 - `find_skills`: TF-IDF search with Chinese-English synonym expansion and intent detection
-- `get_skill_content`: Returns full skill content for loading into Claude sessions
+- `load_skills`: Returns full skill content for loading into Claude sessions
 - `list_skills`: Lists all available skills with optional category filter
 
 Key files:
@@ -74,6 +77,7 @@ Key files:
 - `engine/intent.ts`: Intent detection (`IntentType`: CREATE, RESEARCH, DEBUG, etc.)
 - `services/skills.ts`: Skill search with score boosting
 - `mcp/handler.ts`: MCP JSON-RPC protocol handler
+- `routes/sse.ts`: Server-Sent Events endpoint for MCP transport
 
 ### Skill Data Flow
 
@@ -107,7 +111,8 @@ Clone with: `git clone --recursive https://github.com/PureVibeCoder/fastskills.g
 
 ## Important Notes
 
-1. **Submodules**: Clone with `--recursive` flag
+1. **Submodules**: Clone with `git clone --recursive` or run `git submodule update --init --recursive`
 2. **Large files**: `packages/website/src/data/skills.ts` is ~3MB, use grep/offset when reading
 3. **Monorepo**: Use `pnpm --filter website` or `pnpm --filter @fastskills/mcp-server` from root
 4. **Security**: Run security scanner on new skills before adding
+5. **CI/CD**: GitHub Actions auto-deploys website on push to main
