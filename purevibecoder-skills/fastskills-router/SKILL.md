@@ -219,6 +219,8 @@ Combine matched routes' skills (dedupe). Output highest-priority matches first.
 | 0 | venue-template | 期刊模板, 会议模板, LaTeX模板, NeurIPS, ICML | `venue-templates` |
 | 0 | paper-web | 论文转网页, paper to web, 研究宣传, 论文展示 | `paper-2-web` |
 | 0 | database-design | 数据库设计, schema design, 数据建模, ER图 | `database-design` |
+| 0 | mcp-resources | MCP资源, 可用资源, available resources, 资源发现 | `get-available-resources` |
+| 0 | ncbi-gene | NCBI基因, NCBI Gene, 基因数据库, gene database | `ncbi-gene-database` |
 
 **No Match?** → Output `📦 已加载技能: (none)` and proceed.
 
