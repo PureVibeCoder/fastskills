@@ -246,6 +246,18 @@ export const SKILL_TO_SOURCE: Record<string, SkillSource> = {
   'frontend-designer': { source: 'purevibecoder', path: 'frontend-designer' },
   // ui-ux-pro-max skills
   'ui-ux-pro-max': { source: 'ui-ux-pro-max', path: 'ui-ux-pro-max' },
+  // makepad skills
+  'makepad-fundamentals': { source: 'makepad', path: 'makepad-fundamentals' },
+  'makepad-init': { source: 'makepad', path: 'makepad-init' },
+  'makepad-project-structure': { source: 'makepad', path: 'makepad-project-structure' },
+  'makepad-rust': { source: 'makepad', path: 'makepad-rust' },
+  'makepad-shaders': { source: 'makepad', path: 'makepad-shaders' },
+  'makepad-patterns': { source: 'makepad', path: 'makepad-patterns' },
+  'makepad-adaptive-layout': { source: 'makepad', path: 'makepad-adaptive-layout' },
+  'makepad-packaging': { source: 'makepad', path: 'makepad-packaging' },
+  'makepad-troubleshooting': { source: 'makepad', path: 'makepad-troubleshooting' },
+  'makepad-code-quality': { source: 'makepad', path: 'makepad-code-quality' },
+  'makepad-evolution': { source: 'makepad', path: 'makepad-evolution' },
 };
 
 // 根据技能 ID 获取源信息

@@ -203,6 +203,7 @@ Combine matched routes' skills (dedupe). Output highest-priority matches first.
 | 10 | parallel-agents | 并行代理, parallel agents, 子代理, subagent, 分布式任务 | `dispatching-parallel-agents, subagent-driven-development` |
 | 9 | superpowers-meta | Superpowers, 技能系统, 技能学习, 大师案例 | `using-superpowers, skill-from-masters` |
 | 8 | ui-ux-advanced | UI/UX专业, 设计数据库, 交互设计, 用户体验专家 | `ui-ux-pro-max` |
+| 8 | makepad | Makepad, Rust UI, live_design, 跨平台Rust, GPU渲染, SDF, Robius | `makepad-fundamentals, makepad-init, makepad-rust, makepad-shaders, makepad-patterns, makepad-packaging` |
 | 7 | protein-testing | Adaptyv, 蛋白质测试, 蛋白质验证, 云实验室 | `adaptyv` |
 | 6 | genomic-data | geniml, LaminDB, BED文件, 基因组区间, 生物数据管理 | `geniml, lamindb` |
 | 5 | cellxgene | CELLxGENE, Census, 单细胞数据库, 细胞图谱 | `cellxgene-census` |
@@ -351,7 +352,7 @@ I don't have access to real-time weather data...
 
 <SKILL_LIBRARY>
 
-## AVAILABLE SKILLS (256+)
+## AVAILABLE SKILLS (267+)
 
 | Category | Count | Examples |
 |----------|-------|----------|
@@ -360,9 +361,9 @@ I don't have access to real-time weather data...
 | 化学信息学 | 11 | rdkit, deepchem |
 | 临床医学 | 9 | pyhealth, clinical-reports |
 | 数据可视化 | 15 | matplotlib, plotly, seaborn |
-| DevOps | 2 | devops, docker |
+| DevOps | 3 | devops, docker, makepad-packaging |
 | 文档处理 | 5 | docx, pdf, pptx |
-| 前端开发 | 13 | react-components, frontend-designer |
+| 前端开发 | 20 | react-components, frontend-designer, makepad-fundamentals |
 | 知识管理 | 3 | obsidian-markdown |
 | 实验室自动化 | 10 | opentrons, benchling |
 | 媒体处理 | 6 | generate-image, media-processing |
@@ -370,9 +371,10 @@ I don't have access to real-time weather data...
 | 物理材料 | 10 | qiskit, astropy |
 | 科学写作 | 20 | scientific-writing, literature-review |
 | 科学数据库 | 29 | pubmed, uniprot, kegg |
-| 测试质量 | 10 | test-driven-development |
+| 测试质量 | 12 | test-driven-development, makepad-troubleshooting |
 | 思维方法 | 17 | brainstorming, research-executor |
 | 开发工具 | 30 | mcp-builder, claude-code |
+| Rust/Makepad | 11 | makepad-init, makepad-shaders, makepad-rust |
 
 **Full API**: https://fastskills.pages.dev/api/skills.json
 

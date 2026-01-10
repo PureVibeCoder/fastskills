@@ -7,7 +7,7 @@
 
 <p align="center">
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
-  <a href="#-skills-count--技能统计"><img src="https://img.shields.io/badge/Skills-227+-green" alt="Skills"></a>
+  <a href="#-skills-count--技能统计"><img src="https://img.shields.io/badge/Skills-238+-green" alt="Skills"></a>
   <a href="#-skill-packs--场景化技能包"><img src="https://img.shields.io/badge/Packs-25-blue" alt="Packages"></a>
   <a href="https://astro.build/"><img src="https://img.shields.io/badge/Built_with-Astro-orange" alt="Astro"></a>
   <a href="https://fastskills.xyz"><img src="https://img.shields.io/badge/Website-Live-success" alt="Website"></a>
@@ -23,9 +23,9 @@
 
 ## 🚀 一行安装，智能路由 / One-Line Install, Smart Routing
 
-**核心优势：一个技能触发 227+ 专业技能！自动检测意图，智能加载相关技能。**
+**核心优势：一个技能触发 238+ 专业技能！自动检测意图，智能加载相关技能。**
 
-**Core Advantage: One skill triggers 227+ expert skills! Auto-detect intent, smart-load relevant skills.**
+**Core Advantage: One skill triggers 238+ expert skills! Auto-detect intent, smart-load relevant skills.**
 
 ### 安装方式 / Installation
 
@@ -111,12 +111,12 @@ Claude 自动分析:
 
 | Metric | Count |
 |--------|-------|
-| Total Skills / 技能总数 | **227+** |
+| Total Skills / 技能总数 | **238+** |
 | Skill Packs / 场景包 | **25** |
 | Categories / 分类 | **20** |
 | Scientific Skills / 科学技能 | **138+** |
 | Scientific Databases / 科学数据库 | **28+** |
-| Source Projects / 来源项目 | **10+** |
+| Source Projects / 来源项目 | **11+** |
 
 ---
 
@@ -136,6 +136,7 @@ All skills are aggregated from reputable open-source projects. Review before imp
 | [Deep Research](https://github.com/liangdabiao/Claude-Code-Deep-Research-main) | 55+ | 5 | Research | - |
 | [Obsidian Skills](https://github.com/kepano/obsidian-skills) | 160+ | 3 | Knowledge | MIT |
 | [VoltAgent](https://github.com/VoltAgent/voltagent) | - | 10+ | AI Agent | - |
+| [Makepad Skills](https://github.com/ZhangHanDong/makepad-skills) | - | 11 | Rust UI | MIT |
 | [Planning with Files](https://github.com/marovole/planning-with-files) | - | 1 | Planning | MIT |
 
 ---
@@ -356,6 +357,7 @@ All skills are from these amazing open-source projects:
 | [claudekit-skills](https://github.com/mrgoonie/claudekit-skills) | [@mrgoonie](https://github.com/mrgoonie) |
 | [claude-scientific-skills](https://github.com/K-Dense-AI/claude-scientific-skills) | [K-Dense AI](https://github.com/K-Dense-AI) |
 | [obsidian-skills](https://github.com/kepano/obsidian-skills) | [@kepano](https://github.com/kepano) |
+| [makepad-skills](https://github.com/ZhangHanDong/makepad-skills) | [@ZhangHanDong](https://github.com/ZhangHanDong) |
 
 **Note**: This project only aggregates and displays skills. All copyrights belong to original authors.
 

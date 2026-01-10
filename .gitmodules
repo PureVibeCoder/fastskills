@@ -35,3 +35,6 @@
 [submodule "ui-ux-pro-max-skill"]
 	path = ui-ux-pro-max-skill
 	url = https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git
+[submodule "makepad-skills"]
+	path = makepad-skills
+	url = https://github.com/ZhangHanDong/makepad-skills.git

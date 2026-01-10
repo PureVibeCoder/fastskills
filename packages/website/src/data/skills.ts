@@ -5,7 +5,7 @@ export interface Skill {
   name: string;
   description: string;
   category: Category;
-  source: 'anthropic' | 'claudekit' | 'scientific' | 'community' | 'composio' | 'voltagent' | 'obsidian' | 'planning' | 'superpowers' | 'deep-research' | 'skill-from-masters' | 'purevibecoder' | 'ui-ux-pro-max';
+  source: 'anthropic' | 'claudekit' | 'scientific' | 'community' | 'composio' | 'voltagent' | 'obsidian' | 'planning' | 'superpowers' | 'deep-research' | 'skill-from-masters' | 'purevibecoder' | 'ui-ux-pro-max' | 'makepad';
   triggers: string[];
   priority: number;
   content: string;
@@ -85334,3 +85334,120 @@ export const uiUxProMaxSkills: Skill[] = [
 
 // Merge UI/UX Pro Max skills into main skills array
 skills.push(...uiUxProMaxSkills);
+
+// Makepad Skills - Rust UI Framework for cross-platform development
+export const makepadSkills: Skill[] = [
+  {
+    id: 'makepad-fundamentals',
+    name: 'makepad-fundamentals',
+    description: 'Create and edit Makepad UI applications with live_design! macro, widgets, events, and app architecture. Use when working with Makepad projects, creating widgets, handling events, or setting up app structure in Rust.',
+    category: categories[categoryIndex['frontend'] ?? 0],
+    source: 'makepad',
+    triggers: ['makepad', 'live_design', 'rust ui', 'widget', 'rust framework', 'cross-platform rust'],
+    priority: 8,
+    content: ''
+  },
+  {
+    id: 'makepad-init',
+    name: 'makepad-init',
+    description: 'Initialize new Makepad projects with proper structure and boilerplate. Use when creating a new Makepad application, scaffolding project structure, or setting up Rust UI projects from scratch.',
+    category: categories[categoryIndex['frontend'] ?? 0],
+    source: 'makepad',
+    triggers: ['makepad', 'init', 'create makepad', 'new makepad app', 'scaffold rust ui'],
+    priority: 8,
+    content: ''
+  },
+  {
+    id: 'makepad-project-structure',
+    name: 'makepad-project-structure',
+    description: 'Best practices for organizing Makepad project directories and modules. Use when structuring a Makepad application, organizing code modules, or planning project architecture.',
+    category: categories[categoryIndex['frontend'] ?? 0],
+    source: 'makepad',
+    triggers: ['makepad', 'project structure', 'directory organization', 'module layout'],
+    priority: 7,
+    content: ''
+  },
+  {
+    id: 'makepad-rust',
+    name: 'makepad-rust',
+    description: 'Makepad-specific Rust patterns including ownership, derives, async/tokio, and state management. Use when dealing with Rust borrow checker issues in Makepad, implementing async operations, or managing application state.',
+    category: categories[categoryIndex['frontend'] ?? 0],
+    source: 'makepad',
+    triggers: ['makepad', 'rust', 'borrow checker', 'async makepad', 'tokio', 'state management rust'],
+    priority: 8,
+    content: ''
+  },
+  {
+    id: 'makepad-shaders',
+    name: 'makepad-shaders',
+    description: 'GPU-accelerated SDF drawing and custom shader effects in Makepad. Use when creating gradient backgrounds, glow effects, custom visual animations, or any GPU shader work in Makepad.',
+    category: categories[categoryIndex['frontend'] ?? 0],
+    source: 'makepad',
+    triggers: ['makepad', 'shader', 'sdf', 'gpu', 'gradient', 'glow effect', 'visual effect'],
+    priority: 8,
+    content: ''
+  },
+  {
+    id: 'makepad-patterns',
+    name: 'makepad-patterns',
+    description: 'Common Makepad UI patterns including modals, infinite lists, navigation, and theming. Use when implementing modal dialogs, infinite scroll, navigation patterns, or theme systems in Makepad.',
+    category: categories[categoryIndex['frontend'] ?? 0],
+    source: 'makepad',
+    triggers: ['makepad', 'modal', 'infinite scroll', 'navigation', 'theming', 'ui pattern'],
+    priority: 7,
+    content: ''
+  },
+  {
+    id: 'makepad-adaptive-layout',
+    name: 'makepad-adaptive-layout',
+    description: 'Responsive layouts with AdaptiveView and StackNavigation for desktop and mobile. Use when building responsive Makepad apps, supporting both desktop and mobile layouts, or implementing adaptive UI.',
+    category: categories[categoryIndex['frontend'] ?? 0],
+    source: 'makepad',
+    triggers: ['makepad', 'responsive', 'adaptive', 'mobile layout', 'desktop mobile', 'stack navigation'],
+    priority: 7,
+    content: ''
+  },
+  {
+    id: 'makepad-packaging',
+    name: 'makepad-packaging',
+    description: 'Build and deploy Makepad apps for desktop (macOS, Windows, Linux), mobile (Android, iOS), and WebAssembly. Use when building APK for Android, deploying to web, or packaging for any platform.',
+    category: categories[categoryIndex['devops'] ?? 0],
+    source: 'makepad',
+    triggers: ['makepad', 'build', 'deploy', 'android apk', 'ios', 'webassembly', 'wasm', 'packaging'],
+    priority: 8,
+    content: ''
+  },
+  {
+    id: 'makepad-troubleshooting',
+    name: 'makepad-troubleshooting',
+    description: 'Diagnose and fix common Makepad errors including Apply errors, UI not updating, and compilation issues. Use when encountering "no matching field" errors, UI refresh problems, or other Makepad-specific issues.',
+    category: categories[categoryIndex['testing'] ?? 0],
+    source: 'makepad',
+    triggers: ['makepad', 'error', 'troubleshooting', 'debug', 'apply error', 'ui not updating'],
+    priority: 8,
+    content: ''
+  },
+  {
+    id: 'makepad-code-quality',
+    name: 'makepad-code-quality',
+    description: 'Makepad-aware code refactoring that knows what NOT to simplify. Use when optimizing Makepad code, refactoring live_design! blocks, or improving code quality while preserving Makepad-specific patterns.',
+    category: categories[categoryIndex['testing'] ?? 0],
+    source: 'makepad',
+    triggers: ['makepad', 'refactor', 'code quality', 'simplify', 'optimize'],
+    priority: 7,
+    content: ''
+  },
+  {
+    id: 'makepad-evolution',
+    name: 'makepad-evolution',
+    description: 'Capture and apply learnings during Makepad development. Auto-triggered when discovering new patterns or solutions to improve future development.',
+    category: categories[categoryIndex['skill-dev'] ?? 0],
+    source: 'makepad',
+    triggers: ['makepad', 'learning', 'pattern discovery', 'evolution'],
+    priority: 6,
+    content: ''
+  },
+];
+
+// Merge Makepad skills into main skills array
+skills.push(...makepadSkills);
