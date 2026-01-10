@@ -54,29 +54,35 @@ function parseSkills(): SkillIndex[] {
 
   const skills: SkillIndex[] = [];
 
-  // Parse each skill object - improved regex
-  const skillRegex = /\{\s*id:\s*'([^']+)',\s*name:\s*'([^']+)',\s*description:\s*'([^']*)',\s*category:\s*categories\[categoryIndex\['([^']+)'\]/g;
+  // Regex that handles escaped quotes in descriptions
+  const skillRegex = /\{\s*id:\s*'([^']+)',\s*name:\s*'([^']+)',\s*description:\s*'((?:[^'\\]|\\.)*)'/g;
 
   let match;
   while ((match = skillRegex.exec(content)) !== null) {
-    const [, id, name, description, category] = match;
+    const [, id, name, rawDescription] = match;
+    const description = rawDescription.replace(/\\'/g, "'");
+
+    // Find category in the slice after the match (increased from 500 to 3000 to handle long descriptions)
+    const sliceAfter = content.slice(match.index, match.index + 3000);
+    const categoryMatch = sliceAfter.match(/category:\s*categories\[categoryIndex\['([^']+)'\]/);
+    const category = categoryMatch ? categoryMatch[1] : 'tools';
 
     // Find triggers
-    const triggerMatch = content.slice(match.index).match(/triggers:\s*\[([^\]]+)\]/);
+    const triggerMatch = sliceAfter.match(/triggers:\s*\[([^\]]+)\]/);
     const triggers = triggerMatch
       ? triggerMatch[1].match(/'([^']+)'/g)?.map(t => t.replace(/'/g, '')) || []
       : [];
 
     // Find source
-    const sourceMatch = content.slice(match.index).match(/source:\s*'([^']+)'/);
+    const sourceMatch = sliceAfter.match(/source:\s*'([^']+)'/);
     const source = sourceMatch ? sourceMatch[1] : 'unknown';
 
     skills.push({
       id,
       name,
-      description: description.slice(0, 150), // Truncate for index
+      description: description.slice(0, 150),
       category,
-      triggers: triggers.slice(0, 5), // Keep top 5 triggers
+      triggers: triggers.slice(0, 5),
       source,
     });
   }
@@ -114,127 +120,94 @@ function generateSkillMd(skills: SkillIndex[]): string {
 
   const template = `---
 name: fastskills-router
-description: 自动检测用户意图，智能加载 227+ 专业技能，无感增强 Claude 能力。当用户讨论前端、后端、数据分析、科学研究、文档处理等话题时自动匹配相关技能。
+description: 自动检测用户意图，智能加载 227+ 专业技能，无感增强 Claude 能力。
 ---
 
-# FastSkills 自动路由系统
+# ⚡ FASTSKILLS ROUTER - 每次响应前必读 ⚡
 
-> 🚀 自动检测上下文，智能加载专业技能，无感增强 Claude 能力
+> **I am a FastSkills-enhanced Claude. When I detect relevant keywords below, I MUST display which skills I'm applying at the START of my response.**
 
-## 核心规则
+---
 
-**作为 Claude，你必须遵循以下自动路由规则：**
+## 🔴 CRITICAL INSTRUCTION - READ FIRST 🔴
 
-### 1. 意图检测
+**EVERY response I give, I MUST check if user input matches skills below.**
 
-每次收到用户消息时，分析消息内容并检测意图：
+**If match found → Start response with:**
+\`\`\`
+📦 已加载技能: [matched-skill-1], [matched-skill-2]
+\`\`\`
 
-| 意图 | 中文触发词 | 英文触发词 | 推荐分类 |
-|------|-----------|-----------|---------|
-| **创建** | 创建、新建、开发、实现、写一个 | build, create, implement, make | frontend, backend, tools |
-| **研究** | 研究、调研、分析、查找 | research, investigate, analyze | scientific, bioinformatics |
+**Then give my normal response.**
+
+**If no match → Respond normally without the skills line.**
+
+---
+
+## Quick Match Table (CHECK EVERY TIME)
+
+| User says... | I display... |
+|-------------|--------------|
+| 市场研究, 报告, research, report | 📦 已加载技能: market-research-reports, research-executor |
+| React, 组件, component | 📦 已加载技能: react-components, frontend-design |
+| 单细胞, scRNA, single-cell | 📦 已加载技能: scanpy, biopython |
+| 蛋白质, protein, AlphaFold | 📦 已加载技能: esm, alphafold-database |
+| 调试, debug, fix, bug | 📦 已加载技能: systematic-debugging |
+| 测试, test, e2e | 📦 已加载技能: test-driven-development |
+| 前端, UI, frontend | 📦 已加载技能: frontend-design |
+| 后端, API, backend | 📦 已加载技能: backend-development |
+| 数据库, database, SQL | 📦 已加载技能: databases |
+| 可视化, plot, chart | 📦 已加载技能: matplotlib, plotly |
+| 文档, Word, PDF | 📦 已加载技能: docx, pdf |
+| 机器学习, ML, 深度学习 | 📦 已加载技能: scikit-learn, pytorch-lightning |
+
+---
+
+## Intent Detection (意图检测)
+
+| 意图 | 中文触发词 | 英文触发词 | 匹配技能类型 |
+|------|-----------|-----------|-------------|
+| **创建** | 创建、新建、开发、写一个、生成 | build, create, implement, make, generate | frontend, backend, tools |
+| **研究** | 研究、调研、报告、市场 | research, investigate, report, market | scientific, thinking, sci-communication |
+| **分析** | 分析、统计、可视化、数据 | analyze, statistics, visualize, data | data-viz, ml-ai, scientific |
 | **调试** | 调试、修复、解决、bug | debug, fix, solve, troubleshoot | testing, thinking |
-| **重构** | 重构、优化、改进、整理 | refactor, optimize, improve | backend, frontend |
-| **文档** | 文档、注释、readme | document, readme, explain | document, sci-communication |
+| **文档** | 文档、注释、readme、撰写 | document, readme, write, explain | document, sci-communication |
 | **测试** | 测试、单元测试、e2e | test, testing, e2e, coverage | testing, tools |
 | **部署** | 部署、发布、docker | deploy, release, docker, k8s | devops, tools |
-| **分析** | 分析、统计、可视化 | analyze, statistics, visualize | data-viz, ml-ai |
 | **设计** | 设计、UI、UX、界面 | design, ui, ux, interface | frontend, media |
-| **优化** | 优化、性能、加速 | optimize, performance, speed | backend, devops |
 
-### 2. 中英文同义词扩展
+---
 
-当检测到以下词汇时，自动扩展匹配：
+## Example (示例)
 
-| 中文 | 扩展词 |
-|-----|-------|
-| 蛋白质 | protein, alphafold, esm |
-| 单细胞 | single-cell, scRNA, scanpy |
-| 基因 | gene, genomic, genome |
-| 分子/化学 | molecule, chemistry, rdkit |
-| 药物 | drug, pharmaceutical |
-| 爬虫/自动化 | crawler, playwright, puppeteer |
-| 数据库 | database, sql, mongodb |
-| 机器学习 | ml, deep-learning, pytorch |
-| 可视化 | visualization, plot, chart |
-| 测试 | test, pytest, jest, vitest |
-| 部署 | deploy, kubernetes, docker |
-| 前端 | frontend, react, vue, ui |
-| 后端 | backend, api, server |
+**User**: 生成一份市场研究报告
 
-### 3. 技能加载与通知
-
-**匹配流程：**
-1. 分析用户输入 → 检测意图和关键词
-2. 匹配技能索引 → 找到相关技能
-3. 显示加载通知 → \`📦 已加载技能: [技能列表]\`
-4. 应用技能指令 → 增强回复质量
-
-**重要规则：**
-- 首次匹配到技能时，在回复开头显示加载通知
-- 已加载的技能在整个会话期间持续生效
-- 新技能追加到已加载列表，不替换
-- 无需重复显示已加载的技能
-
-### 4. 按需获取完整内容
-
-当需要某个技能的详细指令时，从以下来源获取：
-
-**FastSkills API（推荐）：**
+**My response MUST be**:
 \`\`\`
-https://fastskills.pages.dev/api/skills.json
-\`\`\`
+📦 已加载技能: market-research-reports, research-executor
 
-**GitHub Raw URL：**
-\`\`\`
-https://raw.githubusercontent.com/[source]/[repo]/main/[path]/SKILL.md
+[Then my detailed answer applying those skills...]
 \`\`\`
 
 ---
 
-## 技能索引
+## Full Skill Index (完整技能索引)
 
 共 ${skills.length} 个技能，按分类组织：
 ${index}
 
 ---
 
-## 使用示例
+## 6. 获取完整技能内容
 
-**用户**: 帮我写一个 React 登录组件
+当需要技能详细指令时，从以下获取：
 
-**Claude 分析**:
-- 意图: 创建 (写一个)
-- 关键词: React, 组件
-- 匹配技能: react-components, frontend-design
-
-**Claude 回复**:
-\`\`\`
-📦 已加载技能: react-components, frontend-design
-
-[应用技能增强的高质量回复...]
-\`\`\`
+- **API**: https://fastskills.pages.dev/api/skills.json
+- **GitHub**: https://raw.githubusercontent.com/[source]/[repo]/main/SKILL.md
 
 ---
 
-**用户**: 分析这个单细胞 RNA-seq 数据
-
-**Claude 分析**:
-- 意图: 分析
-- 关键词: 单细胞 → scanpy, RNA-seq
-- 匹配技能: scanpy, biopython
-
-**Claude 回复**:
-\`\`\`
-📦 已加载技能: scanpy, biopython
-
-[专业的单细胞分析代码和解释...]
-\`\`\`
-
----
-
-*此文件由 FastSkills 自动生成，包含 ${skills.length} 个技能索引*
-*完整技能内容请访问 https://fastskills.pages.dev*
+*FastSkills 自动生成 | ${skills.length} 技能 | https://fastskills.pages.dev*
 `;
 
   return template;

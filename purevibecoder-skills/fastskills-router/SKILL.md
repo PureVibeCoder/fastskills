@@ -1,86 +1,79 @@
 ---
 name: fastskills-router
-description: 自动检测用户意图，智能加载 227+ 专业技能，无感增强 Claude 能力。当用户讨论前端、后端、数据分析、科学研究、文档处理等话题时自动匹配相关技能。
+description: 自动检测用户意图，智能加载 227+ 专业技能，无感增强 Claude 能力。
 ---
 
-# FastSkills 自动路由系统
+# ⚡ FASTSKILLS ROUTER - 每次响应前必读 ⚡
 
-> 🚀 自动检测上下文，智能加载专业技能，无感增强 Claude 能力
+> **I am a FastSkills-enhanced Claude. When I detect relevant keywords below, I MUST display which skills I'm applying at the START of my response.**
 
-## 核心规则
+---
 
-**作为 Claude，你必须遵循以下自动路由规则：**
+## 🔴 CRITICAL INSTRUCTION - READ FIRST 🔴
 
-### 1. 意图检测
+**EVERY response I give, I MUST check if user input matches skills below.**
 
-每次收到用户消息时，分析消息内容并检测意图：
+**If match found → Start response with:**
+```
+📦 已加载技能: [matched-skill-1], [matched-skill-2]
+```
 
-| 意图 | 中文触发词 | 英文触发词 | 推荐分类 |
-|------|-----------|-----------|---------|
-| **创建** | 创建、新建、开发、实现、写一个 | build, create, implement, make | frontend, backend, tools |
-| **研究** | 研究、调研、分析、查找 | research, investigate, analyze | scientific, bioinformatics |
+**Then give my normal response.**
+
+**If no match → Respond normally without the skills line.**
+
+---
+
+## Quick Match Table (CHECK EVERY TIME)
+
+| User says... | I display... |
+|-------------|--------------|
+| 市场研究, 报告, research, report | 📦 已加载技能: market-research-reports, research-executor |
+| React, 组件, component | 📦 已加载技能: react-components, frontend-design |
+| 单细胞, scRNA, single-cell | 📦 已加载技能: scanpy, biopython |
+| 蛋白质, protein, AlphaFold | 📦 已加载技能: esm, alphafold-database |
+| 调试, debug, fix, bug | 📦 已加载技能: systematic-debugging |
+| 测试, test, e2e | 📦 已加载技能: test-driven-development |
+| 前端, UI, frontend | 📦 已加载技能: frontend-design |
+| 后端, API, backend | 📦 已加载技能: backend-development |
+| 数据库, database, SQL | 📦 已加载技能: databases |
+| 可视化, plot, chart | 📦 已加载技能: matplotlib, plotly |
+| 文档, Word, PDF | 📦 已加载技能: docx, pdf |
+| 机器学习, ML, 深度学习 | 📦 已加载技能: scikit-learn, pytorch-lightning |
+
+---
+
+## Intent Detection (意图检测)
+
+| 意图 | 中文触发词 | 英文触发词 | 匹配技能类型 |
+|------|-----------|-----------|-------------|
+| **创建** | 创建、新建、开发、写一个、生成 | build, create, implement, make, generate | frontend, backend, tools |
+| **研究** | 研究、调研、报告、市场 | research, investigate, report, market | scientific, thinking, sci-communication |
+| **分析** | 分析、统计、可视化、数据 | analyze, statistics, visualize, data | data-viz, ml-ai, scientific |
 | **调试** | 调试、修复、解决、bug | debug, fix, solve, troubleshoot | testing, thinking |
-| **重构** | 重构、优化、改进、整理 | refactor, optimize, improve | backend, frontend |
-| **文档** | 文档、注释、readme | document, readme, explain | document, sci-communication |
+| **文档** | 文档、注释、readme、撰写 | document, readme, write, explain | document, sci-communication |
 | **测试** | 测试、单元测试、e2e | test, testing, e2e, coverage | testing, tools |
 | **部署** | 部署、发布、docker | deploy, release, docker, k8s | devops, tools |
-| **分析** | 分析、统计、可视化 | analyze, statistics, visualize | data-viz, ml-ai |
 | **设计** | 设计、UI、UX、界面 | design, ui, ux, interface | frontend, media |
-| **优化** | 优化、性能、加速 | optimize, performance, speed | backend, devops |
 
-### 2. 中英文同义词扩展
+---
 
-当检测到以下词汇时，自动扩展匹配：
+## Example (示例)
 
-| 中文 | 扩展词 |
-|-----|-------|
-| 蛋白质 | protein, alphafold, esm |
-| 单细胞 | single-cell, scRNA, scanpy |
-| 基因 | gene, genomic, genome |
-| 分子/化学 | molecule, chemistry, rdkit |
-| 药物 | drug, pharmaceutical |
-| 爬虫/自动化 | crawler, playwright, puppeteer |
-| 数据库 | database, sql, mongodb |
-| 机器学习 | ml, deep-learning, pytorch |
-| 可视化 | visualization, plot, chart |
-| 测试 | test, pytest, jest, vitest |
-| 部署 | deploy, kubernetes, docker |
-| 前端 | frontend, react, vue, ui |
-| 后端 | backend, api, server |
+**User**: 生成一份市场研究报告
 
-### 3. 技能加载与通知
-
-**匹配流程：**
-1. 分析用户输入 → 检测意图和关键词
-2. 匹配技能索引 → 找到相关技能
-3. 显示加载通知 → `📦 已加载技能: [技能列表]`
-4. 应用技能指令 → 增强回复质量
-
-**重要规则：**
-- 首次匹配到技能时，在回复开头显示加载通知
-- 已加载的技能在整个会话期间持续生效
-- 新技能追加到已加载列表，不替换
-- 无需重复显示已加载的技能
-
-### 4. 按需获取完整内容
-
-当需要某个技能的详细指令时，从以下来源获取：
-
-**FastSkills API（推荐）：**
+**My response MUST be**:
 ```
-https://fastskills.pages.dev/api/skills.json
-```
+📦 已加载技能: market-research-reports, research-executor
 
-**GitHub Raw URL：**
-```
-https://raw.githubusercontent.com/[source]/[repo]/main/[path]/SKILL.md
+[Then my detailed answer applying those skills...]
 ```
 
 ---
 
-## 技能索引
+## Full Skill Index (完整技能索引)
 
-共 213 个技能，按分类组织：
+共 227 个技能，按分类组织：
 
 #### 后端开发 (3个)
 - **backend-development**: Build robust backend systems with modern technologies (Node.js, Python, Go, Rust...
@@ -172,7 +165,7 @@ https://raw.githubusercontent.com/[source]/[repo]/main/[path]/SKILL.md
 - **treatment-plans**: "Generate concise (3-4 page), focused medical treatment plans in LaTeX/PDF forma...
   - 触发词: `treatment`, `plans`, `generate`, `concise`, `page`
 
-#### 数据分析与可视化 (14个)
+#### 数据分析与可视化 (15个)
 - **dask**: "Parallel/distributed computing. Scale pandas/NumPy beyond memory, parallel Data...
   - 触发词: `dask`, `parallel`, `distributed`, `computing`
 - **datacommons-client**: Work with Data Commons, a platform providing programmatic access to public stati...
@@ -199,6 +192,8 @@ https://raw.githubusercontent.com/[source]/[repo]/main/[path]/SKILL.md
   - 触发词: `statistical`, `analysis`, `toolkit`
 - **statsmodels**: "Statistical modeling toolkit. OLS, GLM, logistic, ARIMA, time series, hypothesi...
   - 触发词: `statsmodels`, `statistical`, `modeling`, `toolkit`
+- **vaex**: Use this skill for processing and analyzing large tabular datasets (billions of ...
+  - 触发词: `vaex`, `skill`, `processing`, `analyzing`
 - **zarr-python**: "Chunked N-D arrays for cloud storage. Compressed arrays, parallel I/O, S3/GCS i...
   - 触发词: `zarr`, `python`, `chunked`, `arrays`, `cloud`
 
@@ -206,7 +201,7 @@ https://raw.githubusercontent.com/[source]/[repo]/main/[path]/SKILL.md
 - **devops**: Deploy and manage cloud infrastructure on Cloudflare (Workers, R2, D1, KV, Pages...
   - 触发词: `devops`, `deploy`, `manage`, `cloud`
 - **docker**: | Docker 容器化专家。 优化镜像构建和容器配置。...
-  - 触发词: `docker`
+  - 触发词: `docker`, `container`, `dockerfile`, `image`, `kubernetes`
 
 #### 文档处理 (5个)
 - **doc-coauthoring**: Guide users through a structured workflow for co-authoring documentation. Use wh...
@@ -220,11 +215,13 @@ https://raw.githubusercontent.com/[source]/[repo]/main/[path]/SKILL.md
 - **xlsx**: "Comprehensive spreadsheet creation, editing, and analysis with support for form...
   - 触发词: `xlsx`, `comprehensive`, `spreadsheet`, `creation`
 
-#### 前端开发 (12个)
+#### 前端开发 (13个)
 - **aesthetic**: Create aesthetically beautiful interfaces following proven design principles. Us...
   - 触发词: `aesthetic`, `create`, `aesthetically`, `beautiful`
 - **artifacts-builder**: Suite of tools for creating elaborate, multi-component claude.ai HTML artifacts ...
   - 触发词: `artifacts`, `builder`, `suite`, `tools`, `creating`
+- **canvas-design**: Create beautiful visual art in .png and .pdf documents using design philosophy. ...
+  - 触发词: `canvas`, `design`, `create`, `beautiful`, `visual`
 - **frontend-design**: Create distinctive, production-grade frontend interfaces with high design qualit...
   - 触发词: `frontend`, `design`, `create`, `distinctive`, `production`
 - **frontend-development**: Frontend development guidelines for React/TypeScript applications. Modern patter...
@@ -232,7 +229,7 @@ https://raw.githubusercontent.com/[source]/[repo]/main/[path]/SKILL.md
 - **modern-frontend-design**: Comprehensive frontend design system for creating distinctive, production-grade ...
   - 触发词: `modern`, `frontend`, `design`, `comprehensive`
 - **react-components**: | React 组件开发专家。 精通 Hooks、状态管理和组件设计模式。...
-  - 触发词: `react`, `components`
+  - 触发词: `react`, `components`, `hooks`, `jsx`, `tsx`
 - **theme-factory**: Toolkit for styling artifacts with a theme. These artifacts can be slides, docs,...
   - 触发词: `theme`, `factory`, `toolkit`, `styling`, `artifacts`
 - **ui-styling**: Create beautiful, accessible user interfaces with shadcn/ui components (built on...
@@ -276,7 +273,11 @@ https://raw.githubusercontent.com/[source]/[repo]/main/[path]/SKILL.md
 - **pylabrobot**: Laboratory automation toolkit for controlling liquid handlers, plate readers, pu...
   - 触发词: `pylabrobot`, `laboratory`, `automation`, `toolkit`
 
-#### 媒体处理 (4个)
+#### 媒体处理 (6个)
+- **algorithmic-art**: Creating algorithmic art using p5.js with seeded randomness and interactive para...
+  - 触发词: `algorithmic`, `art`, `creating`, `using`
+- **generate-image**: Generate or edit images using AI models (FLUX, Gemini). Use for general-purpose ...
+  - 触发词: `generate`, `image`, `edit`, `images`
 - **image-enhancer**: Improves the quality of images, especially screenshots, by enhancing resolution,...
   - 触发词: `image`, `enhancer`, `improves`, `quality`, `images`
 - **media-processing**: Process multimedia files with FFmpeg (video/audio encoding, conversion, streamin...
@@ -340,7 +341,7 @@ https://raw.githubusercontent.com/[source]/[repo]/main/[path]/SKILL.md
 - **sympy**: Use this skill when working with symbolic mathematics in Python. This skill shou...
   - 触发词: `sympy`, `skill`, `working`, `symbolic`
 
-#### 科学写作与交流 (17个)
+#### 科学写作与交流 (20个)
 - **citation-management**: Comprehensive citation management for academic research. Search Google Scholar a...
   - 触发词: `citation`, `management`, `comprehensive`
 - **get-available-resources**: This skill should be used at the start of any computationally intensive scientif...
@@ -351,16 +352,22 @@ https://raw.githubusercontent.com/[source]/[repo]/main/[path]/SKILL.md
   - 触发词: `latex`, `posters`, `create`, `professional`, `research`
 - **literature-review**: Conduct comprehensive, systematic literature reviews using multiple academic dat...
   - 触发词: `literature`, `review`, `conduct`, `comprehensive`, `systematic`
+- **market-research-reports**: "Generate comprehensive market research reports (50+ pages) in the style of top ...
+  - 触发词: `market`, `research`, `reports`, `generate`, `comprehensive`
 - **markitdown**: "Convert files and office documents to Markdown. Supports PDF, DOCX, PPTX, XLSX,...
   - 触发词: `markitdown`, `convert`, `files`, `office`
 - **paper-2-web**: This skill should be used when converting academic papers into promotional and p...
   - 触发词: `paper`, `web`, `skill`, `should`, `used`
 - **peer-review**: "Systematic peer review toolkit. Evaluate methodology, statistics, design, repro...
   - 触发词: `peer`, `review`, `systematic`
+- **perplexity-search**: Perform AI-powered web searches with real-time information using Perplexity mode...
+  - 触发词: `perplexity`, `search`, `perform`, `powered`, `searches`
 - **pptx-posters**: "Create professional research posters in LaTeX using beamerposter, tikzposter, o...
   - 触发词: `pptx`, `posters`, `create`, `professional`, `research`
 - **research-grants**: "Write competitive research proposals for NSF, NIH, DOE, and DARPA. Agency-speci...
   - 触发词: `research`, `grants`, `write`, `competitive`
+- **research-lookup**: "Look up current research information using Perplexity's Sonar Pro Search or Son...
+  - 触发词: `research`, `lookup`, `look`, `current`
 - **scholar-evaluation**: Systematically evaluate scholarly work using the ScholarEval framework, providin...
   - 触发词: `scholar`, `evaluation`, `systematically`, `evaluate`, `scholarly`
 - **scientific-brainstorming**: "Research ideation partner. Generate hypotheses, explore interdisciplinary conne...
@@ -376,11 +383,15 @@ https://raw.githubusercontent.com/[source]/[repo]/main/[path]/SKILL.md
 - **venue-templates**: Access comprehensive LaTeX templates, formatting requirements, and submission gu...
   - 触发词: `venue`, `templates`, `access`, `comprehensive`, `latex`
 
-#### 科学数据库 (27个)
+#### 科学数据库 (29个)
+- **alphafold-database**: "Access AlphaFold's 200M+ AI-predicted protein structures. Retrieve structures b...
+  - 触发词: `alphafold`, `database`, `access`, `predicted`
 - **biorxiv-database**: Efficient database search tool for bioRxiv preprint server. Use this skill when ...
   - 触发词: `biorxiv`, `database`, `efficient`, `search`
 - **brenda-database**: "Access BRENDA enzyme database via SOAP API. Retrieve kinetic parameters (Km, kc...
   - 触发词: `brenda`, `database`, `access`, `enzyme`
+- **chembl-database**: "Query ChEMBL's bioactive molecules and drug discovery data. Search compounds by...
+  - 触发词: `chembl`, `database`, `query`, `bioactive`
 - **clinicaltrials-database**: "Query ClinicalTrials.gov via API v2. Search trials by condition, drug, location...
   - 触发词: `clinicaltrials`, `database`, `query`, `search`
 - **clinpgx-database**: "Access ClinPGx pharmacogenomics data (successor to PharmGKB). Query gene-drug i...
@@ -434,7 +445,7 @@ https://raw.githubusercontent.com/[source]/[repo]/main/[path]/SKILL.md
 
 #### 测试质量 (10个)
 - **browser-automation**: | 浏览器自动化专家。 使用 Playwright 和 Puppeteer 进行网页自动化。...
-  - 触发词: `browser`, `automation`
+  - 触发词: `browser`, `automation`, `playwright`, `puppeteer`, `scraping`
 - **code-review**: Use when receiving code review feedback (especially if unclear or technically qu...
   - 触发词: `code`, `review`, `receiving`
 - **defense-in-depth**: Validate at every layer data passes through to make bugs impossible...
@@ -454,15 +465,15 @@ https://raw.githubusercontent.com/[source]/[repo]/main/[path]/SKILL.md
 - **webapp-testing**: Toolkit for interacting with and testing local web applications using Playwright...
   - 触发词: `webapp`, `testing`, `toolkit`, `interacting`
 
-#### 思维方法 (15个)
+#### 思维方法 (17个)
 - **brainstorming**: "You MUST use this before any creative work - creating features, building compon...
   - 触发词: `brainstorming`, `must`, `before`, `creative`
 - **citation-validator**: 验证研究报告中所有声明的引用准确性、来源质量和格式规范性。确保每个事实性声明都有可验证的来源，并提供来源质量评级。当最终确定研究报告、审查他人研究、发布或分享研...
-  - 触发词: `citation`, `validator`
+  - 触发词: `citation`, `validator`, `verify`, `reference`, `source`
 - **collision-zone-thinking**: Force unrelated concepts together to discover emergent properties - "What if we ...
   - 触发词: `collision`, `zone`, `thinking`, `force`, `unrelated`
 - **context-engineering**: >- Master context engineering for AI agent systems. Use when designing agent arc...
-  - 触发词: `context`, `engineering`
+  - 触发词: `context`, `engineering`, `agent`, `token`, `memory`
 - **executing-plans**: Use when you have a written implementation plan to execute in a separate session...
   - 触发词: `executing`, `plans`, `written`, `implementation`, `plan`
 - **got-controller**: Graph of Thoughts (GoT) Controller - 管理研究图状态，执行图操作（Generate, Aggregate, Refine, ...
@@ -476,27 +487,35 @@ https://raw.githubusercontent.com/[source]/[repo]/main/[path]/SKILL.md
 - **question-refiner**: 将原始研究问题细化为结构化的深度研究任务。通过提问澄清需求，生成符合 OpenAI/Google Deep Research 标准的结构化提示词。当用户提出研究...
   - 触发词: `question`, `refiner`, `openai`, `google`, `deep`
 - **research-executor**: 执行完整的 7 阶段深度研究流程。接收结构化研究任务，自动部署多个并行研究智能体，生成带完整引用的综合研究报告。当用户有结构化的研究提示词时使用此技能。...
-  - 触发词: `research`, `executor`
+  - 触发词: `research`, `executor`, `deep`, `report`, `analysis`
 - **scale-game**: Test at extremes (1000x bigger/smaller, instant/year-long) to expose fundamental...
   - 触发词: `scale`, `game`, `test`, `extremes`, `bigger`
 - **sequential-thinking**: Use when complex problems require systematic step-by-step reasoning with ability...
   - 触发词: `sequential`, `thinking`, `complex`, `problems`, `require`
+- **simplification-cascades**: Find one insight that eliminates multiple components - "if this is true, we don'...
+  - 触发词: `simplification`, `cascades`, `find`, `insight`, `eliminates`
 - **synthesizer**: 将多个研究智能体的发现综合成连贯、结构化的研究报告。解决矛盾、提取共识、创建统一叙述。当多个研究智能体完成研究、需要将发现组合成统一报告、发现之间存在矛盾时使用...
-  - 触发词: `synthesizer`
+  - 触发词: `synthesizer`, `synthesize`, `combine`, `integrate`, `merge`
+- **when-stuck**: Dispatch to the right problem-solving technique based on how you're stuck...
+  - 触发词: `when`, `stuck`, `dispatch`, `right`, `problem`
 - **writing-plans**: Use when you have a spec or requirements for a multi-step task, before touching ...
   - 触发词: `writing`, `plans`, `spec`, `requirements`, `multi`
 
-#### 开发工具 (27个)
+#### 开发工具 (30个)
 - **ai-multimodal**: Process and generate multimedia content using Google Gemini API. Capabilities in...
   - 触发词: `multimodal`, `process`, `generate`, `multimedia`
 - **better-auth**: Implement authentication and authorization with Better Auth - a framework-agnost...
   - 触发词: `better`, `auth`, `implement`, `authentication`, `authorization`
+- **brand-guidelines**: Applies Anthropic's official brand colors and typography to any sort of artifact...
+  - 触发词: `brand`, `guidelines`, `applies`, `anthropic`, `official`
 - **changelog-generator**: Automatically creates user-facing changelogs from git commits by analyzing commi...
   - 触发词: `changelog`, `generator`, `automatically`, `creates`, `user`
 - **chrome-devtools**: Browser automation, debugging, and performance analysis using Puppeteer CLI scri...
   - 触发词: `chrome`, `devtools`, `browser`, `automation`, `debugging`
 - **claude-code**: Claude Code 技能...
-  - 触发词: `claude`, `code`
+  - 触发词: `claude`, `code`, `anthropic`, `terminal`, `agentic`
+- **competitive-ads-extractor**: Extracts and analyzes competitors' ads from ad libraries (Facebook, LinkedIn, et...
+  - 触发词: `competitive`, `ads`, `extractor`, `extracts`, `analyzes`
 - **content-research-writer**: Assists in writing high-quality content by conducting research, adding citations...
   - 触发词: `content`, `research`, `writer`, `assists`, `writing`
 - **developer-growth-analysis**: Analyzes your recent Claude Code chat history to identify coding patterns, devel...
@@ -531,6 +550,8 @@ https://raw.githubusercontent.com/[source]/[repo]/main/[path]/SKILL.md
   - 触发词: `repomix`, `package`, `entire`, `code`
 - **shopify**: Build Shopify applications, extensions, and themes using GraphQL/REST APIs, Shop...
   - 触发词: `shopify`, `build`, `applications`
+- **skill-creator**: Guide for creating effective skills. This skill should be used when users want t...
+  - 触发词: `skill`, `creator`, `guide`, `creating`, `effective`
 - **skill-share**: A skill that creates new Claude skills and automatically shares them on Slack us...
   - 触发词: `skill`, `share`, `creates`, `claude`
 - **subagent-driven-development**: Use when executing implementation plans with independent tasks in the current se...
@@ -548,39 +569,13 @@ https://raw.githubusercontent.com/[source]/[repo]/main/[path]/SKILL.md
 
 ---
 
-## 使用示例
+## 6. 获取完整技能内容
 
-**用户**: 帮我写一个 React 登录组件
+当需要技能详细指令时，从以下获取：
 
-**Claude 分析**:
-- 意图: 创建 (写一个)
-- 关键词: React, 组件
-- 匹配技能: react-components, frontend-design
-
-**Claude 回复**:
-```
-📦 已加载技能: react-components, frontend-design
-
-[应用技能增强的高质量回复...]
-```
+- **API**: https://fastskills.pages.dev/api/skills.json
+- **GitHub**: https://raw.githubusercontent.com/[source]/[repo]/main/SKILL.md
 
 ---
 
-**用户**: 分析这个单细胞 RNA-seq 数据
-
-**Claude 分析**:
-- 意图: 分析
-- 关键词: 单细胞 → scanpy, RNA-seq
-- 匹配技能: scanpy, biopython
-
-**Claude 回复**:
-```
-📦 已加载技能: scanpy, biopython
-
-[专业的单细胞分析代码和解释...]
-```
-
----
-
-*此文件由 FastSkills 自动生成，包含 213 个技能索引*
-*完整技能内容请访问 https://fastskills.pages.dev*
+*FastSkills 自动生成 | 227 技能 | https://fastskills.pages.dev*
