@@ -448,6 +448,89 @@
 
 ---
 
+## V2.1 新增路由测试（2026-01-10）
+
+以下测试验证新增的 39 条路由是否正确触发。
+
+### 科学数据库路由测试
+
+| # | 测试场景 | 测试输入 | 预期触发路由 | 预期加载技能 | 结果 |
+|---|---------|---------|-------------|-------------|------|
+| R1 | PubMed 搜索 | 从 PubMed 搜索 CRISPR 基因编辑的最新论文 | pubmed-search | pubmed-database, citation-management, biopython | ✅ |
+| R2 | UniProt 查询 | 从 UniProt 查询 TP53 蛋白序列 | protein-db | uniprot-database, biopython, bioservices | ✅ |
+| R3 | KEGG 通路 | 从 KEGG 获取糖酵解代谢通路 | pathway-db | kegg-database, reactome-database, bioservices | ✅ |
+| R4 | ChEMBL 药物 | 从 ChEMBL 查询靶向 EGFR 的活性化合物 | drug-db | chembl-database, drugbank-database, rdkit | ✅ |
+| R5 | ClinVar 变异 | 从 ClinVar 查询 BRCA1 变异的临床意义 | variant-db | clinvar-database, cosmic-database, gwas-database | ✅ |
+| R6 | PDB 结构 | 从 PDB 下载 1CRN 蛋白质结构 | structure-db | pdb-database, alphafold-database, esm | ✅ |
+| R7 | PubChem 化合物 | 从 PubChem 查询阿司匹林的分子结构 | compound-db | pubchem-database, zinc-database, rdkit | ✅ |
+| R8 | ClinicalTrials | 搜索 COVID-19 相关的临床试验 | clinical-db | clinicaltrials-database, fda-database | ✅ |
+| R9 | GEO 表达数据 | 从 GEO 下载乳腺癌基因表达数据 | sequence-db | ena-database, geo-database, biopython | ✅ |
+| R10 | bioRxiv 预印本 | 搜索 bioRxiv 上的最新 AI 蛋白质设计论文 | preprint-db | biorxiv-database, openalex-database | ✅ |
+
+### 生物信息学路由测试
+
+| # | 测试场景 | 测试输入 | 预期触发路由 | 预期加载技能 | 结果 |
+|---|---------|---------|-------------|-------------|------|
+| R11 | CRISPR 基因编辑 | 设计 CRISPR 引物编辑 BRCA1 基因 | gene-editing | biopython, gene-database | ✅ |
+| R12 | BLAST 序列分析 | 用 BLAST 比对这段 DNA 序列 | sequence-analysis | biopython, gget, bioservices | ✅ |
+| R13 | RNA-seq 分析 | 分析 RNA-seq 差异表达基因 | genomics | pydeseq2, pysam, deeptools, gtars | ✅ |
+| R14 | 基因调控网络 | 推断转录因子调控网络 | regulatory-network | arboreto, biopython | ✅ |
+| R15 | 系统发育分析 | 构建物种进化树 | phylogenetics | biopython, etetoolkit, scikit-bio | ✅ |
+
+### 化学信息学路由测试
+
+| # | 测试场景 | 测试输入 | 预期触发路由 | 预期加载技能 | 结果 |
+|---|---------|---------|-------------|-------------|------|
+| R16 | 分子对接 | 用虚拟筛选找到与 ACE2 结合的化合物 | molecular-docking | diffdock, rdkit, deepchem | ✅ |
+| R17 | 药物发现 | 预测这个分子的 ADMET 性质 | drug-discovery | deepchem, medchem, pytdc, torchdrug | ✅ |
+| R18 | 质谱分析 | 分析这批代谢组学质谱数据 | mass-spec | matchms, pyopenms, metabolomics-workbench-database | ✅ |
+
+### 临床医学路由测试
+
+| # | 测试场景 | 测试输入 | 预期触发路由 | 预期加载技能 | 结果 |
+|---|---------|---------|-------------|-------------|------|
+| R19 | 医学影像 | 分析这张 DICOM 胸部 CT 图像 | medical-imaging | pydicom, histolab, pathml | ✅ |
+| R20 | 精准医疗 | 根据基因组数据推荐个性化用药 | precision-medicine | clinpgx-database, clinvar-database | ✅ |
+| R21 | 生物信号 | 分析这段心电图 ECG 信号 | neuro-analysis | neurokit2, neuropixels-analysis | ✅ |
+
+### 实验室自动化路由测试
+
+| # | 测试场景 | 测试输入 | 预期触发路由 | 预期加载技能 | 结果 |
+|---|---------|---------|-------------|-------------|------|
+| R22 | 液体处理 | 用 Opentrons 自动化 PCR 样品制备 | lab-automation | opentrons-integration, pylabrobot | ✅ |
+| R23 | 实验室平台 | 在 Benchling 上管理我的实验数据 | lab-platform | benchling-integration, dnanexus-integration, labarchive-integration | ✅ |
+
+### 开发工具路由测试
+
+| # | 测试场景 | 测试输入 | 预期触发路由 | 预期加载技能 | 结果 |
+|---|---------|---------|-------------|-------------|------|
+| R24 | MCP 开发 | 帮我创建一个 MCP 服务器 | mcp-development | mcp-builder, mcp-management | ✅ |
+| R25 | 技能创建 | 帮我创建一个新的 Claude 技能 | skill-creation | skill-creator, writing-skills, skill-share | ✅ |
+| R26 | 代码审查 | 帮我进行代码审查 | code-quality | code-review, receiving-code-review, requesting-code-review | ✅ |
+
+### 混合场景测试（优先级验证）
+
+| # | 测试场景 | 测试输入 | 预期触发路由 | 说明 | 结果 |
+|---|---------|---------|-------------|------|------|
+| R27 | PubMed + CRISPR | 从 PubMed 搜索 CRISPR 并分析差异表达基因 | pubmed-search (P87) | PubMed 优先级 87 > gene-editing 84 | ✅ |
+| R28 | 蛋白质 + 结构 | 预测这个蛋白质的 AlphaFold 结构 | protein (P85) | protein 优先级与 structure-db 相同，取先匹配 | ✅ |
+| R29 | 前端 + 可视化 | 用 React 创建一个数据可视化组件 | react-components (P90) | React 优先级 90 > visualization 72 | ✅ |
+
+### V2.1 路由测试统计
+
+| 分类 | 新增路由数 | 测试用例数 | 通过 | 通过率 |
+|------|-----------|-----------|------|--------|
+| 科学数据库 | 12 | 10 | 10 | 100% |
+| 生物信息学 | 6 | 5 | 5 | 100% |
+| 化学信息学 | 4 | 3 | 3 | 100% |
+| 临床医学 | 4 | 3 | 3 | 100% |
+| 实验室自动化 | 2 | 2 | 2 | 100% |
+| 开发工具 | 6 | 3 | 3 | 100% |
+| 混合场景 | - | 3 | 3 | 100% |
+| **总计** | **34** | **29** | **29** | **100%** |
+
+---
+
 ## V2 强制执行测试
 
 以下测试验证 FastSkills Router V2 的多层强制触发机制是否工作。
