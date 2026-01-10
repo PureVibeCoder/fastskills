@@ -1,0 +1,187 @@
+{
+  "$schema": "./routes.schema.json",
+  "version": "2.0.0",
+  "description": "FastSkills Router V2 - Deterministic routing rules",
+  "routes": [
+    {
+      "id": "market-research",
+      "priority": 100,
+      "match": {
+        "keywords": ["市场研究", "市场调研", "行业研究", "行业分析", "竞品分析", "竞争分析", "GTM", "go-to-market", "market research", "market analysis", "competitive analysis", "industry research"],
+        "patterns": ["市场.*报告", "research.*report", "competitor.*analysis"]
+      },
+      "load": ["market-research-reports", "research-executor"],
+      "description": "Market research and competitive analysis"
+    },
+    {
+      "id": "research-report",
+      "priority": 95,
+      "match": {
+        "keywords": ["研究报告", "调研报告", "分析报告", "research report", "analysis report"],
+        "patterns": [".*报告.*生成", "generate.*report"]
+      },
+      "load": ["research-executor", "scientific-writing"],
+      "description": "Research reports and documentation"
+    },
+    {
+      "id": "react-components",
+      "priority": 90,
+      "match": {
+        "keywords": ["react", "组件", "component", "tsx", "jsx", "hooks", "useState", "useEffect", "useContext", "useReducer"],
+        "patterns": ["react.*组件", ".*component.*react"]
+      },
+      "load": ["react-components", "frontend-designer"],
+      "description": "React component development"
+    },
+    {
+      "id": "frontend",
+      "priority": 88,
+      "match": {
+        "keywords": ["前端", "frontend", "ui", "ux", "界面", "tailwind", "css", "html", "样式", "布局", "响应式"],
+        "patterns": ["前端.*设计", "ui.*design", "用户.*界面"]
+      },
+      "load": ["frontend-designer", "modern-frontend-design"],
+      "description": "Frontend development and UI/UX"
+    },
+    {
+      "id": "single-cell",
+      "priority": 85,
+      "match": {
+        "keywords": ["单细胞", "scRNA", "single-cell", "scanpy", "anndata", "10x genomics", "RNA-seq", "scRNA-seq"],
+        "patterns": ["单细胞.*分析", "single.*cell.*analysis"]
+      },
+      "load": ["scanpy", "biopython"],
+      "description": "Single-cell RNA sequencing analysis"
+    },
+    {
+      "id": "protein",
+      "priority": 85,
+      "match": {
+        "keywords": ["蛋白质", "protein", "AlphaFold", "ESM", "结构预测", "structure prediction", "蛋白结构", "氨基酸"],
+        "patterns": ["蛋白.*结构", "protein.*structure", ".*fold.*prediction"]
+      },
+      "load": ["esm", "alphafold-database"],
+      "description": "Protein structure prediction and analysis"
+    },
+    {
+      "id": "debugging",
+      "priority": 80,
+      "match": {
+        "keywords": ["调试", "debug", "修复", "fix", "bug", "错误", "error", "异常", "exception", "问题", "故障"],
+        "patterns": ["修复.*bug", "debug.*代码", "找.*问题"]
+      },
+      "load": ["systematic-debugging", "root-cause-tracing"],
+      "description": "Debugging and troubleshooting"
+    },
+    {
+      "id": "testing",
+      "priority": 78,
+      "match": {
+        "keywords": ["测试", "test", "e2e", "单元测试", "unit test", "集成测试", "integration test", "TDD", "测试用例", "vitest", "jest", "playwright"],
+        "patterns": ["测试.*覆盖", "test.*coverage", "写.*测试"]
+      },
+      "load": ["test-driven-development", "verification-before-completion"],
+      "description": "Testing and quality assurance"
+    },
+    {
+      "id": "backend",
+      "priority": 75,
+      "match": {
+        "keywords": ["后端", "backend", "api", "REST", "GraphQL", "数据库", "database", "SQL", "PostgreSQL", "MongoDB", "服务端", "server"],
+        "patterns": ["后端.*开发", "api.*设计", "数据库.*设计"]
+      },
+      "load": ["backend-development", "databases"],
+      "description": "Backend development and APIs"
+    },
+    {
+      "id": "visualization",
+      "priority": 72,
+      "match": {
+        "keywords": ["可视化", "visualization", "plot", "chart", "图表", "matplotlib", "plotly", "seaborn", "echarts", "d3"],
+        "patterns": ["画.*图", "数据.*可视化", "plot.*data"]
+      },
+      "load": ["matplotlib", "plotly", "scientific-visualization"],
+      "description": "Data visualization and charting"
+    },
+    {
+      "id": "machine-learning",
+      "priority": 70,
+      "match": {
+        "keywords": ["机器学习", "ML", "深度学习", "deep learning", "pytorch", "tensorflow", "神经网络", "neural network", "模型训练", "training"],
+        "patterns": ["训练.*模型", "机器.*学习", "deep.*learning"]
+      },
+      "load": ["scikit-learn", "pytorch-lightning"],
+      "description": "Machine learning and deep learning"
+    },
+    {
+      "id": "documents",
+      "priority": 68,
+      "match": {
+        "keywords": ["文档", "document", "Word", "docx", "PDF", "PPT", "pptx", "Excel", "xlsx", "幻灯片", "演示文稿"],
+        "patterns": ["生成.*文档", "创建.*pdf", "转换.*word"]
+      },
+      "load": ["docx", "pdf", "pptx"],
+      "description": "Document processing and generation"
+    },
+    {
+      "id": "devops",
+      "priority": 65,
+      "match": {
+        "keywords": ["部署", "deploy", "docker", "kubernetes", "k8s", "CI/CD", "发布", "release", "容器", "container", "云", "cloud"],
+        "patterns": ["部署.*应用", "docker.*build", "k8s.*配置"]
+      },
+      "load": ["devops", "docker"],
+      "description": "DevOps and deployment"
+    },
+    {
+      "id": "scientific-writing",
+      "priority": 60,
+      "match": {
+        "keywords": ["论文", "paper", "学术", "academic", "科学写作", "scientific writing", "文献", "literature", "引用", "citation"],
+        "patterns": ["写.*论文", "学术.*写作", "文献.*综述"]
+      },
+      "load": ["scientific-writing", "literature-review"],
+      "description": "Scientific writing and academic papers"
+    },
+    {
+      "id": "knowledge-mgmt",
+      "priority": 55,
+      "match": {
+        "keywords": ["obsidian", "笔记", "note", "知识管理", "knowledge management", "markdown", "双链", "zettelkasten"],
+        "patterns": ["笔记.*系统", "知识.*库"]
+      },
+      "load": ["obsidian-markdown", "json-canvas"],
+      "description": "Knowledge management and note-taking"
+    },
+    {
+      "id": "brainstorming",
+      "priority": 50,
+      "match": {
+        "keywords": ["头脑风暴", "brainstorm", "创意", "creative", "设计思路", "design thinking", "灵感", "想法"],
+        "patterns": ["头脑.*风暴", "创意.*思考"]
+      },
+      "load": ["brainstorming", "scientific-brainstorming"],
+      "description": "Brainstorming and creative thinking"
+    },
+    {
+      "id": "code-review",
+      "priority": 45,
+      "match": {
+        "keywords": ["代码审查", "code review", "review", "审查代码", "检查代码"],
+        "patterns": ["审查.*代码", "review.*code"]
+      },
+      "load": ["code-review", "requesting-code-review"],
+      "description": "Code review and quality"
+    },
+    {
+      "id": "planning",
+      "priority": 40,
+      "match": {
+        "keywords": ["计划", "plan", "规划", "planning", "任务", "task", "项目", "project"],
+        "patterns": ["制定.*计划", "规划.*项目"]
+      },
+      "load": ["planning-with-files", "writing-plans"],
+      "description": "Project planning and task management"
+    }
+  ]
+}
