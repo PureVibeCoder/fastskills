@@ -145,19 +145,7 @@ export const skillPackages: SkillPackage[] = [
     ],
     recommended: false
   },
-  {
-    id: 'mcp-developer',
-    name: 'MCP 开发者套件',
-    nameEn: 'MCP Developer Kit',
-    description: 'Model Context Protocol 服务器和工具开发',
-    icon: '🔧',
-    skills: [
-      'mcp-builder',
-      'skill-creator',
-      'browser-automation'
-    ],
-    recommended: false
-  },
+
   {
     id: 'task-planning',
     name: '任务规划套件',

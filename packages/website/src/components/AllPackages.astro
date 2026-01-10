@@ -3,7 +3,7 @@ import { skillPackages, getRecommendedPackages } from '../data/packages';
 
 const recommendedPackages = getRecommendedPackages();
 const developmentPackages = skillPackages.filter(pkg => 
-  ['devops-engineer', 'mcp-developer', 'testing-qa', 'backend-specialist', 'design-system'].includes(pkg.id)
+  ['devops-engineer', 'testing-qa', 'backend-specialist', 'design-system', 'task-planning'].includes(pkg.id)
 );
 const contentPackages = skillPackages.filter(pkg => 
   ['content-creator', 'research-analyst', 'media-processing', 'productivity-tools'].includes(pkg.id)
@@ -73,7 +73,7 @@ const scientificPackages = skillPackages.filter(pkg => pkg.category === 'scienti
             <span class="text">开发工具套件</span>
             <span class="badge cyan">DEV</span>
           </h3>
-          <p class="category-desc">DevOps、MCP、测试、后端开发等专业工具</p>
+          <p class="category-desc">DevOps、测试、后端开发、任务规划等专业工具</p>
         </div>
       </div>
       <div class="packages-grid grid-auto grid-auto-4">

@@ -7,7 +7,7 @@
 
 <p align="center">
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
-  <a href="#-skills-count--技能统计"><img src="https://img.shields.io/badge/Skills-225+-green" alt="Skills"></a>
+  <a href="#-skills-count--技能统计"><img src="https://img.shields.io/badge/Skills-227+-green" alt="Skills"></a>
   <a href="#-skill-packs--场景化技能包"><img src="https://img.shields.io/badge/Packs-25-blue" alt="Packages"></a>
   <a href="https://astro.build/"><img src="https://img.shields.io/badge/Built_with-Astro-orange" alt="Astro"></a>
   <a href="https://fastskills.xyz"><img src="https://img.shields.io/badge/Website-Live-success" alt="Website"></a>
@@ -23,9 +23,9 @@
 
 ## 🚀 一行安装，智能路由 / One-Line Install, Smart Routing
 
-**核心优势：一个技能触发 225+ 专业技能！自动检测意图，智能加载相关技能。**
+**核心优势：一个技能触发 227+ 专业技能！自动检测意图，智能加载相关技能。**
 
-**Core Advantage: One skill triggers 225+ expert skills! Auto-detect intent, smart-load relevant skills.**
+**Core Advantage: One skill triggers 227+ expert skills! Auto-detect intent, smart-load relevant skills.**
 
 ### 安装方式 / Installation
 
@@ -87,9 +87,9 @@ Claude 自动分析:
 
 ## Overview / 项目概述
 
-**FastSkills** aggregates 225+ high-quality Claude Code skills from 10+ open-source projects on GitHub, organized into 25 scenario-based skill packs for developers and researchers.
+**FastSkills** aggregates 227+ high-quality Claude Code skills from 10+ open-source projects on GitHub, organized into 25 scenario-based skill packs for developers and researchers.
 
-**FastSkills** 汇集来自 GitHub 10+ 个开源项目的 225+ 高质量 Claude Code 技能，并按场景打包成 25 个技能包，服务于开发者和科研工作者。
+**FastSkills** 汇集来自 GitHub 10+ 个开源项目的 227+ 高质量 Claude Code 技能，并按场景打包成 25 个技能包，服务于开发者和科研工作者。
 
 ---
 
@@ -101,7 +101,7 @@ Claude 自动分析:
 | **📦 One-Line Install** 一行安装 | Just add one @ reference to CLAUDE.md |
 | **🔍 Intent Detection** 意图检测 | Understands: create, research, debug, refactor, test, deploy |
 | **🌐 Bilingual** 双语支持 | Chinese-English keyword expansion |
-| **📚 Skill Aggregation** 技能聚合 | 225+ skills from 10+ curated open-source projects |
+| **📚 Skill Aggregation** 技能聚合 | 227+ skills from 10+ curated open-source projects |
 | **🎁 Scenario Packs** 场景打包 | 25 ready-to-use skill packs for different workflows |
 | **🏷️ Category Filtering** 分类筛选 | 20 categories including 9 scientific sub-domains |
 
@@ -111,7 +111,7 @@ Claude 自动分析:
 
 | Metric | Count |
 |--------|-------|
-| Total Skills / 技能总数 | **225+** |
+| Total Skills / 技能总数 | **227+** |
 | Skill Packs / 场景包 | **25** |
 | Categories / 分类 | **20** |
 | Scientific Skills / 科学技能 | **138+** |

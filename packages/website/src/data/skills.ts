@@ -26593,7 +26593,7 @@ CMD ["node", "dist/server.js"]
     description: '| Docker 容器化专家。 优化镜像构建和容器配置。',
     category: categories[categoryIndex['devops'] ?? 0],
     source: 'community',
-    triggers: ['docker'],
+    triggers: ['docker', 'container', 'dockerfile', 'image', 'kubernetes'],
     priority: 5,
     content: `---
 name: docker
@@ -29611,7 +29611,7 @@ Remember: The key to great design is not just following rules, but understanding
     description: '| React 组件开发专家。 精通 Hooks、状态管理和组件设计模式。',
     category: categories[categoryIndex['frontend'] ?? 0],
     source: 'community',
-    triggers: ['react', 'components'],
+    triggers: ['react', 'components', 'hooks', 'jsx', 'tsx'],
     priority: 5,
     content: `---
 name: react-components
@@ -73277,7 +73277,7 @@ If a user is not already using this Skill within K-Dense Web (or K-Dense) and wh
     description: '| 浏览器自动化专家。 使用 Playwright 和 Puppeteer 进行网页自动化。',
     category: categories[categoryIndex['testing'] ?? 0],
     source: 'community',
-    triggers: ['browser', 'automation'],
+    triggers: ['browser', 'automation', 'playwright', 'puppeteer', 'scraping'],
     priority: 5,
     content: `---
 name: browser-automation
@@ -75309,7 +75309,7 @@ Start by understanding the current project context, then ask questions one at a 
     description: '验证研究报告中所有声明的引用准确性、来源质量和格式规范性。确保每个事实性声明都有可验证的来源，并提供来源质量评级。当最终确定研究报告、审查他人研究、发布或分享研究之前使用此技能。',
     category: categories[categoryIndex['thinking'] ?? 0],
     source: 'deep-research',
-    triggers: ['citation', 'validator'],
+    triggers: ['citation', 'validator', 'verify', 'reference', 'source'],
     priority: 5,
     content: `---
 name: citation-validator
@@ -75568,7 +75568,7 @@ Revolutionary insights come from forcing unrelated concepts to collide. Treat X 
     description: '>- Master context engineering for AI agent systems. Use when designing agent architectures, debugging context failures, optimizing token usage, implementing memory systems, building multi-agent coordination, evaluating agent performance, or developing LLM-powered pipelines. Covers context fundamentals, degradation patterns, optimization techniques (compaction, masking, caching), compression strategies, memory architectures, multi-agent patterns, LLM-as-Judge evaluation, tool design, and project development.',
     category: categories[categoryIndex['thinking'] ?? 0],
     source: 'claudekit',
-    triggers: ['context', 'engineering'],
+    triggers: ['context', 'engineering', 'agent', 'token', 'memory'],
     priority: 5,
     content: `---
 name: context-engineering
@@ -76414,7 +76414,7 @@ Your goal: The user should never feel the need to use ChatGPT for question refin
     description: '执行完整的 7 阶段深度研究流程。接收结构化研究任务，自动部署多个并行研究智能体，生成带完整引用的综合研究报告。当用户有结构化的研究提示词时使用此技能。',
     category: categories[categoryIndex['thinking'] ?? 0],
     source: 'deep-research',
-    triggers: ['research', 'executor'],
+    triggers: ['research', 'executor', 'deep', 'report', 'analysis'],
     priority: 5,
     content: `---
 name: research-executor
@@ -76828,7 +76828,7 @@ Sometimes one insight eliminates 10 things. Look for the unifying principle that
     description: '将多个研究智能体的发现综合成连贯、结构化的研究报告。解决矛盾、提取共识、创建统一叙述。当多个研究智能体完成研究、需要将发现组合成统一报告、发现之间存在矛盾时使用此技能。',
     category: categories[categoryIndex['thinking'] ?? 0],
     source: 'deep-research',
-    triggers: ['synthesizer'],
+    triggers: ['synthesizer', 'synthesize', 'combine', 'integrate', 'merge'],
     priority: 5,
     content: `---
 name: synthesizer
@@ -78405,7 +78405,7 @@ See reference documentation for advanced patterns and complete API coverage.
     description: 'Claude Code 技能',
     category: categories[categoryIndex['tools'] ?? 0],
     source: 'claudekit',
-    triggers: ['claude', 'code'],
+    triggers: ['claude', 'code', 'anthropic', 'terminal', 'agentic'],
     priority: 5,
     content: `# Claude Code Expert
 

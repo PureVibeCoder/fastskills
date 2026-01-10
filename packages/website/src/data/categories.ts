@@ -149,7 +149,7 @@ export const categories: Category[] = [
     id: 'tools',
     name: '开发工具',
     nameEn: 'Tools',
-    description: 'MCP、工具开发、自动化',
+    description: '工具开发、自动化、扩展',
     icon: '🛠️'
   },
   {
