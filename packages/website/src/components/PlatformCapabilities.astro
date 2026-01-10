@@ -9,16 +9,16 @@
     <div class="section-header">
       <div class="status-line">
         <span class="status-dot pulse"></span>
-        <span class="status-text">ADVANCED_CAPABILITIES</span>
+        <span class="status-text">SMART_ROUTING_SYSTEM</span>
       </div>
       <h2 class="section-title">
-        <span class="bracket">[</span> PLATFORM_CORE_MODULES <span class="bracket">]</span>
+        <span class="bracket">[</span> 一行安装，智能路由 <span class="bracket">]</span>
       </h2>
-      <p class="section-subtitle">// 超越技能聚合，解锁 Claude Code 高级能力</p>
+      <p class="section-subtitle">// 一个技能触发 225+ 专业技能，自动检测意图</p>
     </div>
 
     <div class="capabilities-grid">
-      <!-- Card 1: Dynamic Skill Loading (Core Feature) -->
+      <!-- Card 1: Skill Router (Core Feature) -->
       <div class="capability-card featured">
         <div class="card-header">
           <div class="terminal-controls">
@@ -26,7 +26,7 @@
             <span class="control yellow"></span>
             <span class="control green"></span>
           </div>
-          <div class="card-badge cyan">FASTSKILLS_MCP</div>
+          <div class="card-badge cyan">SKILL_ROUTER</div>
         </div>
         
         <div class="card-body">
@@ -34,46 +34,41 @@
             <span class="icon">🎯</span>
           </div>
           
-          <h3 class="card-title">MCP 动态加载（最推荐）</h3>
+          <h3 class="card-title">智能技能路由（唯一方案）</h3>
           <p class="card-description">
-            将 FastSkills MCP 服务器配置到 .mcp.json，智能搜索、按需加载，完全避免上下文污染
+            在 CLAUDE.md 中添加一行引用，自动检测意图并加载相关技能，无需任何配置
           </p>
           
           <div class="code-block">
             <div class="code-header">
-              <span class="code-label">.mcp.json 配置</span>
+              <span class="code-label">CLAUDE.md 配置</span>
             </div>
-            <pre class="code-content"><code><span class="comment">// .mcp.json 或 ~/.claude/mcp.json</span>
-<span class="key">"mcpServers":</span> {'{'} 
-  <span class="string">"fastskills":</span> {'{'}
-    <span class="key">command:</span> <span class="string">"node"</span>,
-    <span class="key">args:</span> [<span class="string">"/path/to/skills-router/dist/index.js"</span>]
-  {'}'}
-{'}'}</code></pre>
+            <pre class="code-content"><code><span class="comment"># 添加到 ~/.claude/CLAUDE.md 或项目 CLAUDE.md</span>
+<span class="string">@https://raw.githubusercontent.com/PureVibeCoder/fastskills/main/purevibecoder-skills/fastskills-router/SKILL.md</span></code></pre>
           </div>
           
           <ul class="feature-list">
             <li>
               <span class="check">✓</span>
-              <span>TF-IDF 语义智能搜索</span>
+              <span>自动意图检测（创建、研究、调试、测试...）</span>
             </li>
             <li>
               <span class="check">✓</span>
-              <span>热加载 / 卸载技能</span>
+              <span>中英文关键词智能匹配</span>
             </li>
             <li>
               <span class="check">✓</span>
-              <span>Claude Code + OpenCode 双平台支持</span>
+              <span>按需加载，不污染上下文</span>
             </li>
             <li>
               <span class="check">✓</span>
-              <span>上下文优化，保持精简</span>
+              <span>225+ 技能自动路由</span>
             </li>
           </ul>
         </div>
       </div>
 
-      <!-- Card 2: Alternative Installation -->
+      <!-- Card 2: How It Works -->
       <div class="capability-card">
         <div class="card-header">
           <div class="terminal-controls">
@@ -81,49 +76,50 @@
             <span class="control yellow"></span>
             <span class="control green"></span>
           </div>
-          <div class="card-badge pink">MULTIPLE_OPTIONS</div>
+          <div class="card-badge pink">WORKFLOW</div>
         </div>
         
         <div class="card-body">
           <div class="icon-box pink-glow">
-            <span class="icon">🔌</span>
+            <span class="icon">🔄</span>
           </div>
           
-          <h3 class="card-title">灵活的安装选择</h3>
+          <h3 class="card-title">工作原理</h3>
           <p class="card-description">
-            除 MCP 配置外，还支持 HTTP API、插件市场和离线手动安装多种方式
+            Claude 自动分析你的输入，匹配意图和关键词，加载相关专业技能
           </p>
           
           <div class="code-block">
             <div class="code-header">
-              <span class="code-label">多种安装方式</span>
+              <span class="code-label">使用示例</span>
             </div>
-            <pre class="code-content"><code><span class="comment">// HTTP API（零依赖）</span>
-curl https://mcp.fastskills.xyz/find_skills
+            <pre class="code-content"><code><span class="comment"># 用户输入</span>
+<span class="string">"帮我写一个 React 登录组件"</span>
 
-<span class="comment">// 插件市场安装</span>
-<span class="cmd">/plugin</span> install fastskills
+<span class="comment"># Claude 自动分析</span>
+<span class="cmd">意图:</span> <span class="output">创建</span>
+<span class="cmd">关键词:</span> <span class="output">React, 组件</span>
+<span class="cmd">加载:</span> <span class="keyword">react-components, frontend-design</span>
 
-<span class="comment">// 手动离线安装</span>
-<span class="cmd">cp</span> -r skills/* ~/.claude/skills/</code></pre>
+<span class="output">📦 已加载技能: react-components, frontend-design</span></code></pre>
           </div>
           
           <ul class="feature-list">
             <li>
               <span class="check">✓</span>
-              <span>HTTP API（零安装）</span>
+              <span>零配置，即装即用</span>
             </li>
             <li>
               <span class="check">✓</span>
-              <span>Claude Code 插件市场</span>
+              <span>会话期间技能持续生效</span>
             </li>
             <li>
               <span class="check">✓</span>
-              <span>离线手动安装</span>
+              <span>新技能自动追加</span>
             </li>
             <li>
               <span class="check">✓</span>
-              <span>ZIP 打包下载</span>
+              <span>支持离线使用</span>
             </li>
           </ul>
         </div>
@@ -267,10 +263,10 @@ curl https://mcp.fastskills.xyz/find_skills
   }
 
   .capability-card.featured::after {
-    content: '推荐';
+    content: '唯一方案';
     position: absolute;
     top: 12px;
-    right: -28px;
+    right: -32px;
     background: var(--neon-cyan);
     color: #000;
     font-size: 0.65rem;

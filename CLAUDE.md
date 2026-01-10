@@ -8,7 +8,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 |------|--------|
 | **GitHub Repository** | https://github.com/PureVibeCoder/fastskills |
 | **Live Website** | https://fastskills.pages.dev |
-| **Remote MCP** | https://mcp.fastskills.xyz |
 | **Deployment** | GitHub Actions (auto) + Wrangler CLI (manual) |
 
 ## Quick Commands
@@ -20,32 +19,38 @@ pnpm dev                  # Start website dev server (http://localhost:4321)
 pnpm build                # Build website for production
 pnpm typecheck            # TypeScript checking
 
-# Tests and linting (run from package directories or use --filter)
+# Tests and linting
 pnpm --filter website test
 pnpm --filter website lint
-pnpm --filter @fastskills/mcp-server test
-
-# MCP Server development
-cd packages/mcp-server
-pnpm dev                  # Start dev server with wrangler
-pnpm test                 # Run tests
-pnpm deploy               # Deploy to Cloudflare Workers
-pnpm coverage-report      # Generate skill coverage report
 
 # Run single test
 pnpm --filter website exec vitest run src/utils/__tests__/specific.test.ts
-pnpm --filter @fastskills/mcp-server exec vitest run src/__tests__/specific.test.ts
 
 # Manual deployment
 cd packages/website && pnpm build && wrangler pages deploy dist --project-name=fastskills --commit-dirty=true
-cd packages/mcp-server && pnpm deploy
 ```
 
 ## Project Overview
 
-**FastSkills** is a Claude Code skills aggregation platform with two main packages:
-- **website**: Astro static site displaying 225+ skills from 10+ GitHub projects
-- **mcp-server**: Remote MCP server (Cloudflare Workers) for dynamic skill search
+**FastSkills** is a Claude Code skills aggregation platform that provides:
+- **Skill Aggregation**: 225+ skills from 10+ GitHub open-source projects
+- **Intelligent Routing**: One skill file that auto-detects intent and loads relevant skills
+- **Scenario Packs**: 25 pre-packaged skill sets for different workflows
+
+### Core Product: FastSkills Router
+
+The main product is a single skill file that acts as an intelligent router:
+
+```
+purevibecoder-skills/fastskills-router/SKILL.md
+```
+
+Users add this to their `CLAUDE.md` via @ reference:
+```markdown
+@https://raw.githubusercontent.com/PureVibeCoder/fastskills/main/purevibecoder-skills/fastskills-router/SKILL.md
+```
+
+This enables Claude to automatically detect user intent and load relevant skills from the 225+ skill library.
 
 ## Architecture
 
@@ -57,33 +62,20 @@ packages/
 │   ├── src/data/         # Skills/categories data (skills.ts is ~3MB generated)
 │   ├── src/pages/        # Routes + API endpoints
 │   └── src/utils/        # TypeScript utilities
-├── mcp-server/           # Remote MCP server (Cloudflare Workers)
-│   ├── src/engine/       # Search engine (TF-IDF), synonyms, intent detection
-│   ├── src/routes/       # HTTP API routes
-│   ├── src/mcp/          # MCP protocol handler
-│   └── src/services/     # Skill search and content services
+├── fastskills-plugin/    # Router generator script
+│   └── generate.ts       # Generates the router SKILL.md
+
+purevibecoder-skills/
+└── fastskills-router/    # The core product
+    └── SKILL.md          # Intelligent skill router (~50KB index)
 ```
-
-### MCP Server Engine
-
-The `mcp-server` package provides a remote MCP server with these tools:
-- `find_skills`: TF-IDF search with Chinese-English synonym expansion and intent detection
-- `load_skills`: Returns full skill content for loading into Claude sessions
-- `list_skills`: Lists all available skills with optional category filter
-
-Key files:
-- `engine/tfidf.ts`: Pure JS TF-IDF implementation (no external dependencies)
-- `engine/synonyms.ts`: `CHINESE_TO_ENGLISH_SYNONYMS` and `DOMAIN_ALIASES`
-- `engine/intent.ts`: Intent detection (`IntentType`: CREATE, RESEARCH, DEBUG, etc.)
-- `services/skills.ts`: Skill search with score boosting
-- `mcp/handler.ts`: MCP JSON-RPC protocol handler
-- `routes/sse.ts`: Server-Sent Events endpoint for MCP transport
 
 ### Skill Data Flow
 
 1. Git submodules contain raw skills from various projects
-2. Website generates static `skills.json` API endpoint
-3. MCP server fetches from `https://fastskills.pages.dev/api/skills.json`
+2. `fastskills-plugin/generate.ts` scans all skills and generates the router
+3. Router contains skill index + intent detection rules
+4. Users reference the router in their CLAUDE.md
 
 ### Git Submodules
 
@@ -113,6 +105,6 @@ Clone with: `git clone --recursive https://github.com/PureVibeCoder/fastskills.g
 
 1. **Submodules**: Clone with `git clone --recursive` or run `git submodule update --init --recursive`
 2. **Large files**: `packages/website/src/data/skills.ts` is ~3MB, use grep/offset when reading
-3. **Monorepo**: Use `pnpm --filter website` or `pnpm --filter @fastskills/mcp-server` from root
+3. **Monorepo**: Use `pnpm --filter website` from root
 4. **Security**: Run security scanner on new skills before adding
 5. **CI/CD**: GitHub Actions auto-deploys website on push to main

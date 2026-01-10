@@ -19,13 +19,21 @@ cd packages/website && pnpm build && wrangler pages deploy dist --project-name=f
 
 ## Project Overview
 
-**FastSkills** is a Claude Code skills aggregation platform built with Astro. It collects 241+ skills from 10+ GitHub open-source projects and packages them into 21 scenario-based skill packs for developers and researchers.
+**FastSkills** is a Claude Code skills aggregation platform with intelligent routing. It collects 225+ skills from 10+ GitHub open-source projects and provides a single skill router that auto-detects user intent and loads relevant skills.
+
+### Core Product: FastSkills Router
+
+The main product is a single skill file that acts as an intelligent router:
+- Location: `purevibecoder-skills/fastskills-router/SKILL.md`
+- Users add this to their `CLAUDE.md` via @ reference
+- Auto-detects intent (create, research, debug, test, deploy, etc.)
+- Loads relevant skills from 225+ skill library
 
 ### Repository Structure
 
 ```
 fastskills/
-├── packages/website/          # Main Astro website (primary codebase)
+├── packages/website/          # Main Astro website
 │   ├── src/
 │   │   ├── components/        # Astro components (.astro)
 │   │   ├── data/              # TypeScript data files (skills, categories)
@@ -34,6 +42,9 @@ fastskills/
 │   │   ├── styles/            # Global CSS
 │   │   └── utils/             # TypeScript utilities
 │   └── public/                # Static assets
+├── packages/fastskills-plugin/  # Router generator script
+├── purevibecoder-skills/      # FastSkills Router (core product)
+│   └── fastskills-router/     # The intelligent skill router
 ├── anthropic-skills/          # Git submodule - Anthropic official skills
 ├── awesome-claude-skills/     # Git submodule - Community skills
 ├── claudekit-skills/          # Git submodule - ClaudeKit skills
