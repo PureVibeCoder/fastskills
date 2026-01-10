@@ -1,0 +1,14 @@
+{
+  "name": "@fastskills/plugin",
+  "version": "1.0.0",
+  "description": "FastSkills auto-routing plugin for Claude Code",
+  "type": "module",
+  "scripts": {
+    "generate": "npx tsx generate.ts",
+    "build": "npm run generate"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0",
+    "@types/node": "^20.10.0"
+  }
+}
