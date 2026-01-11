@@ -12,9 +12,9 @@
         <span class="status-text">SMART_ROUTING_SYSTEM</span>
       </div>
       <h2 class="section-title">
-        <span class="bracket">[</span> 一行安装，智能路由 <span class="bracket">]</span>
+        <span class="bracket">[</span> 一键安装，智能路由 <span class="bracket">]</span>
       </h2>
-      <p class="section-subtitle">// 一个技能触发 227+ 专业技能，自动检测意图</p>
+      <p class="section-subtitle">// 一个技能触发 256+ 专业技能，自动检测意图</p>
     </div>
 
     <div class="capabilities-grid">
@@ -36,15 +36,18 @@
           
           <h3 class="card-title">智能技能路由（唯一方案）</h3>
           <p class="card-description">
-            在 CLAUDE.md 中添加一行引用，自动检测意图并加载相关技能，无需任何配置
+            使用官方插件系统一键安装，自动检测意图并加载相关技能，无需任何配置
           </p>
           
           <div class="code-block">
             <div class="code-header">
-              <span class="code-label">CLAUDE.md 配置</span>
+              <span class="code-label">插件安装命令</span>
             </div>
-            <pre class="code-content"><code><span class="comment"># 添加到 ~/.claude/CLAUDE.md 或项目 CLAUDE.md</span>
-<span class="string">@https://raw.githubusercontent.com/PureVibeCoder/fastskills/main/purevibecoder-skills/fastskills-router/SKILL.md</span></code></pre>
+            <pre class="code-content"><code><span class="comment"># 步骤 1：注册 FastSkills 市场</span>
+<span class="cmd">/plugin marketplace add</span> <span class="string">PureVibeCoder/fastskills</span>
+
+<span class="comment"># 步骤 2：安装插件</span>
+<span class="cmd">/plugin install</span> <span class="keyword">fastskills@fastskills</span></code></pre>
           </div>
           
           <ul class="feature-list">
@@ -62,7 +65,7 @@
             </li>
             <li>
               <span class="check">✓</span>
-              <span>227+ 技能自动路由</span>
+              <span>256+ 技能自动路由</span>
             </li>
           </ul>
         </div>
