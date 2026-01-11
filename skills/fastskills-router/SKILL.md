@@ -134,7 +134,7 @@ Combine matched routes' skills (dedupe). Output highest-priority matches first.
 | 80 | compound-db | PubChem, ZINC, 化合物, compound, SMILES, 分子, molecule | `pubchem-database, zinc-database, rdkit` |
 | 80 | debugging | 调试, debug, 修复, fix, bug, 错误, error, 异常, exception | `systematic-debugging, root-cause-tracing` |
 | 80 | phylogenetics | 系统发育, phylogenetic, 进化树, phylogeny, evolution tree | `biopython, etetoolkit, scikit-bio` |
-| 79 | clinical-db | ClinicalTrials, FDA, 临床试验, clinical trial, adverse event | `clinicaltrials-database, fda-database` |
+| 79 | clinical-db | ClinicalTrials, 临床试验, clinical trial, adverse event | `clinicaltrials-database` |
 | 78 | sequence-db | ENA, GEO, 序列数据库, sequence database, NGS, expression data | `ena-database, geo-database, biopython` |
 | 78 | testing | 测试, test, e2e, 单元测试, unit test, TDD | `test-driven-development, verification-before-completion` |
 | 77 | metabolite-db | HMDB, BRENDA, 代谢物, metabolite, 酶动力学, enzyme kinetics | `hmdb-database, brenda-database` |
@@ -153,7 +153,7 @@ Combine matched routes' skills (dedupe). Output highest-priority matches first.
 | 67 | neuro-analysis | 神经信号, ECG, EEG, 心电图, 脑电图, biosignal | `neurokit2, neuropixels-analysis` |
 | 65 | lab-automation | 液体处理, Opentrons, 实验室自动化, lab automation, liquid handling, robot | `opentrons-integration, pylabrobot` |
 | 65 | devops | 部署, deploy, docker, kubernetes, k8s, CI/CD | `devops, docker` |
-| 64 | lab-platform | Benchling, DNAnexus, LabArchive, 实验记录, ELN, LIMS | `benchling-integration, dnanexus-integration, labarchive-integration` |
+| 64 | lab-platform | 实验记录, ELN, LIMS | `(requires account setup - see website)` |
 | 60 | scientific-writing | 论文, paper, 学术, academic, 科学写作, 文献, literature | `scientific-writing, literature-review` |
 | 55 | mcp-development | MCP, Model Context Protocol, MCP服务器, MCP server | `mcp-builder, mcp-management` |
 | 55 | knowledge-mgmt | obsidian, 笔记, note, 知识管理, markdown | `obsidian-markdown, json-canvas` |
@@ -163,28 +163,28 @@ Combine matched routes' skills (dedupe). Output highest-priority matches first.
 | 51 | changelog | changelog, 版本日志, release notes, git log | `changelog-generator` |
 | 50 | domain-naming | 域名, domain name, 品牌命名, naming | `domain-name-brainstormer` |
 | 50 | brainstorming | 头脑风暴, brainstorm, 创意, creative, design thinking | `brainstorming, scientific-brainstorming` |
-| 48 | image-generation | 生成图片, generate image, FLUX, 图像生成, image generation, AI绘画 | `generate-image, image-enhancer` |
+| 48 | image-generation | 生成图片, generate image, FLUX, 图像生成, image generation, AI绘画 | `image-enhancer` |
 | 47 | video-processing | 视频, video, FFmpeg, 音频, audio, 转换, convert | `media-processing, video-downloader` |
 | 45 | task-planning | 任务规划, task planning, Manus, 计划, planning, 实现计划 | `planning-with-files, writing-plans, executing-plans` |
 | 44 | research-workflow | 深度研究, deep research, 研究执行, research executor | `research-executor, question-refiner, synthesizer` |
 | 43 | problem-solving | 卡住了, stuck, 突破口, breakthrough, 问题解决 | `when-stuck, sequential-thinking` |
 | 42 | data-analysis | 数据分析, data analysis, DataFrame, 探索性分析, EDA, 统计分析, t检验, 回归 | `seaborn, statsmodels, polars, dask, networkx, vaex, exploratory-data-analysis, statistical-analysis` |
-| 41 | ml-advanced | HuggingFace, Transformers, 图神经网络, GNN, UMAP, 降维, 模型解释, 贝叶斯 | `transformers, torch_geometric, umap-learn, shap, pymc, pymoo` |
+| 41 | ml-advanced | 图神经网络, GNN, UMAP, 降维, 模型解释, 贝叶斯 | `torch_geometric, umap-learn, shap, pymc, pymoo` |
 | 40 | reinforcement-learning | 强化学习, reinforcement learning, RL, PPO, DQN, 代理训练 | `stable-baselines3, pufferlib` |
-| 39 | quantum-computing | 量子计算, quantum computing, 量子电路, qubit, 量子模拟 | `qiskit, cirq, pennylane, qutip` |
-| 38 | astronomy-physics | 天文, astronomy, 物理模拟, 晶体结构, 材料科学, 符号计算, 地理空间 | `astropy, sympy, fluidsim, pymatgen, simpy, geopandas` |
+| 39 | quantum-computing | 量子计算, quantum computing, 量子电路, qubit, 量子模拟 | `cirq, pennylane, qutip` |
+| 38 | astronomy-physics | 天文, astronomy, 物理模拟, 符号计算, 地理空间 | `astropy, sympy, fluidsim, simpy, geopandas` |
 | 37 | frontend-artifacts | Claude Artifacts, artifacts, HTML组件, 交互组件 | `artifacts-builder, web-artifacts-builder, theme-factory` |
 | 36 | frontend-styling | 美学, aesthetic, shadcn, 设计系统, design system, Canvas艺术 | `aesthetic, ui-styling, canvas-design` |
 | 35 | frontend-framework | Next.js, Nuxt, SvelteKit, 全栈, fullstack, TypeScript前端 | `web-frameworks, frontend-development, frontend-design` |
 | 34 | sci-writing-extended | 同行评审, peer review, 基金申请, grant, 假设生成, 论文评估 | `peer-review, research-grants, hypothesis-generation, scholar-evaluation, scientific-critical-thinking` |
-| 33 | sci-posters | 学术海报, poster, 学术幻灯片, 科学示意图, schematic | `latex-posters, pptx-posters, scientific-slides, scientific-schematics` |
+| 33 | sci-posters | 学术海报, poster, 学术幻灯片 | `latex-posters, pptx-posters` |
 | 32 | dev-tools-extended | Repomix, 打包代码, Claude技巧, 文档搜索, llms.txt, 上下文工程 | `repomix, claude-code, docs-seeker, context-engineering` |
 | 31 | e-commerce | Shopify, 电商, e-commerce, 用户认证, auth, OAuth | `shopify, better-auth` |
-| 30 | lab-cloud | Latch, Modal, OMERO, protocols.io, 云端GPU, 显微镜图像 | `latchbio-integration, modal, omero-integration, protocolsio-integration` |
+| 30 | lab-cloud | 云端GPU | `(requires account setup - see website)` |
 | 29 | metabolism | 代谢通量, flux balance, FBA, 代谢建模, COBRApy | `cobrapy` |
 | 28 | healthcare-ai | 医疗AI, healthcare AI, 临床预测, 电子病历, EHR | `pyhealth` |
 | 27 | time-series | 时间序列, time series, 时序分类, 时序预测 | `aeon` |
-| 26 | ai-agents | AI代理, AI agent, 多智能体, multi-agent, 假设生成 | `biomni, denario, hypogenic` |
+| 26 | ai-agents | AI代理, AI agent, 多智能体, multi-agent, 假设生成 | `denario, hypogenic` |
 | 25 | survival-analysis | 生存分析, survival analysis, Kaplan-Meier, Cox回归 | `scikit-survival` |
 | 24 | spreadsheet | Excel, 电子表格, spreadsheet, xlsx, 工作表 | `xlsx` |
 | 23 | document-collab | 协作文档, collaborative editing, 文档协作, coauthoring | `doc-coauthoring` |
@@ -197,28 +197,28 @@ Combine matched routes' skills (dedupe). Output highest-priority matches first.
 | 16 | utility-tools | 文件整理, 发票整理, 抽奖, 随机选择 | `file-organizer, invoice-organizer, raffle-winner-picker` |
 | 15 | git-workflow | git worktree, 分支合并, merge branch, 开发完成 | `using-git-worktrees, finishing-a-development-branch` |
 | 14 | business-tools | 内部沟通, 会议洞察, 客户研究, 邮件模板 | `internal-comms, meeting-insights-analyzer, lead-research-assistant` |
-| 13 | ai-multimodal-tools | Gemini API, 多模态, multimodal, Google ADK, 图像分析 | `ai-multimodal, google-adk-python` |
+| 13 | ai-multimodal-tools | Google ADK | `google-adk-python` |
 | 12 | brand-marketing | 品牌指南, Anthropic风格, 竞品广告, 内容写作 | `brand-guidelines, competitive-ads-extractor, content-research-writer` |
 | 11 | developer-analysis | 开发者成长, 编程分析, 代码统计, developer growth | `developer-growth-analysis` |
 | 10 | parallel-agents | 并行代理, parallel agents, 子代理, subagent, 分布式任务 | `dispatching-parallel-agents, subagent-driven-development` |
 | 9 | superpowers-meta | Superpowers, 技能系统, 技能学习, 大师案例 | `using-superpowers, skill-from-masters` |
 | 8 | ui-ux-advanced | UI/UX专业, 设计数据库, 交互设计, 用户体验专家 | `ui-ux-pro-max` |
 | 8 | makepad | Makepad, Rust UI, live_design, 跨平台Rust, GPU渲染, SDF, Robius | `makepad-fundamentals, makepad-init, makepad-rust, makepad-shaders, makepad-patterns, makepad-packaging` |
-| 7 | protein-testing | Adaptyv, 蛋白质测试, 蛋白质验证, 云实验室 | `adaptyv` |
+| 7 | protein-testing | 蛋白质测试, 蛋白质验证, 云实验室 | `(requires Adaptyv account - see website)` |
 | 6 | genomic-data | geniml, LaminDB, BED文件, 基因组区间, 生物数据管理 | `geniml, lamindb` |
 | 5 | cellxgene | CELLxGENE, Census, 单细胞数据库, 细胞图谱 | `cellxgene-census` |
 | 4 | protein-interaction | STRING, 蛋白质相互作用, PPI, protein interaction, 互作网络 | `string-database` |
 | 3 | drug-targets | Open Targets, 靶点疾病关联, drug target, 靶点发现 | `opentargets-database` |
-| 2 | patent-search | USPTO, 专利搜索, patent, 知识产权, IP | `uspto-database` |
+| 2 | patent-search | 专利搜索, patent, 知识产权, IP | `(requires USPTO account - see website)` |
 | 1 | citation-validate | 引用验证, citation validation, 引用准确性, 参考文献检查 | `citation-validator` |
-| 0 | research-tools | Perplexity, 信息搜索, 最新研究, 研究查找, research lookup | `perplexity-search, research-lookup` |
+| 0 | research-tools | 信息搜索, 最新研究, 研究查找 | `(requires OPENROUTER_API_KEY - see website)` |
 | 0 | got-thinking | Graph of Thoughts, GoT, 思维图, 思维控制器 | `got-controller` |
 | 0 | markdown-convert | PDF转Markdown, 格式转换, markitdown, 文档转换 | `markitdown` |
 | 0 | iso-compliance | ISO 13485, 医疗器械认证, 合规文档, compliance | `iso-13485-certification` |
 | 0 | cloud-storage | Zarr, 云存储, 大数组, 分布式存储, 数据格式 | `zarr-python` |
-| 0 | data-commons | Data Commons, 公共数据, 统计数据, 开放数据 | `datacommons-client` |
+| 0 | data-commons | Data Commons, 公共数据, 统计数据, 开放数据 | `(requires DC_API_KEY - see website)` |
 | 0 | venue-template | 期刊模板, 会议模板, LaTeX模板, NeurIPS, ICML | `venue-templates` |
-| 0 | paper-web | 论文转网页, paper to web, 研究宣传, 论文展示 | `paper-2-web` |
+| 0 | paper-web | 论文转网页, paper to web, 研究宣传, 论文展示 | `(requires OPENAI_API_KEY - see website)` |
 | 0 | database-design | 数据库设计, schema design, 数据建模, ER图 | `database-design` |
 | 0 | mcp-resources | MCP资源, 可用资源, available resources, 资源发现 | `get-available-resources` |
 | 0 | ncbi-gene | NCBI基因, NCBI Gene, 基因数据库, gene database | `ncbi-gene-database` |
