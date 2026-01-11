@@ -93,5 +93,11 @@ export const REPO_CONFIG: Record<string, RepoConfig> = {
     url: 'https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git',
     rawBase: 'https://raw.githubusercontent.com/nextlevelbuilder/ui-ux-pro-max-skill/main',
     contentPath: '.claude/skills'
+  },
+  nanobanana: {
+    path: 'nanobanana-skills',
+    url: 'https://github.com/op7418/NanoBanana-PPT-Skills.git',
+    rawBase: 'https://raw.githubusercontent.com/op7418/NanoBanana-PPT-Skills/main',
+    contentPath: ''
   }
 };

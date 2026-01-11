@@ -258,6 +258,8 @@ export const SKILL_TO_SOURCE: Record<string, SkillSource> = {
   'makepad-troubleshooting': { source: 'makepad', path: 'makepad-troubleshooting' },
   'makepad-code-quality': { source: 'makepad', path: 'makepad-code-quality' },
   'makepad-evolution': { source: 'makepad', path: 'makepad-evolution' },
+  // nanobanana ppt skills
+  'ppt-generator': { source: 'nanobanana', path: '' },
 };
 
 // 根据技能 ID 获取源信息

@@ -5,7 +5,7 @@ export interface Skill {
   name: string;
   description: string;
   category: Category;
-  source: 'anthropic' | 'claudekit' | 'scientific' | 'community' | 'composio' | 'voltagent' | 'obsidian' | 'planning' | 'superpowers' | 'deep-research' | 'skill-from-masters' | 'purevibecoder' | 'ui-ux-pro-max' | 'makepad';
+  source: 'anthropic' | 'claudekit' | 'scientific' | 'community' | 'composio' | 'voltagent' | 'obsidian' | 'planning' | 'superpowers' | 'deep-research' | 'skill-from-masters' | 'purevibecoder' | 'ui-ux-pro-max' | 'makepad' | 'nanobanana';
   triggers: string[];
   priority: number;
   content: string;
@@ -85451,3 +85451,20 @@ export const makepadSkills: Skill[] = [
 
 // Merge Makepad skills into main skills array
 skills.push(...makepadSkills);
+
+// NanoBanana PPT Skills - High-quality PPT generation with AI
+export const nanobananaPptSkills: Skill[] = [
+  {
+    id: 'ppt-generator',
+    name: 'ppt-generator',
+    description: 'Generate professional PPT images from document content using Google Nano Banana Pro. Supports gradient glassmorphism and vector illustration styles. Features intelligent document analysis, automatic slide planning (cover, content, data pages), 2K/4K resolution output, and HTML5 player for presentations. Use when creating high-quality 16:9 presentation slides, converting documents to visual slides, or generating AI-powered PPT from text.',
+    category: categories[categoryIndex['document'] ?? 0],
+    source: 'nanobanana',
+    triggers: ['ppt', 'presentation', 'slides', 'powerpoint', 'pptx', 'nano banana', 'glassmorphism', 'slide generator', 'ppt generator', 'document to slides', 'ai ppt'],
+    priority: 9,
+    content: ''
+  }
+];
+
+// Merge NanoBanana PPT skills into main skills array
+skills.push(...nanobananaPptSkills);

@@ -38,3 +38,6 @@
 [submodule "makepad-skills"]
 	path = makepad-skills
 	url = https://github.com/ZhangHanDong/makepad-skills.git
+[submodule "nanobanana-skills"]
+	path = nanobanana-skills
+	url = https://github.com/op7418/NanoBanana-PPT-Skills.git
