@@ -1,0 +1,19 @@
+{
+  "name": "fastskills",
+  "description": "智能技能路由平台 - 一条命令启用 256+ 专业技能",
+  "owner": {
+    "name": "PureVibeCoder",
+    "email": "contact@fastskills.xyz"
+  },
+  "plugins": [
+    {
+      "name": "fastskills",
+      "description": "智能技能路由器：自动检测意图，按需加载 256+ 专业技能。SessionStart 自动注入，无需手动配置。",
+      "version": "2.0.0",
+      "source": "./",
+      "author": {
+        "name": "PureVibeCoder"
+      }
+    }
+  ]
+}

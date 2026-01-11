@@ -7,7 +7,7 @@
 
 <p align="center">
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
-  <a href="#-skills-count--技能统计"><img src="https://img.shields.io/badge/Skills-238+-green" alt="Skills"></a>
+  <a href="#-skills-count--技能统计"><img src="https://img.shields.io/badge/Skills-256+-green" alt="Skills"></a>
   <a href="#-skill-packs--场景化技能包"><img src="https://img.shields.io/badge/Packs-25-blue" alt="Packages"></a>
   <a href="https://astro.build/"><img src="https://img.shields.io/badge/Built_with-Astro-orange" alt="Astro"></a>
   <a href="https://fastskills.xyz"><img src="https://img.shields.io/badge/Website-Live-success" alt="Website"></a>
@@ -21,41 +21,47 @@
 
 ---
 
-## 🚀 一行安装，智能路由 / One-Line Install, Smart Routing
+## 🚀 一键安装，智能路由 / One-Click Install, Smart Routing
 
-**核心优势：一个技能触发 238+ 专业技能！自动检测意图，智能加载相关技能。**
+**核心优势：一个技能触发 256+ 专业技能！自动检测意图，智能加载相关技能。**
 
-**Core Advantage: One skill triggers 238+ expert skills! Auto-detect intent, smart-load relevant skills.**
+**Core Advantage: One skill triggers 256+ expert skills! Auto-detect intent, smart-load relevant skills.**
 
 ### 安装方式 / Installation
 
-**只需一行命令，在你的 `CLAUDE.md` 中添加引用：**
+**使用 Claude Code 官方插件系统（推荐）：**
 
-**Just one line - add reference to your `CLAUDE.md`:**
-
-```markdown
-@https://raw.githubusercontent.com/PureVibeCoder/fastskills/main/purevibecoder-skills/fastskills-router/SKILL.md
-```
-
-**或本地克隆后使用相对路径：**
-
-**Or use relative path after cloning locally:**
+**Using Claude Code Official Plugin System (Recommended):**
 
 ```bash
-# 克隆仓库 / Clone repository
-git clone --recursive https://github.com/PureVibeCoder/fastskills.git
+# 第 1 步：注册 FastSkills 市场 / Step 1: Register FastSkills marketplace
+/plugin marketplace add PureVibeCoder/fastskills
 
-# 在你的 CLAUDE.md 中添加 / Add to your CLAUDE.md
-@/path/to/fastskills/purevibecoder-skills/fastskills-router/SKILL.md
+# 第 2 步：安装插件 / Step 2: Install plugin
+/plugin install fastskills@fastskills
 ```
 
-**配置位置 / Configuration Paths:**
-- 全局: `~/.claude/CLAUDE.md`
-- 项目级: `your-project/CLAUDE.md`
+**完成！** 🎉 每次启动 Claude Code 会话，路由器会自动激活。无需编辑任何配置文件。
 
-**完成！** Claude 现在会自动检测你的意图并加载相关技能。
+**Done!** 🎉 The router activates automatically on every Claude Code session. No config files to edit.
 
-**Done!** Claude now auto-detects your intent and loads relevant skills.
+### 验证安装 / Verify Installation
+
+```bash
+/fastskills:status
+```
+
+### 更新 / Update
+
+```bash
+/plugin update fastskills
+```
+
+### 卸载 / Uninstall
+
+```bash
+/plugin uninstall fastskills
+```
 
 ---
 
@@ -98,7 +104,7 @@ Claude 自动分析:
 | Feature | Description |
 |---------|-------------|
 | **🎯 Smart Routing** 智能路由 | Auto-detect intent and load relevant skills |
-| **📦 One-Line Install** 一行安装 | Just add one @ reference to CLAUDE.md |
+| **📦 One-Click Install** 一键安装 | `/plugin install fastskills@fastskills` |
 | **🔍 Intent Detection** 意图检测 | Understands: create, research, debug, refactor, test, deploy |
 | **🌐 Bilingual** 双语支持 | Chinese-English keyword expansion |
 | **📚 Skill Aggregation** 技能聚合 | 227+ skills from 10+ curated open-source projects |
@@ -111,7 +117,7 @@ Claude 自动分析:
 
 | Metric | Count |
 |--------|-------|
-| Total Skills / 技能总数 | **238+** |
+| Total Skills / 技能总数 | **256+** |
 | Skill Packs / 场景包 | **25** |
 | Categories / 分类 | **20** |
 | Scientific Skills / 科学技能 | **138+** |
@@ -176,27 +182,20 @@ All skills are aggregated from reputable open-source projects. Review before imp
 
 ## Quick Start / 快速开始
 
-### 第 1 步：添加技能路由 / Step 1: Add Skill Router
+在 Claude Code 中运行以下命令：
 
-**全局安装（推荐）/ Global Installation (Recommended):**
-
-```bash
-# 编辑全局 CLAUDE.md / Edit global CLAUDE.md
-echo "@https://raw.githubusercontent.com/PureVibeCoder/fastskills/main/purevibecoder-skills/fastskills-router/SKILL.md" >> ~/.claude/CLAUDE.md
-```
-
-**项目级安装 / Project-level Installation:**
+Run these commands in Claude Code:
 
 ```bash
-# 在项目根目录创建或编辑 CLAUDE.md
-echo "@https://raw.githubusercontent.com/PureVibeCoder/fastskills/main/purevibecoder-skills/fastskills-router/SKILL.md" >> ./CLAUDE.md
+# 注册市场 / Register marketplace
+/plugin marketplace add PureVibeCoder/fastskills
+
+# 安装插件 / Install plugin
+/plugin install fastskills@fastskills
+
+# 验证安装 / Verify installation
+/fastskills:status
 ```
-
-### 第 2 步：开始使用 / Step 2: Start Using
-
-重启 Claude Code，开始对话！技能会根据你的意图自动加载。
-
-Restart Claude Code and start chatting! Skills will auto-load based on your intent.
 
 **示例 / Examples:**
 
@@ -216,19 +215,27 @@ Claude: 📦 已加载技能: systematic-debugging, root-cause-tracing
 
 ---
 
-## 离线使用 / Offline Usage
+## 从旧版迁移 / Migration from Old Version
 
-如需离线使用，可克隆仓库并使用本地路径：
+如果你之前使用 `@https://...` 方式安装：
 
-For offline usage, clone the repo and use local path:
+If you previously used the `@https://...` installation method:
 
-```bash
-# 克隆仓库（包含所有子模块）
-git clone --recursive https://github.com/PureVibeCoder/fastskills.git
+1. 从 `~/.claude/CLAUDE.md` 或项目 `CLAUDE.md` 中删除以下行：
+   Remove this line from your `~/.claude/CLAUDE.md` or project `CLAUDE.md`:
+   ```
+   @https://raw.githubusercontent.com/PureVibeCoder/fastskills/main/purevibecoder-skills/fastskills-router/SKILL.md
+   ```
 
-# 在 CLAUDE.md 中使用本地路径
-@/absolute/path/to/fastskills/purevibecoder-skills/fastskills-router/SKILL.md
-```
+2. 使用新的插件安装方式 / Use the new plugin installation:
+   ```bash
+   /plugin marketplace add PureVibeCoder/fastskills
+   /plugin install fastskills@fastskills
+   ```
+
+新版本使用 SessionStart Hook 自动注入，无需手动引用。
+
+The new version uses SessionStart Hook for automatic injection. No manual reference needed.
 
 ---
 
@@ -276,6 +283,16 @@ pnpm test
 
 ```
 fastskills/
+├── .claude-plugin/          # Plugin manifests
+│   ├── marketplace.json     # Marketplace definition
+│   └── plugin.json          # Plugin metadata
+├── hooks/                   # SessionStart hooks
+│   ├── hooks.json           # Hook configuration
+│   └── session-start.sh     # Auto-inject router
+├── commands/                # Custom slash commands
+│   └── status.md            # /fastskills:status
+├── skills/                  # Core skills
+│   └── fastskills-router/   # Main router (SKILL.md)
 ├── packages/website/        # Astro website
 │   ├── src/
 │   │   ├── components/      # UI components
@@ -283,8 +300,6 @@ fastskills/
 │   │   ├── pages/           # Routes & API
 │   │   └── utils/           # Utilities
 │   └── public/              # Static assets
-├── purevibecoder-skills/    # FastSkills Router
-│   └── fastskills-router/   # Main skill router (SKILL.md)
 ├── anthropic-skills/        # Git submodule
 ├── claudekit-skills/        # Git submodule
 ├── scientific-skills/       # Git submodule (138+ skills)
