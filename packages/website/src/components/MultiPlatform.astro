@@ -1,0 +1,329 @@
+---
+// 多平台支持组件
+---
+
+<section id="multi-platform" class="multi-platform-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">
+        <span class="bracket">[</span> MULTI_PLATFORM_SUPPORT <span class="bracket">]</span>
+      </h2>
+      <p class="section-subtitle">支持主流 AI 编码助手 / Works with Major AI Coding Assistants</p>
+    </div>
+
+    <div class="platforms-grid">
+      <!-- Claude Code -->
+      <div class="platform-card featured">
+        <div class="platform-header">
+          <div class="platform-icon">🟣</div>
+          <div class="platform-info">
+            <h3 class="platform-name">Claude Code</h3>
+            <span class="platform-badge native">原生支持</span>
+          </div>
+        </div>
+        <div class="platform-body">
+          <p class="platform-desc">官方插件系统，一键安装，SessionStart 自动注入</p>
+          <div class="code-block">
+            <code>/plugin install fastskills@fastskills</code>
+          </div>
+        </div>
+        <div class="platform-footer">
+          <span class="difficulty">⭐ 一键安装</span>
+        </div>
+      </div>
+
+      <!-- OpenCode -->
+      <div class="platform-card">
+        <div class="platform-header">
+          <div class="platform-icon">🟢</div>
+          <div class="platform-info">
+            <h3 class="platform-name">OpenCode</h3>
+            <span class="platform-badge native">原生兼容</span>
+          </div>
+        </div>
+        <div class="platform-body">
+          <p class="platform-desc">自动检测 CLAUDE.md，零配置即可使用</p>
+          <div class="code-block">
+            <code>curl -o CLAUDE.md https://...fastskills-router/SKILL.md</code>
+          </div>
+        </div>
+        <div class="platform-footer">
+          <span class="difficulty">⭐ 零配置</span>
+        </div>
+      </div>
+
+      <!-- Codex -->
+      <div class="platform-card">
+        <div class="platform-header">
+          <div class="platform-icon">🔵</div>
+          <div class="platform-info">
+            <h3 class="platform-name">Codex (OpenAI)</h3>
+            <span class="platform-badge native">原生支持</span>
+          </div>
+        </div>
+        <div class="platform-body">
+          <p class="platform-desc">提供专门的 AGENTS.md 版本，支持层级配置</p>
+          <div class="code-block">
+            <code>curl -o AGENTS.md https://...fastskills-router/AGENTS.md</code>
+          </div>
+        </div>
+        <div class="platform-footer">
+          <span class="difficulty">⭐⭐ 复制文件</span>
+        </div>
+      </div>
+
+      <!-- Cursor -->
+      <div class="platform-card">
+        <div class="platform-header">
+          <div class="platform-icon">⚪</div>
+          <div class="platform-info">
+            <h3 class="platform-name">Cursor</h3>
+            <span class="platform-badge convert">需转换</span>
+          </div>
+        </div>
+        <div class="platform-body">
+          <p class="platform-desc">使用 .cursorrules 文件，支持 YAML frontmatter</p>
+          <div class="code-block">
+            <code>curl -o .cursorrules https://...SKILL.md</code>
+          </div>
+        </div>
+        <div class="platform-footer">
+          <span class="difficulty">⭐⭐⭐ 需调整</span>
+        </div>
+      </div>
+
+      <!-- Windsurf -->
+      <div class="platform-card">
+        <div class="platform-header">
+          <div class="platform-icon">🌊</div>
+          <div class="platform-info">
+            <h3 class="platform-name">Windsurf</h3>
+            <span class="platform-badge convert">需转换</span>
+          </div>
+        </div>
+        <div class="platform-body">
+          <p class="platform-desc">使用 .windsurfrules 文件，纯 Markdown 兼容</p>
+          <div class="code-block">
+            <code>curl -o .windsurfrules https://...SKILL.md</code>
+          </div>
+        </div>
+        <div class="platform-footer">
+          <span class="difficulty">⭐⭐⭐ 需调整</span>
+        </div>
+      </div>
+
+      <!-- Aider -->
+      <div class="platform-card">
+        <div class="platform-header">
+          <div class="platform-icon">🔧</div>
+          <div class="platform-info">
+            <h3 class="platform-name">Aider</h3>
+            <span class="platform-badge convert">需转换</span>
+          </div>
+        </div>
+        <div class="platform-body">
+          <p class="platform-desc">使用 .aider.instructions.md，CLI 原生支持</p>
+          <div class="code-block">
+            <code>curl -o .aider.instructions.md https://...SKILL.md</code>
+          </div>
+        </div>
+        <div class="platform-footer">
+          <span class="difficulty">⭐⭐ 复制文件</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-section">
+      <a href="https://github.com/PureVibeCoder/fastskills#-multi-platform-support--多平台支持" class="btn btn-outline" target="_blank">
+        查看完整安装指南 / Full Installation Guide →
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .multi-platform-section {
+    padding: var(--spacing-4xl) 0;
+    background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-secondary) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .multi-platform-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.3), transparent);
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: var(--spacing-3xl);
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--color-text);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .bracket {
+    color: var(--color-primary);
+    font-family: var(--font-mono);
+  }
+
+  .section-subtitle {
+    color: var(--color-text-secondary);
+    font-family: var(--font-mono);
+    font-size: 1rem;
+  }
+
+  .platforms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--spacing-lg);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+  }
+
+  .platform-card {
+    background: rgba(13, 17, 23, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(230, 237, 243, 0.1);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .platform-card:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.1);
+    transform: translateY(-4px);
+  }
+
+  .platform-card.featured {
+    border-color: var(--color-primary);
+    background: rgba(0, 240, 255, 0.05);
+  }
+
+  .platform-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .platform-icon {
+    font-size: 2rem;
+  }
+
+  .platform-info {
+    flex: 1;
+  }
+
+  .platform-name {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--color-text);
+    margin: 0 0 var(--spacing-xs) 0;
+  }
+
+  .platform-badge {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    text-transform: uppercase;
+  }
+
+  .platform-badge.native {
+    background: rgba(39, 201, 63, 0.2);
+    color: #27C93F;
+    border: 1px solid rgba(39, 201, 63, 0.3);
+  }
+
+  .platform-badge.convert {
+    background: rgba(255, 189, 46, 0.2);
+    color: #FFBD2E;
+    border: 1px solid rgba(255, 189, 46, 0.3);
+  }
+
+  .platform-body {
+    flex: 1;
+  }
+
+  .platform-desc {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .code-block {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(230, 237, 243, 0.1);
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    overflow-x: auto;
+  }
+
+  .code-block code {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-primary);
+    white-space: nowrap;
+  }
+
+  .platform-footer {
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid rgba(230, 237, 243, 0.1);
+  }
+
+  .difficulty {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .cta-section {
+    text-align: center;
+    margin-top: var(--spacing-3xl);
+  }
+
+  .btn-outline {
+    display: inline-block;
+    padding: var(--spacing-md) var(--spacing-xl);
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    transition: all 0.3s ease;
+  }
+
+  .btn-outline:hover {
+    background: rgba(0, 240, 255, 0.1);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    .platforms-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+    }
+  }
+</style>

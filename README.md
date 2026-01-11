@@ -1,8 +1,12 @@
-# Claude Code FastSkills
+# FastSkills
 
 <p align="center">
-  <strong>Claude Code 技能聚合与智能路由平台</strong><br>
-  <strong>Claude Code Skills Aggregation & Intelligent Routing Platform</strong>
+  <strong>AI 编码助手技能聚合与智能路由平台</strong><br>
+  <strong>AI Coding Assistant Skills Aggregation & Intelligent Routing Platform</strong>
+</p>
+
+<p align="center">
+  <em>支持 Claude Code • OpenCode • Codex • Cursor • Windsurf</em>
 </p>
 
 <p align="center">
@@ -212,6 +216,100 @@ Claude: 📦 已加载技能: react-components, frontend-design
 Claude: 📦 已加载技能: systematic-debugging, root-cause-tracing
        [系统化的调试步骤...]
 ```
+
+---
+
+## 🌐 多平台支持 / Multi-Platform Support
+
+FastSkills 不仅支持 Claude Code，还支持其他主流 AI 编码助手！
+
+FastSkills supports not only Claude Code, but also other major AI coding assistants!
+
+### 支持的平台 / Supported Platforms
+
+| 平台 Platform | 兼容性 Compatibility | 安装难度 Difficulty |
+|---------------|---------------------|---------------------|
+| **Claude Code** | ✅ 原生支持 Native | ⭐ 一键安装 |
+| **OpenCode** | ✅ 原生兼容 Native | ⭐ 零配置 |
+| **Codex (OpenAI)** | ✅ 原生支持 Native | ⭐⭐ 复制文件 |
+| **Cursor** | ⚠️ 需转换 Convert | ⭐⭐⭐ |
+| **Windsurf** | ⚠️ 需转换 Convert | ⭐⭐⭐ |
+
+---
+
+### OpenCode 用户 / For OpenCode Users
+
+OpenCode 原生支持读取 `CLAUDE.md` 文件，**零配置即可使用 FastSkills**！
+
+OpenCode natively supports reading `CLAUDE.md` files. **Zero configuration required!**
+
+**方法 1：使用现有 CLAUDE.md（推荐）**
+
+```bash
+# OpenCode 会自动检测并加载项目中的 CLAUDE.md
+# 只需将 FastSkills Router 内容添加到你的 CLAUDE.md
+curl -o CLAUDE.md https://raw.githubusercontent.com/PureVibeCoder/fastskills/main/skills/fastskills-router/SKILL.md
+```
+
+**方法 2：配置 fallback（如果你已有 AGENTS.md）**
+
+```toml
+# ~/.opencode/config.toml
+project_doc_fallback_filenames = ["CLAUDE.md", "AGENTS.md"]
+```
+
+---
+
+### Codex (OpenAI) 用户 / For Codex Users
+
+Codex 使用 `AGENTS.md` 作为项目指令文件。我们提供了专门的 AGENTS.md 版本！
+
+Codex uses `AGENTS.md` as project instruction files. We provide a dedicated AGENTS.md version!
+
+**方法 1：直接下载 AGENTS.md（推荐）**
+
+```bash
+# 下载 FastSkills Router 的 AGENTS.md 版本
+curl -o AGENTS.md https://raw.githubusercontent.com/PureVibeCoder/fastskills/main/skills/fastskills-router/AGENTS.md
+
+# 或者放到全局配置
+mkdir -p ~/.codex && curl -o ~/.codex/AGENTS.md https://raw.githubusercontent.com/PureVibeCoder/fastskills/main/skills/fastskills-router/AGENTS.md
+```
+
+**方法 2：配置 fallback 使用 CLAUDE.md**
+
+```toml
+# ~/.codex/config.toml
+project_doc_fallback_filenames = ["CLAUDE.md"]
+```
+
+**Codex AGENTS.md 层级结构：**
+
+| 位置 Location | 作用域 Scope |
+|---------------|-------------|
+| `~/.codex/AGENTS.md` | 全局配置（所有项目） |
+| `./AGENTS.md` | 项目根目录 |
+| `./subdir/AGENTS.md` | 子目录覆盖 |
+
+---
+
+### Cursor / Windsurf 用户 / For Cursor / Windsurf Users
+
+这些平台使用 `.cursorrules` 或 `.windsurfrules` 文件。
+
+These platforms use `.cursorrules` or `.windsurfrules` files.
+
+```bash
+# Cursor
+curl -o .cursorrules https://raw.githubusercontent.com/PureVibeCoder/fastskills/main/skills/fastskills-router/SKILL.md
+
+# Windsurf
+curl -o .windsurfrules https://raw.githubusercontent.com/PureVibeCoder/fastskills/main/skills/fastskills-router/SKILL.md
+```
+
+> **注意**：部分高级功能（如意图分析 XML 输出）可能需要根据平台特性调整。
+> 
+> **Note**: Some advanced features (like intent analysis XML output) may need adjustments based on platform specifics.
 
 ---
 
