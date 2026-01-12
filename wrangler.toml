@@ -1,3 +1,8 @@
 name = "fastskills"
 compatibility_date = "2025-01-01"
 pages_build_output_dir = "./packages/website/dist"
+
+# Note: If using SSR features that require sessions, add a SESSION KV namespace here
+# [[kv_namespaces]]
+# binding = "SESSION"
+# id = "your-kv-namespace-id"
