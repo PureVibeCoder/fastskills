@@ -37,8 +37,10 @@ jobs:
         run: pnpm build
 
       - name: Deploy to Cloudflare Pages
-        if: github.event_name == 'push' || (github.event_name == 'pull_request' && !github.event.pull_request.head.repo.fork)
-        run: npx wrangler pages deploy packages/website/dist --project-name=fastskills
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        if: (github.event_name == 'push' || (github.event_name == 'pull_request' && !github.event.pull_request.head.repo.fork)) && secrets.CLOUDFLARE_API_TOKEN != ''
+        uses: cloudflare/pages-action@v2
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: fastskills
+          directory: packages/website/dist
