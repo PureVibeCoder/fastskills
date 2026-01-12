@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # FastSkills SessionStart Hook - 自动注入智能路由器
-# Version: 2.0.0
+# Version: 2.1.0 - Performance optimized
 
 set -euo pipefail
 
@@ -8,30 +8,26 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
 PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
-# Read the router skill content
+# Router skill file path
 router_skill="${PLUGIN_ROOT}/skills/fastskills-router/SKILL.md"
-router_content=$(cat "$router_skill" 2>&1 || echo "Error: Could not read FastSkills router")
 
-# Escape outputs for JSON using pure bash
+# Escape file content for JSON embedding
+# Uses jq (fastest) > python3 (fallback) > sed (last resort)
 escape_for_json() {
-    local input="$1"
-    local output=""
-    local i char
-    for (( i=0; i<${#input}; i++ )); do
-        char="${input:$i:1}"
-        case "$char" in
-            \\) output+='\\\\' ;;
-            '"') output+='\"' ;;
-            $'\n') output+='\\n' ;;
-            $'\r') output+='\\r' ;;
-            $'\t') output+='\\t' ;;
-            *) output+="$char" ;;
-        esac
-    done
-    printf '%s' "$output"
+    local file="$1"
+    if command -v jq &>/dev/null; then
+        # jq: fastest option, strips surrounding quotes
+        jq -Rs '.' < "$file" | sed 's/^"//;s/"$//'
+    elif command -v python3 &>/dev/null; then
+        # Python fallback
+        python3 -c "import json,sys; print(json.dumps(sys.stdin.read())[1:-1])" < "$file"
+    else
+        # sed fallback (no external deps)
+        sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' -e 's/\t/\\t/g' < "$file" | awk '{printf "%s\\n", $0}' | sed 's/\\n$//'
+    fi
 }
 
-router_escaped=$(escape_for_json "$router_content")
+router_escaped=$(escape_for_json "$router_skill")
 
 # Output context injection as JSON
 cat <<EOF
