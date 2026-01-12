@@ -12,15 +12,6 @@ importers:
         specifier: ^9.5.1
         version: 9.5.1(astro@5.16.6(@types/node@20.19.27)(rollup@4.54.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2))
 
-  packages/fastskills-plugin:
-    devDependencies:
-      '@types/node':
-        specifier: ^20.10.0
-        version: 20.19.27
-      tsx:
-        specifier: ^4.7.0
-        version: 4.21.0
-
   packages/website:
     dependencies:
       '@astrojs/cloudflare':
@@ -4353,6 +4344,7 @@ snapshots:
       '@esbuild/win32-arm64': 0.27.2
       '@esbuild/win32-ia32': 0.27.2
       '@esbuild/win32-x64': 0.27.2
+    optional: true
 
   escape-html@1.0.3: {}
 
@@ -4538,6 +4530,7 @@ snapshots:
   get-tsconfig@4.13.0:
     dependencies:
       resolve-pkg-maps: 1.0.0
+    optional: true
 
   github-slugger@2.0.0: {}
 
@@ -5380,7 +5373,8 @@ snapshots:
 
   resolve-from@4.0.0: {}
 
-  resolve-pkg-maps@1.0.0: {}
+  resolve-pkg-maps@1.0.0:
+    optional: true
 
   restructure@3.0.2: {}
 
@@ -5676,6 +5670,7 @@ snapshots:
       get-tsconfig: 4.13.0
     optionalDependencies:
       fsevents: 2.3.3
+    optional: true
 
   type-check@0.4.0:
     dependencies:

@@ -99,5 +99,11 @@ export const REPO_CONFIG: Record<string, RepoConfig> = {
     url: 'https://github.com/op7418/NanoBanana-PPT-Skills.git',
     rawBase: 'https://raw.githubusercontent.com/op7418/NanoBanana-PPT-Skills/main',
     contentPath: ''
+  },
+  'ui-skills': {
+    path: 'ui-skills-repo',
+    url: 'https://github.com/ibelick/ui-skills.git',
+    rawBase: 'https://raw.githubusercontent.com/ibelick/ui-skills/main',
+    contentPath: '.'
   }
 };

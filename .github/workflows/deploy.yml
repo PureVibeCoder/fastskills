@@ -37,10 +37,10 @@ jobs:
         run: pnpm build
 
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
+        if: (github.event_name == 'push' || (github.event_name == 'pull_request' && !github.event.pull_request.head.repo.fork)) && secrets.CLOUDFLARE_API_TOKEN != ''
+        uses: cloudflare/pages-action@v2
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: skillscontroller
+          projectName: fastskills
           directory: packages/website/dist
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
