@@ -195,7 +195,8 @@ export const skillPackages: SkillPackage[] = [
       'modern-frontend-design',
       'theme-factory',
       'brand-guidelines',
-      'canvas-design'
+      'canvas-design',
+      'ui-skills'
     ],
     recommended: false
   },

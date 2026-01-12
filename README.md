@@ -11,7 +11,7 @@
 
 <p align="center">
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
-  <a href="#-skills-count--技能统计"><img src="https://img.shields.io/badge/Skills-256+-green" alt="Skills"></a>
+  <a href="#-skills-count--技能统计"><img src="https://img.shields.io/badge/Skills-257+-green" alt="Skills"></a>
   <a href="#-skill-packs--场景化技能包"><img src="https://img.shields.io/badge/Packs-25-blue" alt="Packages"></a>
   <a href="https://astro.build/"><img src="https://img.shields.io/badge/Built_with-Astro-orange" alt="Astro"></a>
   <a href="https://fastskills.xyz"><img src="https://img.shields.io/badge/Website-Live-success" alt="Website"></a>
@@ -121,7 +121,7 @@ Claude 自动分析:
 
 | Metric | Count |
 |--------|-------|
-| Total Skills / 技能总数 | **256+** |
+| Total Skills / 技能总数 | **257+** |
 | Skill Packs / 场景包 | **25** |
 | Categories / 分类 | **20** |
 | Scientific Skills / 科学技能 | **138+** |
@@ -147,6 +147,7 @@ All skills are aggregated from reputable open-source projects. Review before imp
 | [Obsidian Skills](https://github.com/kepano/obsidian-skills) | 160+ | 3 | Knowledge | MIT |
 | [VoltAgent](https://github.com/VoltAgent/voltagent) | - | 10+ | AI Agent | - |
 | [Makepad Skills](https://github.com/ZhangHanDong/makepad-skills) | - | 11 | Rust UI | MIT |
+| [UI Skills](https://github.com/ibelick/ui-skills) | 200+ | 1 | UI/UX Constraints | MIT |
 | [Planning with Files](https://github.com/marovole/planning-with-files) | - | 1 | Planning | MIT |
 
 ---
@@ -157,7 +158,7 @@ All skills are aggregated from reputable open-source projects. Review before imp
 
 | Pack | Icon | Skills | Use Case |
 |------|------|--------|----------|
-| **Frontend Developer** 前端开发 | 🎨 | 6 | UI/UX, components, testing |
+| **Frontend Developer** 前端开发 | 🎨 | 7 | UI/UX, components, testing |
 | **Fullstack Developer** 全栈开发 | ⚡ | 6 | End-to-end development |
 | **Document Production** 文档生产 | 📄 | 6 | Word, PDF, PPT, Excel |
 | **Knowledge Management** 知识管理 | 📓 | 4 | Obsidian, note systems |

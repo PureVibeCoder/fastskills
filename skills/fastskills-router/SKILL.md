@@ -169,6 +169,7 @@ Combine matched routes' skills (dedupe). Output highest-priority matches first.
 | 44 | research-workflow | 深度研究, deep research, 研究执行, research executor | `research-executor, question-refiner, synthesizer` |
 | 43 | problem-solving | 卡住了, stuck, 突破口, breakthrough, 问题解决 | `when-stuck, sequential-thinking` |
 | 42 | data-analysis | 数据分析, data analysis, DataFrame, 探索性分析, EDA, 统计分析, t检验, 回归 | `seaborn, statsmodels, polars, dask, networkx, vaex, exploratory-data-analysis, statistical-analysis` |
+| 41 | ui-constraints | ui约束, ui规则, constraint, opinionated ui, tailwind规则, accessibility rules, 性能约束, performance constraint, compositor, aria, text-balance, alertdialog | `ui-skills` |
 | 41 | ml-advanced | 图神经网络, GNN, UMAP, 降维, 模型解释, 贝叶斯 | `torch_geometric, umap-learn, shap, pymc, pymoo` |
 | 40 | reinforcement-learning | 强化学习, reinforcement learning, RL, PPO, DQN, 代理训练 | `stable-baselines3, pufferlib` |
 | 39 | quantum-computing | 量子计算, quantum computing, 量子电路, qubit, 量子模拟 | `cirq, pennylane, qutip` |

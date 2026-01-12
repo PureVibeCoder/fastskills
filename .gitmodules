@@ -41,3 +41,6 @@
 [submodule "nanobanana-skills"]
 	path = nanobanana-skills
 	url = https://github.com/op7418/NanoBanana-PPT-Skills.git
+[submodule "ui-skills-repo"]
+	path = ui-skills-repo
+	url = https://github.com/ibelick/ui-skills.git
