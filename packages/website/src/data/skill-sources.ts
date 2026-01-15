@@ -77,6 +77,7 @@ export const SKILL_TO_SOURCE: Record<string, SkillSource> = {
   'react-components': { source: 'community', path: 'react-components' },
   'skill-share': { source: 'community', path: 'skill-share' },
   'video-downloader': { source: 'community', path: 'video-downloader' },
+  'react-best-practices': { source: 'vercel', path: 'react-best-practices' },
   // scientific skills
   'adaptyv': { source: 'scientific', path: 'adaptyv' },
   'aeon': { source: 'scientific', path: 'aeon' },

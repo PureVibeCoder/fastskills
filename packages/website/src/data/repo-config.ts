@@ -46,6 +46,12 @@ export const REPO_CONFIG: Record<string, RepoConfig> = {
     rawBase: 'https://raw.githubusercontent.com/ComposioHQ/composio-claudecode-skills/main',
     contentPath: '.'
   },
+  vercel: {
+    path: 'vercel-agent-skills',
+    url: 'https://github.com/vercel-labs/agent-skills.git',
+    rawBase: 'https://raw.githubusercontent.com/vercel-labs/agent-skills/react-best-practices',
+    contentPath: 'skills'
+  },
   voltagent: {
     path: 'voltagent-skills',
     url: 'https://github.com/VoltAgent/voltagent.git',

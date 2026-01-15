@@ -116,7 +116,7 @@ Combine matched routes' skills (dedupe). Output highest-priority matches first.
 |----------|----|--------------------|-------------|
 | 100 | market-research | 市场研究, 市场调研, 行业分析, 竞品分析, market research, competitive analysis, GTM | `market-research-reports, research-executor` |
 | 95 | research-report | 研究报告, 调研报告, 分析报告, research report, analysis report | `research-executor, scientific-writing` |
-| 90 | react-components | react, 组件, component, tsx, jsx, hooks, useState, useEffect | `react-components, frontend-designer` |
+| 90 | react-components | react, 组件, component, tsx, jsx, hooks, useState, useEffect | `react-components, react-best-practices, frontend-designer` |
 | 88 | frontend | 前端, frontend, ui, ux, 界面, tailwind, css, html | `frontend-designer, modern-frontend-design` |
 | 87 | pubmed-search | PubMed, 医学文献, NCBI, 文献搜索, literature search, medical paper, 论文搜索 | `pubmed-database, citation-management, biopython` |
 | 86 | protein-db | UniProt, 蛋白质数据库, protein database, SwissProt, TrEMBL | `uniprot-database, biopython, bioservices` |

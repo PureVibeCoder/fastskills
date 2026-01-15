@@ -5,7 +5,7 @@ export interface Skill {
   name: string;
   description: string;
   category: Category;
-  source: 'anthropic' | 'claudekit' | 'scientific' | 'community' | 'composio' | 'voltagent' | 'obsidian' | 'planning' | 'superpowers' | 'deep-research' | 'skill-from-masters' | 'purevibecoder' | 'ui-ux-pro-max' | 'makepad' | 'nanobanana';
+  source: 'anthropic' | 'claudekit' | 'scientific' | 'community' | 'composio' | 'voltagent' | 'obsidian' | 'planning' | 'superpowers' | 'deep-research' | 'skill-from-masters' | 'purevibecoder' | 'ui-ux-pro-max' | 'makepad' | 'nanobanana' | 'vercel';
   triggers: string[];
   priority: number;
   content: string;
@@ -29711,6 +29711,16 @@ const useToggle = (initialValue = false) => {
 - [React Docs](https://react.dev)
 - [TypeScript React CheatSheet](https://react-typescript-cheatsheet.netlify.app)
 `
+  },
+  {
+    id: 'react-best-practices',
+    name: 'react-best-practices',
+    description: 'Vercel 工程团队沉淀的 React/Next.js 性能最佳实践（40+ 规则），适用于编写、审查或重构 React/Next.js 代码并优化瀑布、包体与渲染性能。',
+    category: categories[categoryIndex['frontend'] ?? 0],
+    source: 'vercel',
+    triggers: ['react', 'next.js', 'nextjs', 'performance', 'optimization', 'bundle', 'waterfall', 'rerender', 'data fetching'],
+    priority: 8,
+    content: ''
   },
   {
     id: 'theme-factory',

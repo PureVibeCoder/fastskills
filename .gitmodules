@@ -44,3 +44,7 @@
 [submodule "ui-skills-repo"]
 	path = ui-skills-repo
 	url = https://github.com/ibelick/ui-skills.git
+[submodule "vercel-agent-skills"]
+	path = vercel-agent-skills
+	url = https://github.com/vercel-labs/agent-skills.git
+	branch = react-best-practices

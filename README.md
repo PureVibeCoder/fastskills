@@ -27,9 +27,9 @@
 
 ## 🚀 一键安装，智能路由 / One-Click Install, Smart Routing
 
-**核心优势：一个技能触发 256+ 专业技能！自动检测意图，智能加载相关技能。**
+**核心优势：一个技能触发 257+ 专业技能！自动检测意图，智能加载相关技能。**
 
-**Core Advantage: One skill triggers 256+ expert skills! Auto-detect intent, smart-load relevant skills.**
+**Core Advantage: One skill triggers 257+ expert skills! Auto-detect intent, smart-load relevant skills.**
 
 ### 安装方式 / Installation
 
@@ -126,7 +126,7 @@ Claude 自动分析:
 | Categories / 分类 | **20** |
 | Scientific Skills / 科学技能 | **138+** |
 | Scientific Databases / 科学数据库 | **28+** |
-| Source Projects / 来源项目 | **11+** |
+| Source Projects / 来源项目 | **12+** |
 
 ---
 
@@ -149,6 +149,9 @@ All skills are aggregated from reputable open-source projects. Review before imp
 | [Makepad Skills](https://github.com/ZhangHanDong/makepad-skills) | - | 11 | Rust UI | MIT |
 | [UI Skills](https://github.com/ibelick/ui-skills) | 200+ | 1 | UI/UX Constraints | MIT |
 | [Planning with Files](https://github.com/marovole/planning-with-files) | - | 1 | Planning | MIT |
+| [Vercel Agent Skills](https://github.com/vercel-labs/agent-skills) | - | 1 | React/Next.js Performance | MIT |
+
+Vercel CEO 戏称该技能相当于雇佣一个 mini 版 10 年经验 React 开发者。
 
 ---
 
