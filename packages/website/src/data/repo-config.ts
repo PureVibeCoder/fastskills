@@ -111,5 +111,11 @@ export const REPO_CONFIG: Record<string, RepoConfig> = {
     url: 'https://github.com/ibelick/ui-skills.git',
     rawBase: 'https://raw.githubusercontent.com/ibelick/ui-skills/main',
     contentPath: '.'
+  },
+  videocut: {
+    path: 'videocut-skills',
+    url: 'https://github.com/Ceeon/videocut-skills.git',
+    rawBase: 'https://raw.githubusercontent.com/Ceeon/videocut-skills/main',
+    contentPath: '.'
   }
 };

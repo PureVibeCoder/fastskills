@@ -5,7 +5,7 @@ export interface Skill {
   name: string;
   description: string;
   category: Category;
-  source: 'anthropic' | 'claudekit' | 'scientific' | 'community' | 'composio' | 'voltagent' | 'obsidian' | 'planning' | 'superpowers' | 'deep-research' | 'skill-from-masters' | 'purevibecoder' | 'ui-ux-pro-max' | 'makepad' | 'nanobanana' | 'vercel';
+  source: 'anthropic' | 'claudekit' | 'scientific' | 'community' | 'composio' | 'voltagent' | 'obsidian' | 'planning' | 'superpowers' | 'deep-research' | 'skill-from-masters' | 'purevibecoder' | 'ui-ux-pro-max' | 'makepad' | 'nanobanana' | 'vercel' | 'videocut';
   triggers: string[];
   priority: number;
   content: string;
@@ -85478,3 +85478,58 @@ export const nanobananaPptSkills: Skill[] = [
 
 // Merge NanoBanana PPT skills into main skills array
 skills.push(...nanobananaPptSkills);
+
+export const videocutSkills: Skill[] = [
+  {
+    id: 'videocut-install',
+    name: 'videocut:安装',
+    description: '环境准备。安装依赖、下载模型、验证环境。',
+    category: categories[categoryIndex['media'] ?? 0],
+    source: 'videocut',
+    triggers: ['安装', '初始化', '下载模型', '环境准备'],
+    priority: 10,
+    content: ''
+  },
+  {
+    id: 'videocut-speech-cut',
+    name: 'videocut:剪口播',
+    description: '口播视频转录和口误识别。生成审查稿和删除任务清单。',
+    category: categories[categoryIndex['media'] ?? 0],
+    source: 'videocut',
+    triggers: ['剪口播', '处理视频', '识别口误', '口播'],
+    priority: 20,
+    content: ''
+  },
+  {
+    id: 'videocut-edit',
+    name: 'videocut:剪辑',
+    description: '执行视频剪辑。根据确认的删除任务执行 FFmpeg 剪辑，循环审查直到零口误，生成字幕。',
+    category: categories[categoryIndex['media'] ?? 0],
+    source: 'videocut',
+    triggers: ['执行剪辑', '开始剪', '确认剪辑', '剪辑'],
+    priority: 30,
+    content: ''
+  },
+  {
+    id: 'videocut-subtitles',
+    name: 'videocut:字幕',
+    description: '字幕生成与烧录。转录 → 词典纠错 → 审核 → 烧录。',
+    category: categories[categoryIndex['media'] ?? 0],
+    source: 'videocut',
+    triggers: ['加字幕', '生成字幕', '字幕'],
+    priority: 40,
+    content: ''
+  },
+  {
+    id: 'videocut-self-update',
+    name: 'videocut:自更新',
+    description: '自更新 skills。记录用户反馈，更新方法论和规则。',
+    category: categories[categoryIndex['media'] ?? 0],
+    source: 'videocut',
+    triggers: ['更新规则', '记录反馈', '改进skill', '自更新'],
+    priority: 50,
+    content: ''
+  }
+];
+
+skills.push(...videocutSkills);

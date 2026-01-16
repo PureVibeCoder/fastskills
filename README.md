@@ -11,7 +11,7 @@
 
 <p align="center">
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
-  <a href="#-skills-count--技能统计"><img src="https://img.shields.io/badge/Skills-257+-green" alt="Skills"></a>
+  <a href="#-skills-count--技能统计"><img src="https://img.shields.io/badge/Skills-262+-green" alt="Skills"></a>
   <a href="#-skill-packs--场景化技能包"><img src="https://img.shields.io/badge/Packs-25-blue" alt="Packages"></a>
   <a href="https://astro.build/"><img src="https://img.shields.io/badge/Built_with-Astro-orange" alt="Astro"></a>
   <a href="https://fastskills.xyz"><img src="https://img.shields.io/badge/Website-Live-success" alt="Website"></a>
@@ -27,9 +27,9 @@
 
 ## 🚀 一键安装，智能路由 / One-Click Install, Smart Routing
 
-**核心优势：一个技能触发 257+ 专业技能！自动检测意图，智能加载相关技能。**
+**核心优势：一个技能触发 262+ 专业技能！自动检测意图，智能加载相关技能。**
 
-**Core Advantage: One skill triggers 257+ expert skills! Auto-detect intent, smart-load relevant skills.**
+**Core Advantage: One skill triggers 262+ expert skills! Auto-detect intent, smart-load relevant skills.**
 
 ### 安装方式 / Installation
 
@@ -97,9 +97,9 @@ Claude 自动分析:
 
 ## Overview / 项目概述
 
-**FastSkills** aggregates 227+ high-quality Claude Code skills from 10+ open-source projects on GitHub, organized into 25 scenario-based skill packs for developers and researchers.
+**FastSkills** aggregates 232+ high-quality Claude Code skills from 13+ open-source projects on GitHub, organized into 25 scenario-based skill packs for developers and researchers.
 
-**FastSkills** 汇集来自 GitHub 10+ 个开源项目的 227+ 高质量 Claude Code 技能，并按场景打包成 25 个技能包，服务于开发者和科研工作者。
+**FastSkills** 汇集来自 GitHub 13+ 个开源项目的 232+ 高质量 Claude Code 技能，并按场景打包成 25 个技能包，服务于开发者和科研工作者。
 
 ---
 
@@ -111,7 +111,7 @@ Claude 自动分析:
 | **📦 One-Click Install** 一键安装 | `/plugin install fastskills@fastskills` |
 | **🔍 Intent Detection** 意图检测 | Understands: create, research, debug, refactor, test, deploy |
 | **🌐 Bilingual** 双语支持 | Chinese-English keyword expansion |
-| **📚 Skill Aggregation** 技能聚合 | 227+ skills from 10+ curated open-source projects |
+| **📚 Skill Aggregation** 技能聚合 | 232+ skills from 13+ curated open-source projects |
 | **🎁 Scenario Packs** 场景打包 | 25 ready-to-use skill packs for different workflows |
 | **🏷️ Category Filtering** 分类筛选 | 20 categories including 9 scientific sub-domains |
 
@@ -121,12 +121,12 @@ Claude 自动分析:
 
 | Metric | Count |
 |--------|-------|
-| Total Skills / 技能总数 | **257+** |
+| Total Skills / 技能总数 | **262+** |
 | Skill Packs / 场景包 | **25** |
 | Categories / 分类 | **20** |
 | Scientific Skills / 科学技能 | **138+** |
 | Scientific Databases / 科学数据库 | **28+** |
-| Source Projects / 来源项目 | **12+** |
+| Source Projects / 来源项目 | **13+** |
 
 ---
 
@@ -149,6 +149,7 @@ All skills are aggregated from reputable open-source projects. Review before imp
 | [Makepad Skills](https://github.com/ZhangHanDong/makepad-skills) | - | 11 | Rust UI | MIT |
 | [UI Skills](https://github.com/ibelick/ui-skills) | 200+ | 1 | UI/UX Constraints | MIT |
 | [Planning with Files](https://github.com/marovole/planning-with-files) | - | 1 | Planning | MIT |
+| [VideoCut Skills](https://github.com/Ceeon/videocut-skills) | - | 5 | Video Editing | MIT |
 | [Vercel Agent Skills](https://github.com/vercel-labs/agent-skills) | - | 1 | React/Next.js Performance | MIT |
 
 Vercel CEO 戏称该技能相当于雇佣一个 mini 版 10 年经验 React 开发者。
@@ -475,6 +476,7 @@ All skills are from these amazing open-source projects:
 | [claude-scientific-skills](https://github.com/K-Dense-AI/claude-scientific-skills) | [K-Dense AI](https://github.com/K-Dense-AI) |
 | [obsidian-skills](https://github.com/kepano/obsidian-skills) | [@kepano](https://github.com/kepano) |
 | [makepad-skills](https://github.com/ZhangHanDong/makepad-skills) | [@ZhangHanDong](https://github.com/ZhangHanDong) |
+| [videocut-skills](https://github.com/Ceeon/videocut-skills) | [@Ceeon](https://github.com/Ceeon) |
 
 **Note**: This project only aggregates and displays skills. All copyrights belong to original authors.
 

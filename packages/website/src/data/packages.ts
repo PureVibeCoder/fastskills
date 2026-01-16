@@ -126,7 +126,12 @@ export const skillPackages: SkillPackage[] = [
       'video-downloader',
       'canvas-design',
       'algorithmic-art',
-      'slack-gif-creator'
+      'slack-gif-creator',
+      'videocut-install',
+      'videocut-speech-cut',
+      'videocut-edit',
+      'videocut-subtitles',
+      'videocut-self-update'
     ],
     recommended: false
   },

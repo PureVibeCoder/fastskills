@@ -86,7 +86,7 @@ const DANGEROUS_PATTERNS = [
     suggestion: 'Ensure operations are authorized and scoped to appropriate resources.'
   },
   {
-    pattern: /(api[_-]?key|secret|token|password|auth[_-]?token)\s*[:=]\s*['"`][a-zA-Z0-9_\-]{20,}['"`]/gi,
+    pattern: /(api[_-]?key|secret|token|password|auth[_-]?token)\s*[:=]\s*['"`][a-zA-Z0-9_-]{20,}['"`]/gi,
     type: 'high' as const,
     category: 'Secrets',
     message: 'Potential hardcoded secret detected',

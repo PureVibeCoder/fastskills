@@ -25,6 +25,7 @@ const SOURCE_PATHS = {
   'deep-research': path.join(projectRoot, 'deep-research-skills/.claude/skills'),
   'superpowers': path.join(projectRoot, 'superpowers/skills'),
   'skill-from-masters': path.join(projectRoot, 'skill-from-masters/skill-from-masters'),
+  'videocut': path.join(projectRoot, 'videocut-skills')
 };
 
 /**
@@ -150,9 +151,9 @@ function updateSkillsFile(skillDescriptions) {
   // 匹配每个 skill 对象: { id: '...', name: '...', description: '...', ...
   // 使用逐个匹配的方式
   const idPattern = /id:\s*'([^']+)'/g;
-  let idMatch;
+  let idMatch = idPattern.exec(content);
 
-  while ((idMatch = idPattern.exec(content)) !== null) {
+  while (idMatch !== null) {
     const skillId = idMatch[1];
     const skillInfo = skillDescriptions.get(skillId);
 
@@ -189,6 +190,8 @@ function updateSkillsFile(skillDescriptions) {
     } else {
       skippedCount++;
     }
+
+    idMatch = idPattern.exec(content);
   }
 
   // 从后向前替换，保持位置正确
