@@ -54,6 +54,62 @@ fastskills/
 └── deep-research-skills/      # Git submodule - Research framework
 ```
 
+## Skill Content Loading Architecture
+
+The website uses a **build-time injection** mechanism for skill content:
+
+```
+SKILL.md files → inject-skill-content.mjs → skills-content.json → Skill pages
+```
+
+1. **Data Separation**: `skills.ts` content fields are intentionally empty (optimized for bundle size)
+2. **Content Storage**: Full content stored in `public/data/skills-content.json` (~2.7MB)
+3. **Injection Script**: `scripts/inject-skill-content.mjs` extracts content from local SKILL.md files during build
+
+**Important**: Empty `content` fields in `skills.ts` are NORMAL - do not manually fill them.
+
+## Adding New Skills
+
+When adding a new skill, you MUST update these 3 locations in sync:
+
+### 1. Website Data (`packages/website/src/data/`)
+
+**skill-sources.ts** - Add source path mapping:
+```typescript
+'new-skill-id': { source: 'source-name', path: 'skill-folder' },
+```
+
+**skills.ts** - Add skill entry:
+```typescript
+{
+  id: 'new-skill-id',
+  name: '技能名称',
+  description: '技能描述',
+  category: categories[categoryIndex['category-name'] ?? 0],
+  source: 'source-name',
+  triggers: ['关键词1', 'keyword2'],
+  priority: N,
+  content: ''  // Keep empty - auto-filled during build
+}
+```
+
+### 2. README.md
+
+- Update skill count in "Skills Count" section
+- If new source, add to "Skill Sources" table
+
+### 3. Router (`skills/fastskills-router/SKILL.md`)
+
+Add routing keywords in ROUTES TABLE:
+```
+| Priority | ID | Keywords | Load Skills |
+| N | new-route | 关键词, keywords | new-skill-id |
+```
+
+### Verification
+
+Run `pnpm build` to verify - the injection script will automatically extract content.
+
 ## Build/Lint/Test Commands
 
 ### From Repository Root

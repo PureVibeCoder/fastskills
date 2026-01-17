@@ -116,7 +116,8 @@ async function main() {
     'superpowers': 'superpowers',
     'deep-research-skills': 'deep-research',
     'skill-from-masters': 'skill-from-masters',
-    'planning-with-files': 'planning'
+    'planning-with-files': 'planning',
+    'videocut-skills': 'videocut'
   };
 
   for (const [subPath, url] of Object.entries(submodules)) {

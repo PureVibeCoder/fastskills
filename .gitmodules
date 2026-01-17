@@ -48,3 +48,6 @@
 	path = vercel-agent-skills
 	url = https://github.com/vercel-labs/agent-skills.git
 	branch = react-best-practices
+[submodule "videocut-skills"]
+	path = videocut-skills
+	url = https://github.com/Ceeon/videocut-skills.git

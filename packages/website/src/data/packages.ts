@@ -11,6 +11,26 @@ export interface SkillPackage {
 
 export const skillPackages: SkillPackage[] = [
   {
+    id: 'top-10-essentials',
+    name: '十大必备技能套件',
+    nameEn: 'Top 10 Essential Skills Kit',
+    description: '面向普通用户的 10 个最实用技能：写作、研究、办公、创意一站式覆盖',
+    icon: '⭐',
+    skills: [
+      'brainstorming',
+      'doc-coauthoring',
+      'internal-comms',
+      'research-executor',
+      'market-research-reports',
+      'xlsx',
+      'pptx',
+      'scientific-writing',
+      'obsidian-bases',
+      'canvas-design'
+    ],
+    recommended: true
+  },
+  {
     id: 'frontend-developer',
     name: '前端开发者套件',
     nameEn: 'Frontend Developer Kit',
@@ -126,7 +146,12 @@ export const skillPackages: SkillPackage[] = [
       'video-downloader',
       'canvas-design',
       'algorithmic-art',
-      'slack-gif-creator'
+      'slack-gif-creator',
+      'videocut-install',
+      'videocut-speech-cut',
+      'videocut-edit',
+      'videocut-subtitles',
+      'videocut-self-update'
     ],
     recommended: false
   },

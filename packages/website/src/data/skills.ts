@@ -5,7 +5,7 @@ export interface Skill {
   name: string;
   description: string;
   category: Category;
-  source: 'anthropic' | 'claudekit' | 'scientific' | 'community' | 'composio' | 'voltagent' | 'obsidian' | 'planning' | 'superpowers' | 'deep-research' | 'skill-from-masters' | 'purevibecoder' | 'ui-ux-pro-max' | 'makepad' | 'nanobanana' | 'vercel';
+  source: 'anthropic' | 'claudekit' | 'scientific' | 'community' | 'composio' | 'voltagent' | 'obsidian' | 'planning' | 'superpowers' | 'deep-research' | 'skill-from-masters' | 'purevibecoder' | 'ui-ux-pro-max' | 'makepad' | 'nanobanana' | 'vercel' | 'videocut';
   triggers: string[];
   priority: number;
   content: string;
@@ -85323,6 +85323,16 @@ export const pureVibeCoderSkills: Skill[] = [
     priority: 8,
     content: ''
   },
+  {
+    id: 'dan-koe-writing',
+    name: 'DAN KOE 风格文章撰写',
+    description: '深度思考写作风格，采用DAN KOE式对话挑衅开篇、理论实践结合、反主流叙事，创作5000-8000字长篇中文内容。包含核心观点库策略、三层表达框架（微故事/金字塔原则/跨领域合成）、乐高积木思维工具、控制论思维模型、身份形成8步模型、Agency三维度模型、想法博物馆策略、品牌即环境概念等高级技巧。适用于个人成长、商业洞察、创作者经济、生产力方法论等主题。',
+    category: categories[categoryIndex['thinking'] ?? 0],
+    source: 'purevibecoder',
+    triggers: ['写作', 'writing', 'DAN KOE', '长文', '深度文章', '个人成长', '商业洞察', '方法论', '反主流', 'essay', '长篇', '挑衅式写作', '跨领域合成', 'cross domain', '金字塔原则', 'pyramid principle', '核心观点', 'greatest hits', '想法博物馆', 'idea museum', '品牌', 'brand', 'newsletter', '创作者经济', 'creator economy', 'agency', '控制论', 'cybernetics'],
+    priority: 7,
+    content: ''
+  },
 ];
 
 // Merge PureVibeCoder skills into main skills array
@@ -85478,3 +85488,58 @@ export const nanobananaPptSkills: Skill[] = [
 
 // Merge NanoBanana PPT skills into main skills array
 skills.push(...nanobananaPptSkills);
+
+export const videocutSkills: Skill[] = [
+  {
+    id: 'videocut-install',
+    name: 'videocut:安装',
+    description: '环境准备。安装依赖、下载模型、验证环境。',
+    category: categories[categoryIndex['media'] ?? 0],
+    source: 'videocut',
+    triggers: ['安装', '初始化', '下载模型', '环境准备'],
+    priority: 10,
+    content: ''
+  },
+  {
+    id: 'videocut-speech-cut',
+    name: 'videocut:剪口播',
+    description: '口播视频转录和口误识别。生成审查稿和删除任务清单。',
+    category: categories[categoryIndex['media'] ?? 0],
+    source: 'videocut',
+    triggers: ['剪口播', '处理视频', '识别口误', '口播'],
+    priority: 20,
+    content: ''
+  },
+  {
+    id: 'videocut-edit',
+    name: 'videocut:剪辑',
+    description: '执行视频剪辑。根据确认的删除任务执行 FFmpeg 剪辑，循环审查直到零口误，生成字幕。',
+    category: categories[categoryIndex['media'] ?? 0],
+    source: 'videocut',
+    triggers: ['执行剪辑', '开始剪', '确认剪辑', '剪辑'],
+    priority: 30,
+    content: ''
+  },
+  {
+    id: 'videocut-subtitles',
+    name: 'videocut:字幕',
+    description: '字幕生成与烧录。转录 → 词典纠错 → 审核 → 烧录。',
+    category: categories[categoryIndex['media'] ?? 0],
+    source: 'videocut',
+    triggers: ['加字幕', '生成字幕', '字幕'],
+    priority: 40,
+    content: ''
+  },
+  {
+    id: 'videocut-self-update',
+    name: 'videocut:自更新',
+    description: '自更新 skills。记录用户反馈，更新方法论和规则。',
+    category: categories[categoryIndex['media'] ?? 0],
+    source: 'videocut',
+    triggers: ['更新规则', '记录反馈', '改进skill', '自更新'],
+    priority: 50,
+    content: ''
+  }
+];
+
+skills.push(...videocutSkills);

@@ -165,6 +165,7 @@ Combine matched routes' skills (dedupe). Output highest-priority matches first.
 | 50 | brainstorming | 头脑风暴, brainstorm, 创意, creative, design thinking | `brainstorming, scientific-brainstorming` |
 | 48 | image-generation | 生成图片, generate image, FLUX, 图像生成, image generation, AI绘画 | `image-enhancer` |
 | 47 | video-processing | 视频, video, FFmpeg, 音频, audio, 转换, convert | `media-processing, video-downloader` |
+| 46 | videocut | 剪口播, 口误, 字幕, 自动剪辑, videocut | `videocut-install, videocut-speech-cut, videocut-edit, videocut-subtitles, videocut-self-update` |
 | 45 | task-planning | 任务规划, task planning, Manus, 计划, planning, 实现计划 | `planning-with-files, writing-plans, executing-plans` |
 | 44 | research-workflow | 深度研究, deep research, 研究执行, research executor | `research-executor, question-refiner, synthesizer` |
 | 43 | problem-solving | 卡住了, stuck, 突破口, breakthrough, 问题解决 | `when-stuck, sequential-thinking` |

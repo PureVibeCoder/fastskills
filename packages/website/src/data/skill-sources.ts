@@ -245,6 +245,7 @@ export const SKILL_TO_SOURCE: Record<string, SkillSource> = {
   'skill-from-masters': { source: 'skill-from-masters', path: '' },
   // purevibecoder skills
   'frontend-designer': { source: 'purevibecoder', path: 'frontend-designer' },
+  'dan-koe-writing': { source: 'purevibecoder', path: 'dan-koe-writing' },
   // ui-ux-pro-max skills
   'ui-ux-pro-max': { source: 'ui-ux-pro-max', path: 'ui-ux-pro-max' },
   // makepad skills
@@ -261,6 +262,11 @@ export const SKILL_TO_SOURCE: Record<string, SkillSource> = {
   'makepad-evolution': { source: 'makepad', path: 'makepad-evolution' },
   // nanobanana ppt skills
   'ppt-generator': { source: 'nanobanana', path: '' },
+  'videocut-install': { source: 'videocut', path: '安装' },
+  'videocut-speech-cut': { source: 'videocut', path: '剪口播' },
+  'videocut-edit': { source: 'videocut', path: '剪辑' },
+  'videocut-subtitles': { source: 'videocut', path: '字幕' },
+  'videocut-self-update': { source: 'videocut', path: '自更新' },
   // ui-skills
   'ui-skills': { source: 'ui-skills', path: '' },
 };
