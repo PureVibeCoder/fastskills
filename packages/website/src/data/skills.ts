@@ -85323,6 +85323,16 @@ export const pureVibeCoderSkills: Skill[] = [
     priority: 8,
     content: ''
   },
+  {
+    id: 'dan-koe-writing',
+    name: 'DAN KOE 风格文章撰写',
+    description: '深度思考写作风格，采用DAN KOE式对话挑衅开篇、理论实践结合、反主流叙事，创作5000-8000字长篇中文内容。包含核心观点库策略、三层表达框架（微故事/金字塔原则/跨领域合成）、乐高积木思维工具、控制论思维模型、身份形成8步模型、Agency三维度模型、想法博物馆策略、品牌即环境概念等高级技巧。适用于个人成长、商业洞察、创作者经济、生产力方法论等主题。',
+    category: categories[categoryIndex['thinking'] ?? 0],
+    source: 'purevibecoder',
+    triggers: ['写作', 'writing', 'DAN KOE', '长文', '深度文章', '个人成长', '商业洞察', '方法论', '反主流', 'essay', '长篇', '挑衅式写作', '跨领域合成', 'cross domain', '金字塔原则', 'pyramid principle', '核心观点', 'greatest hits', '想法博物馆', 'idea museum', '品牌', 'brand', 'newsletter', '创作者经济', 'creator economy', 'agency', '控制论', 'cybernetics'],
+    priority: 7,
+    content: ''
+  },
 ];
 
 // Merge PureVibeCoder skills into main skills array

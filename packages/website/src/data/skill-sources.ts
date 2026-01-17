@@ -245,6 +245,7 @@ export const SKILL_TO_SOURCE: Record<string, SkillSource> = {
   'skill-from-masters': { source: 'skill-from-masters', path: '' },
   // purevibecoder skills
   'frontend-designer': { source: 'purevibecoder', path: 'frontend-designer' },
+  'dan-koe-writing': { source: 'purevibecoder', path: 'dan-koe-writing' },
   // ui-ux-pro-max skills
   'ui-ux-pro-max': { source: 'ui-ux-pro-max', path: 'ui-ux-pro-max' },
   // makepad skills
