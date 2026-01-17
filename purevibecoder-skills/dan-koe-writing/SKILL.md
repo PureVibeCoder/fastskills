@@ -1046,7 +1046,8 @@ AI提示词模板：
 - [ ] 结尾是否极简（仅签名）？
 - [ ] 总字数是否在5000-8000之间？
 - [ ] 是否可选使用游戏化框架总结？
-- [ ] 是否在文末附上封面图提示词？
+- [ ] 是否在文末附上封面图提示词（5:2 比例）？
+- [ ] 是否在文末附上文章插图提示词（1:1 比例，1-2张）？
 
 ### 高级技巧检查（可选）
 - [ ] 是否建立了自己的核心观点库？
@@ -1313,7 +1314,7 @@ dramatic chiaroscuro lighting,
 philosophical existential atmosphere,
 human figure small against vast [环境],
 intricate crosshatching details,
-no text, no watermark --ar 16:9
+no text, no watermark --ar 5:2
 ```
 
 ### 关键词速查表
@@ -1353,7 +1354,7 @@ fine hatching technique like vintage book illustration,
 Gustave Doré etching style,
 ocean waves merging with cosmic patterns,
 philosophical imagery, intricate parallel lines,
-no text, no watermark --ar 16:9
+no text, no watermark --ar 5:2
 ```
 
 **示例2 - 人生转变主题**：
@@ -1365,7 +1366,7 @@ pure black and white with fine crosshatching,
 Gustave Doré inspired artwork,
 dramatic light at the end contrasting with darkness,
 existential transformation theme,
-intricate line work details, no text --ar 16:9
+intricate line work details, no text --ar 5:2
 ```
 
 **示例3 - 探索未知主题**：
@@ -1377,7 +1378,7 @@ fine parallel line hatching technique,
 Gustave Doré etching aesthetic,
 single small human figure facing vast unknown,
 contemplative exploration mood,
-highly detailed crosshatching, no text --ar 16:9
+highly detailed crosshatching, no text --ar 5:2
 ```
 
 ### 输出格式
@@ -1403,4 +1404,104 @@ highly detailed crosshatching, no text --ar 16:9
 3. **填充模板**：使用通用模板，替换 `[人物类型]`、`[动作]`、`[宏大场景]` 等占位符
 4. **添加主题元素**：根据文章内容添加特定的视觉元素
 5. **输出完整提示词**：确保包含风格、技法、氛围、质量等关键词
+
+---
+
+## 文章插图提示词生成
+
+除封面图外，Dan Koe 风格的长篇文章通常包含 1-2 张文章插图，用于强化核心论点的视觉表达。
+
+### 插图使用规范
+
+| 项目 | 规范 |
+|------|------|
+| **数量** | 1-2 张（不宜过多，保持专注） |
+| **比例** | 1:1（方形，适合文中配图） |
+| **位置** | 放在核心论点章节之后（通常在第 II 章和第 V 章之后） |
+| **风格** | 与封面图保持一致的 Gustave Doré 版画风格 |
+
+### 插图主题选择
+
+根据文章结构，插图应强化以下类型的内容：
+
+| 插图位置 | 主题方向 | 视觉隐喻 |
+|---------|---------|---------|
+| **第一张**（论点建立后） | 问题诊断或核心洞察 | 个体 vs 巨大力量的对比 |
+| **第二张**（解决方案前） | 概念可视化或转变过程 | 变化、吞噬、进化的动态 |
+
+### 插图提示词模板
+
+**通用插图模板**：
+```
+[核心视觉元素描述],
+vintage 19th century engraving style,
+black and white illustration with fine parallel line hatching,
+Gustave Doré inspired etching technique,
+[主题相关元素],
+intricate crosshatching details,
+philosophical atmosphere,
+no text, no watermark --ar 1:1
+```
+
+### 插图示例
+
+**示例1 - 个体对抗巨大力量**：
+```
+A tiny figure at a humble desk with a glowing laptop,
+casting an enormous shadow that looms over and consumes
+massive corporate skyscrapers and office buildings,
+vintage 19th century engraving style,
+black and white illustration with fine parallel line hatching,
+Gustave Doré inspired etching technique,
+David versus Goliath metaphor,
+small creator defeating corporate giants,
+dramatic scale contrast between individual and institution,
+intricate crosshatching details, philosophical atmosphere,
+no text, no watermark --ar 1:1
+```
+
+**示例2 - 吞噬链条/转变过程**：
+```
+A three-stage transformation sequence:
+massive binary code walls being consumed by flowing neural network tentacles,
+which are then absorbed into crystalline geometric skill modules radiating outward,
+vintage 19th century engraving style,
+black and white illustration with fine parallel line hatching,
+Gustave Doré inspired etching technique,
+chain of consumption visualization,
+each stage smaller but more powerful than the last,
+intricate crosshatching showing metamorphosis,
+philosophical technological evolution,
+no text, no watermark --ar 1:1
+```
+
+### 插图输出格式
+
+在封面图提示词之后，添加插图提示词：
+
+```markdown
+---
+
+## 📷 插图 1：[主题描述]（放在章节 [X] 之后）
+
+```
+[插图提示词]
+```
+
+---
+
+## 📷 插图 2：[主题描述]（放在章节 [Y] 之后）
+
+```
+[插图提示词]
+```
+```
+
+### 插图生成流程
+
+1. **确定插图数量**：根据文章长度决定（5000字以下1张，5000字以上2张）
+2. **选择放置位置**：通常在核心论点章节之后
+3. **提炼视觉隐喻**：将章节核心概念转化为具体画面
+4. **填充模板**：使用插图模板，确保比例为 1:1
+5. **与封面图风格统一**：保持 Gustave Doré 版画风格
 
