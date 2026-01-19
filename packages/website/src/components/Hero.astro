@@ -130,12 +130,12 @@
   .bg-grid {
     position: absolute;
     inset: 0;
-    background-image: 
-      linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+    background-image:
+      linear-gradient(#E5E7EB 1px, transparent 1px),
+      linear-gradient(90deg, #E5E7EB 1px, transparent 1px);
     background-size: 40px 40px;
     z-index: 0;
-    mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+    mask-image: radial-gradient(circle at center, white 40%, transparent 80%);
   }
 
   .bg-glow {
@@ -145,7 +145,7 @@
     transform: translate(-50%, -50%);
     width: 80%;
     height: 80%;
-    background: radial-gradient(circle, rgba(0, 240, 255, 0.05) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(34, 197, 94, 0.08) 0%, transparent 70%);
     z-index: 0;
     pointer-events: none;
   }
@@ -161,26 +161,26 @@
   .orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.4;
+    filter: blur(60px);
+    opacity: 0.3;
   }
 
   .orb-1 {
-    width: 300px;
-    height: 300px;
+    width: 200px;
+    height: 200px;
     background: var(--color-primary);
-    top: -50px;
-    right: -50px;
-    animation: float 10s infinite ease-in-out;
+    top: -30px;
+    right: -30px;
+    animation: float 8s infinite ease-in-out;
   }
 
   .orb-2 {
-    width: 400px;
-    height: 400px;
+    width: 300px;
+    height: 300px;
     background: var(--color-secondary);
-    bottom: -100px;
-    left: -100px;
-    animation: float 12s infinite ease-in-out reverse;
+    bottom: -80px;
+    left: -80px;
+    animation: float 10s infinite ease-in-out reverse;
   }
 
   .container {
@@ -210,8 +210,8 @@
     align-items: center;
     gap: var(--spacing-sm);
     padding: var(--spacing-xs) var(--spacing-md);
-    background: rgba(0, 240, 255, 0.1);
-    border: 1px solid rgba(0, 240, 255, 0.3);
+    background: var(--color-primary-dim);
+    border: 1px solid var(--color-primary);
     border-radius: 999px;
     margin-bottom: var(--spacing-lg);
     font-family: var(--font-mono);
@@ -220,11 +220,10 @@
   }
 
   .status-dot {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
     background: var(--color-primary);
     border-radius: 50%;
-    box-shadow: 0 0 10px var(--color-primary);
     animation: pulse 2s infinite;
   }
 
@@ -234,7 +233,7 @@
     font-weight: 900;
     line-height: 1;
     margin-bottom: var(--spacing-xs);
-    background: linear-gradient(135deg, #fff 0%, #b0b0b0 100%);
+    background: linear-gradient(135deg, #1A1A1A 0%, #4B5563 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: -0.03em;
@@ -340,28 +339,27 @@
 
   .terminal-card {
     position: absolute;
-    background: rgba(10, 10, 12, 0.8);
-    backdrop-filter: blur(12px);
+    background: #fff;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     padding: 0;
-    box-shadow: 
-      0 20px 40px rgba(0, 0, 0, 0.5),
-      0 0 0 1px rgba(255, 255, 255, 0.05);
+    box-shadow:
+      var(--shadow-md),
+      0 0 0 1px rgba(0, 0, 0, 0.04);
     font-family: var(--font-mono);
     width: 280px;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
     z-index: 2;
   }
 
   .terminal-card:hover {
     z-index: 10;
     border-color: var(--color-primary);
-    box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+    box-shadow: var(--shadow-lg), 0 0 0 1px var(--color-primary-dim);
   }
 
   .terminal-header {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--color-bg-tertiary);
     padding: 8px 12px;
     border-bottom: 1px solid var(--color-border);
     display: flex;
@@ -407,8 +405,8 @@
 
   .cmd { color: var(--color-text-secondary); }
   .val { font-weight: 700; }
-  .val.cyan { color: var(--color-primary); text-shadow: 0 0 10px var(--color-primary); }
-  .val.green { color: #27C93F; }
+  .val.cyan { color: var(--color-primary); }
+  .val.green { color: var(--color-success); }
   .val.purple { color: var(--color-secondary); }
 
   /* Card Positions */
@@ -461,21 +459,15 @@
     opacity: 0.5;
   }
 
-  /* --- Animations --- */
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.4); }
-    70% { box-shadow: 0 0 0 6px rgba(0, 240, 255, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0); }
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-  }
 
   .floating {
     animation: float var(--float-duration) ease-in-out infinite;
     animation-delay: var(--float-delay, 0s);
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
   }
 
   @keyframes typing {

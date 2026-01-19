@@ -62,7 +62,7 @@ const sortedSkills = [...filteredSkills].sort((a, b) => {
 <style>
   .skills-section {
     padding: 4rem 0 6rem;
-    background: var(--color-background);
+    background: var(--color-bg);
     position: relative;
     min-height: 60vh;
   }
@@ -74,9 +74,9 @@ const sortedSkills = [...filteredSkills].sort((a, b) => {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: 
-      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-image:
+      linear-gradient(#E5E7EB 1px, transparent 1px),
+      linear-gradient(90deg, #E5E7EB 1px, transparent 1px);
     background-size: 50px 50px;
     pointer-events: none;
     z-index: 0;
@@ -103,7 +103,7 @@ const sortedSkills = [...filteredSkills].sort((a, b) => {
     width: 12px;
     height: 12px;
     background: var(--color-primary);
-    box-shadow: 0 0 10px var(--color-primary);
+    border-radius: 2px;
   }
 
   .section-title {
@@ -117,7 +117,7 @@ const sortedSkills = [...filteredSkills].sort((a, b) => {
 
   .section-subtitle {
     font-family: var(--font-mono);
-    color: var(--color-text-muted);
+    color: var(--color-text-secondary);
     font-size: 0.9rem;
     margin: 0;
   }
@@ -157,14 +157,14 @@ const sortedSkills = [...filteredSkills].sort((a, b) => {
     padding: 6rem 2rem;
     border: 1px dashed var(--color-border);
     border-radius: var(--radius-lg);
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--color-bg-secondary);
   }
 
   .empty-icon {
     width: 3rem;
     height: 3rem;
     border-radius: 50%;
-    border: 2px solid var(--color-text-muted);
+    border: 2px solid var(--color-border);
     color: var(--color-text-muted);
     display: flex;
     align-items: center;
@@ -177,7 +177,7 @@ const sortedSkills = [...filteredSkills].sort((a, b) => {
 
   .no-skills-text {
     font-family: var(--font-mono);
-    color: var(--color-text-muted);
+    color: var(--color-text-secondary);
     font-size: 1rem;
     margin-bottom: 2rem;
     letter-spacing: 0.05em;
@@ -195,7 +195,7 @@ const sortedSkills = [...filteredSkills].sort((a, b) => {
 
   .btn-reset:hover {
     background: var(--color-primary);
-    color: #000;
+    color: #fff;
   }
 
   @media (max-width: 768px) {
