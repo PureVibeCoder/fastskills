@@ -99,8 +99,8 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
 
 <style>
   .features-section {
-    padding: var(--spacing-4xl) 0;
-    background: var(--color-bg);
+    padding: var(--spacing-3xl) 0;
+    background: var(--color-bg-secondary);
     position: relative;
     overflow: hidden;
   }
@@ -112,7 +112,8 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
     left: 0;
     width: 100%;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.3), transparent);
+    background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+    opacity: 0.3;
   }
 
   .section-header {
@@ -122,10 +123,10 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
 
   .section-title {
     font-family: var(--font-display);
-    font-size: 2rem;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
     color: var(--color-text);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: -0.02em;
   }
 
   .bracket {
@@ -143,12 +144,12 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
   }
 
   .feature-card {
-    background: rgba(13, 17, 23, 0.4);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(230, 237, 243, 0.1);
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
     padding: var(--spacing-xl);
     position: relative;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all var(--transition-base);
     opacity: 0;
     animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
@@ -173,7 +174,7 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
 
   .feature-card:hover {
     border-color: var(--color-primary);
-    box-shadow: 0 0 30px rgba(0, 240, 255, 0.1);
+    box-shadow: var(--shadow-lg), 0 0 0 1px var(--color-primary-dim);
     transform: translateY(-5px);
   }
 
@@ -184,10 +185,11 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at top right, rgba(0, 240, 255, 0.05), transparent 40%);
+    background: radial-gradient(circle at top right, var(--color-primary-dim), transparent 40%);
     opacity: 0;
     transition: opacity 0.4s ease;
     pointer-events: none;
+    border-radius: var(--radius-md);
   }
 
   .feature-card:hover::after {
@@ -200,10 +202,16 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 240, 255, 0.05);
-    border: 1px solid rgba(0, 240, 255, 0.2);
+    background: var(--color-primary-dim);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
     margin-bottom: var(--spacing-lg);
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .feature-card:hover .feature-icon-wrapper {
+    border-color: var(--color-primary);
+    box-shadow: var(--glow-primary);
   }
 
   .feature-icon {
@@ -216,7 +224,7 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
     color: var(--color-text);
     margin-bottom: var(--spacing-md);
     font-weight: 600;
-    letter-spacing: 0.05em;
+    letter-spacing: -0.01em;
   }
 
   .feature-description {
@@ -224,7 +232,6 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
     font-size: 0.9375rem;
     line-height: 1.6;
     margin: 0;
-    font-family: var(--font-mono);
   }
 
   .feature-description .api-link {
@@ -235,13 +242,13 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
   }
 
   .feature-description .api-link:hover {
-    text-shadow: 0 0 8px var(--color-primary);
+    color: var(--color-primary-hover);
   }
 
   .skills-container {
     padding: var(--spacing-3xl) 0;
-    background: var(--color-bg-secondary);
-    border-top: 1px solid rgba(230, 237, 243, 0.1);
+    background: var(--color-bg);
+    border-top: 1px solid var(--color-border);
   }
 
   .skills-header {
@@ -265,7 +272,7 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
   }
 
   .prompt {
-    color: var(--color-secondary);
+    color: var(--color-primary);
     margin-right: 0.5rem;
   }
 
@@ -293,17 +300,17 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
     font-weight: 600;
     letter-spacing: 0.05em;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all var(--transition-base);
     display: flex;
     align-items: center;
     gap: 0.5rem;
     text-transform: uppercase;
+    border-radius: var(--radius-sm);
   }
 
   .download-pack-btn:hover {
-    background: rgba(0, 240, 255, 0.1);
-    box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
-    text-shadow: 0 0 5px var(--color-primary);
+    background: var(--color-primary-dim);
+    box-shadow: var(--glow-primary);
   }
 
   /* 技能详情模态框 */
@@ -328,14 +335,15 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
 
   .skill-detail-triggers {
     margin-bottom: var(--spacing-md);
-    background: rgba(0, 240, 255, 0.05);
-    border: 1px solid rgba(0, 240, 255, 0.2);
+    background: var(--color-primary-dim);
+    border: 1px solid var(--color-primary);
+    border-radius: var(--radius-sm);
     padding: var(--spacing-md);
   }
 
   .skill-detail-triggers h4 {
     margin-bottom: var(--spacing-xs);
-    color: var(--color-secondary);
+    color: var(--color-primary);
     font-family: var(--font-mono);
     text-transform: uppercase;
     font-size: 0.875rem;
@@ -362,7 +370,7 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(3, 4, 7, 0.85);
+    background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
@@ -371,14 +379,14 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
   }
 
   .modal-content {
-    background: rgba(13, 17, 23, 0.95);
-    border: 1px solid var(--color-primary);
-    border-radius: 0;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
     max-width: 600px;
     width: 90%;
     max-height: 80vh;
     overflow-y: auto;
-    box-shadow: 0 0 50px rgba(0, 240, 255, 0.15);
+    box-shadow: var(--shadow-xl);
     position: relative;
   }
 
@@ -388,9 +396,9 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
     top: 0;
     left: 0;
     width: 100%;
-    height: 2px;
+    height: 3px;
     background: var(--color-primary);
-    box-shadow: 0 0 10px var(--color-primary);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   }
 
   .modal-header {
@@ -398,7 +406,7 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
     justify-content: space-between;
     align-items: center;
     padding: var(--spacing-lg);
-    border-bottom: 1px solid rgba(230, 237, 243, 0.1);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .modal-header h2 {
@@ -406,13 +414,13 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
     font-family: var(--font-display);
     font-size: 1.5rem;
     color: var(--color-text);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    font-weight: 600;
   }
 
   .modal-close {
     background: transparent;
-    border: 1px solid rgba(230, 237, 243, 0.2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
     width: 32px;
     height: 32px;
     display: flex;
@@ -425,9 +433,9 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
   }
 
   .modal-close:hover {
-    color: var(--color-secondary);
-    border-color: var(--color-secondary);
-    box-shadow: 0 0 10px rgba(255, 46, 99, 0.3);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    background: rgba(34, 197, 94, 0.1);
   }
 
   .modal-body {
@@ -450,9 +458,9 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
 
   .pack-button {
     padding: var(--spacing-md);
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(230, 237, 243, 0.1);
-    border-radius: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
     text-align: left;
     cursor: pointer;
     transition: all 0.2s;
@@ -462,8 +470,8 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
 
   .pack-button:hover {
     border-color: var(--color-primary);
-    background: rgba(0, 240, 255, 0.05);
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
+    background: rgba(34, 197, 94, 0.05);
+    box-shadow: var(--shadow-md);
   }
 
   .pack-button::before {
@@ -472,10 +480,11 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
     left: 0;
     top: 0;
     bottom: 0;
-    width: 2px;
+    width: 3px;
     background: var(--color-primary);
     transform: scaleY(0);
     transition: transform 0.2s ease;
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
   }
 
   .pack-button:hover::before {
@@ -487,7 +496,6 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
     font-weight: 600;
     margin-bottom: var(--spacing-xs);
     color: var(--color-text);
-    text-transform: uppercase;
   }
 
   .pack-button:hover .pack-name {
@@ -505,10 +513,12 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
     width: 6px;
   }
   .modal-content::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--color-surface);
+    border-radius: 3px;
   }
   .modal-content::-webkit-scrollbar-thumb {
-    background: rgba(230, 237, 243, 0.2);
+    background: var(--color-border);
+    border-radius: 3px;
   }
   .modal-content::-webkit-scrollbar-thumb:hover {
     background: var(--color-primary);
