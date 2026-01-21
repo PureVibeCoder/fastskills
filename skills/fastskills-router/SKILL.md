@@ -118,6 +118,7 @@ Combine matched routes' skills (dedupe). Output highest-priority matches first.
 | 95 | research-report | 研究报告, 调研报告, 分析报告, research report, analysis report | `research-executor, scientific-writing` |
 | 90 | react-components | react, 组件, component, tsx, jsx, hooks, useState, useEffect | `react-components, react-best-practices, frontend-designer` |
 | 88 | frontend | 前端, frontend, ui, ux, 界面, tailwind, css, html | `frontend-designer, modern-frontend-design` |
+| 87 | threejs | threejs, 3d, WebGL, 3D图形, 3D渲染, WebGL渲染 | `threejs-fundamentals, threejs-geometry, threejs-materials, threejs-lighting, threejs-textures, threejs-animation, threejs-loaders, threejs-shaders, threejs-postprocessing, threejs-interaction` |
 | 87 | pubmed-search | PubMed, 医学文献, NCBI, 文献搜索, literature search, medical paper, 论文搜索 | `pubmed-database, citation-management, biopython` |
 | 86 | protein-db | UniProt, 蛋白质数据库, protein database, SwissProt, TrEMBL | `uniprot-database, biopython, bioservices` |
 | 85 | single-cell | 单细胞, scRNA, single-cell, scanpy, anndata, 10x genomics, scRNA-seq | `scanpy, anndata, scvi-tools, biopython` |
@@ -156,6 +157,7 @@ Combine matched routes' skills (dedupe). Output highest-priority matches first.
 | 64 | lab-platform | 实验记录, ELN, LIMS | `(requires account setup - see website)` |
 | 60 | scientific-writing | 论文, paper, 学术, academic, 科学写作, 文献, literature | `scientific-writing, literature-review` |
 | 58 | dan-koe-writing | DAN KOE, 长文写作, 深度文章, 个人成长文章, 反主流写作, 商业洞察, 方法论文章, 挑衅式写作 | `dan-koe-writing` |
+| 57 | lu-xun-writing | 鲁迅, 鲁迅风格, lu xun, 批判, 讽刺, 白描, 冷峻, 国民性, 看客, 精神胜利, 阿Q, 孔乙己, 杂文, 社会批判, 现实主义 | `lu-xun-writing` |
 | 55 | mcp-development | MCP, Model Context Protocol, MCP服务器, MCP server | `mcp-builder, mcp-management` |
 | 55 | knowledge-mgmt | obsidian, 笔记, note, 知识管理, markdown | `obsidian-markdown, json-canvas` |
 | 54 | skill-creation | 技能, skill, 创建技能, Claude skill, agent skill | `skill-creator, writing-skills, skill-share` |
@@ -165,6 +167,7 @@ Combine matched routes' skills (dedupe). Output highest-priority matches first.
 | 50 | domain-naming | 域名, domain name, 品牌命名, naming | `domain-name-brainstormer` |
 | 50 | brainstorming | 头脑风暴, brainstorm, 创意, creative, design thinking | `brainstorming, scientific-brainstorming` |
 | 48 | image-generation | 生成图片, generate image, FLUX, 图像生成, image generation, AI绘画 | `image-enhancer` |
+| 48 | comic-creation | 漫画, comic, 知识漫画, 教育漫画, 绘本, 插画, biography comic, tutorial comic, Logicomix | `baoyu-comic` |
 | 47 | video-processing | 视频, video, FFmpeg, 音频, audio, 转换, convert | `media-processing, video-downloader` |
 | 46 | videocut | 剪口播, 口误, 字幕, 自动剪辑, videocut | `videocut-install, videocut-speech-cut, videocut-edit, videocut-subtitles, videocut-self-update` |
 | 45 | task-planning | 任务规划, task planning, Manus, 计划, planning, 实现计划 | `planning-with-files, writing-plans, executing-plans` |

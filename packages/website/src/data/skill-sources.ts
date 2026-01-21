@@ -246,6 +246,8 @@ export const SKILL_TO_SOURCE: Record<string, SkillSource> = {
   // purevibecoder skills
   'frontend-designer': { source: 'purevibecoder', path: 'frontend-designer' },
   'dan-koe-writing': { source: 'purevibecoder', path: 'dan-koe-writing' },
+  'lu-xun-writing': { source: 'purevibecoder', path: 'lu-xun-writing' },
+  'baoyu-comic': { source: 'purevibecoder', path: 'baoyu-comic' },
   // ui-ux-pro-max skills
   'ui-ux-pro-max': { source: 'ui-ux-pro-max', path: 'ui-ux-pro-max' },
   // makepad skills
@@ -269,6 +271,17 @@ export const SKILL_TO_SOURCE: Record<string, SkillSource> = {
   'videocut-self-update': { source: 'videocut', path: '自更新' },
   // ui-skills
   'ui-skills': { source: 'ui-skills', path: '' },
+  // threejs skills
+  'threejs-fundamentals': { source: 'threejs', path: 'threejs-skills/skills/threejs-fundamentals' },
+  'threejs-geometry': { source: 'threejs', path: 'threejs-skills/skills/threejs-geometry' },
+  'threejs-materials': { source: 'threejs', path: 'threejs-skills/skills/threejs-materials' },
+  'threejs-lighting': { source: 'threejs', path: 'threejs-skills/skills/threejs-lighting' },
+  'threejs-textures': { source: 'threejs', path: 'threejs-skills/skills/threejs-textures' },
+  'threejs-animation': { source: 'threejs', path: 'threejs-skills/skills/threejs-animation' },
+  'threejs-loaders': { source: 'threejs', path: 'threejs-skills/skills/threejs-loaders' },
+  'threejs-shaders': { source: 'threejs', path: 'threejs-skills/skills/threejs-shaders' },
+  'threejs-postprocessing': { source: 'threejs', path: 'threejs-skills/skills/threejs-postprocessing' },
+  'threejs-interaction': { source: 'threejs', path: 'threejs-skills/skills/threejs-interaction' },
 };
 
 // 根据技能 ID 获取源信息

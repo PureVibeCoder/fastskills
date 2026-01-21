@@ -51,3 +51,6 @@
 [submodule "videocut-skills"]
 	path = videocut-skills
 	url = https://github.com/Ceeon/videocut-skills.git
+[submodule "threejs-skills"]
+	path = threejs-skills
+	url = https://github.com/CloudAI-X/threejs-skills

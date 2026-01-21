@@ -5,7 +5,7 @@ export interface Skill {
   name: string;
   description: string;
   category: Category;
-  source: 'anthropic' | 'claudekit' | 'scientific' | 'community' | 'composio' | 'voltagent' | 'obsidian' | 'planning' | 'superpowers' | 'deep-research' | 'skill-from-masters' | 'purevibecoder' | 'ui-ux-pro-max' | 'makepad' | 'nanobanana' | 'vercel' | 'videocut';
+  source: 'anthropic' | 'claudekit' | 'scientific' | 'community' | 'composio' | 'voltagent' | 'obsidian' | 'planning' | 'superpowers' | 'deep-research' | 'skill-from-masters' | 'purevibecoder' | 'ui-ux-pro-max' | 'makepad' | 'nanobanana' | 'vercel' | 'videocut' | 'threejs';
   triggers: string[];
   priority: number;
   content: string;
@@ -85333,6 +85333,26 @@ export const pureVibeCoderSkills: Skill[] = [
     priority: 7,
     content: ''
   },
+  {
+    id: 'lu-xun-writing',
+    name: '鲁迅风格写作',
+    description: '继承鲁迅批判现实主义写作风格的技能。运用白描、反讽、象征等手法，创作冷峻深刻的社会批判短文。适用于揭示社会本质、批判国民性、刻画知识分子处境、书写小人物命运等场景。核心特征：不说破、冷峻叙述、细节取胜、以小见大。',
+    category: categories[categoryIndex['thinking'] ?? 0],
+    source: 'purevibecoder',
+    triggers: ['鲁迅', 'lu xun', '批判', '讽刺', '白描', '冷峻', '国民性', '看客', '精神胜利', '阿Q', '孔乙己', '杂文', '社会批判', '现实主义'],
+    priority: 8,
+    content: ''
+  },
+  {
+    id: 'baoyu-comic',
+    name: 'Baoyu Comic',
+    description: '自动化教育漫画生成工具，支持 Logicomix、Ohmsha 等多种视觉风格，将文本内容转换为结构化漫画大纲、角色定义和顺序图像。适用于知识漫画、教育漫画、传记漫画、教程漫画等场景。',
+    category: categories[categoryIndex['media'] ?? 0],
+    source: 'purevibecoder',
+    triggers: ['漫画', 'comic', 'baoyu', '知识漫画', '教育漫画', '绘本', '插画', 'biography comic', 'tutorial comic', 'Logicomix'],
+    priority: 48,
+    content: ''
+  },
 ];
 
 // Merge PureVibeCoder skills into main skills array
@@ -85543,3 +85563,109 @@ export const videocutSkills: Skill[] = [
 ];
 
 skills.push(...videocutSkills);
+
+// Three.js Skills - 3D Graphics Library
+export const threejsSkills: Skill[] = [
+  {
+    id: 'threejs-fundamentals',
+    name: 'Three.js 基础',
+    description: 'Three.js 场景设置、相机、渲染器、Object3D 层次结构、坐标系统。使用场景：设置 3D 场景、创建相机、配置渲染器、管理对象层次结构、处理变换。',
+    category: categories[categoryIndex['frontend'] ?? 0],
+    source: 'threejs',
+    triggers: ['threejs', '3d', 'WebGL', 'scene', 'camera', 'renderer', 'object3d', '坐标系'],
+    priority: 80,
+    content: ''
+  },
+  {
+    id: 'threejs-geometry',
+    name: 'Three.js 几何体',
+    description: 'Three.js 几何体创建 - 内置形状、BufferGeometry、自定义几何体、实例化渲染。使用场景：创建 3D 形状、处理顶点、构建自定义网格、使用实例化优化性能。',
+    category: categories[categoryIndex['frontend'] ?? 0],
+    source: 'threejs',
+    triggers: ['threejs', 'geometry', 'mesh', '顶点', 'BufferGeometry', 'instancing', '实例化'],
+    priority: 78,
+    content: ''
+  },
+  {
+    id: 'threejs-materials',
+    name: 'Three.js 材质',
+    description: 'Three.js 材质 - PBR、基础材质、Phong 材质、Shader 材质、材质属性。使用场景：为网格添加样式、处理纹理、创建自定义着色器、优化材质性能。',
+    category: categories[categoryIndex['frontend'] ?? 0],
+    source: 'threejs',
+    triggers: ['threejs', 'material', 'PBR', 'ShaderMaterial', '材质', 'MeshStandardMaterial'],
+    priority: 78,
+    content: ''
+  },
+  {
+    id: 'threejs-lighting',
+    name: 'Three.js 灯光',
+    description: 'Three.js 灯光 - 光源类型、阴影、环境光照、IBL。使用场景：添加光源、配置阴影、设置基于图像的光照、优化灯光性能。',
+    category: categories[categoryIndex['frontend'] ?? 0],
+    source: 'threejs',
+    triggers: ['threejs', 'light', 'lighting', 'shadow', '阴影', '光照', '环境光', 'IBL'],
+    priority: 77,
+    content: ''
+  },
+  {
+    id: 'threejs-textures',
+    name: 'Three.js 纹理',
+    description: 'Three.js 纹理 - 纹理类型、UV 映射、环境贴图、HDR 纹理、纹理设置。使用场景：处理图像、UV 坐标、立方体贴图、HDR 环境、纹理优化。',
+    category: categories[categoryIndex['frontend'] ?? 0],
+    source: 'threejs',
+    triggers: ['threejs', 'texture', 'UV', 'envMap', 'cubemap', 'HDR', '纹理', '贴图'],
+    priority: 77,
+    content: ''
+  },
+  {
+    id: 'threejs-animation',
+    name: 'Three.js 动画',
+    description: 'Three.js 动画 - 关键帧动画、骨骼动画、变形目标、动画混合、动画混合器。使用场景：动画对象、播放 GLTF 动画、创建程序化动画、混合动画。',
+    category: categories[categoryIndex['frontend'] ?? 0],
+    source: 'threejs',
+    triggers: ['threejs', 'animation', 'keyframes', 'skeletal', 'morph', '动画', '骨骼动画'],
+    priority: 76,
+    content: ''
+  },
+  {
+    id: 'threejs-loaders',
+    name: 'Three.js 资源加载',
+    description: 'Three.js 资源加载 - GLTF 加载器、纹理加载器、异步模式、加载进度。使用场景：加载 3D 模型、纹理、HDR 环境、管理加载进度。',
+    category: categories[categoryIndex['frontend'] ?? 0],
+    source: 'threejs',
+    triggers: ['threejs', 'loader', 'GLTF', 'gltf', '加载', 'async', '模型加载'],
+    priority: 76,
+    content: ''
+  },
+  {
+    id: 'threejs-shaders',
+    name: 'Three.js 着色器',
+    description: 'Three.js 着色器 - GLSL、ShaderMaterial、uniforms、自定义效果、顶点着色器、片元着色器。使用场景：创建自定义视觉效果、修改顶点、编写片元着色器、扩展内置材质。',
+    category: categories[categoryIndex['frontend'] ?? 0],
+    source: 'threejs',
+    triggers: ['threejs', 'shader', 'GLSL', 'ShaderMaterial', 'uniform', '着色器', '自定义效果'],
+    priority: 75,
+    content: ''
+  },
+  {
+    id: 'threejs-postprocessing',
+    name: 'Three.js 后处理',
+    description: 'Three.js 后处理 - EffectComposer、景深、泛光、色彩分级、屏幕效果。使用场景：添加视觉效果、色彩校正、模糊、发光、创建自定义屏幕空间着色器。',
+    category: categories[categoryIndex['frontend'] ?? 0],
+    source: 'threejs',
+    triggers: ['threejs', 'postprocessing', 'EffectComposer', 'bloom', 'DOF', '后处理', '景深', '泛光'],
+    priority: 75,
+    content: ''
+  },
+  {
+    id: 'threejs-interaction',
+    name: 'Three.js 交互',
+    description: 'Three.js 交互 - 射线检测、OrbitControls、鼠标触摸输入、对象选择、事件处理。使用场景：处理用户输入、实现点击检测、添加相机控制、创建交互式 3D 体验。',
+    category: categories[categoryIndex['frontend'] ?? 0],
+    source: 'threejs',
+    triggers: ['threejs', 'interaction', 'raycasting', 'controls', 'click', '交互', '射线检测', 'OrbitControls'],
+    priority: 75,
+    content: ''
+  }
+];
+
+skills.push(...threejsSkills);
