@@ -136,8 +136,8 @@ All skills are aggregated from reputable open-source projects. Review before imp
 
 所有技能均来自优质开源项目，导入前请进行安全审查。
 
-| Project | Stars | Skills | Domain | License |
-|---------|-------|--------|--------|---------|
+| Project | Stars | Skills | Domain | License | Install Command |
+|---------|-------|--------|--------|---------|-----------------|
 | [Superpowers](https://github.com/obra/superpowers) | 13k+ | 14 | General Dev | MIT |
 | [Anthropic Skills](https://github.com/anthropics/skills) | Official | 16+ | Official | MIT |
 | [Awesome Claude Skills](https://github.com/ComposioHQ/awesome-claude-skills) | 3.9k+ | 25+ | Community | MIT |
@@ -150,7 +150,7 @@ All skills are aggregated from reputable open-source projects. Review before imp
 | [UI Skills](https://github.com/ibelick/ui-skills) | 200+ | 1 | UI/UX Constraints | MIT |
 | [Planning with Files](https://github.com/marovole/planning-with-files) | - | 1 | Planning | MIT |
 | [VideoCut Skills](https://github.com/Ceeon/videocut-skills) | - | 5 | Video Editing | MIT |
-| [threejs-skills](https://github.com/CloudAI-X/threejs-skills) | - | 10 | 3D Graphics | MIT |
+| [threejs-skills](https://github.com/CloudAI-X/threejs-skills) | - | 10 | 3D Graphics | MIT | `npx skills add CloudAI-X/threejs-skills` |
 | [Vercel Agent Skills](https://github.com/vercel-labs/agent-skills) | - | 1 | React/Next.js Performance | MIT |
 | **FastSkills Original** | - | 4 | Frontend Design, Dan Koe Writing, Lu Xun Writing, Baoyu Comic | MIT |
 
