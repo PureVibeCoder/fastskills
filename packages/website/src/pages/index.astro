@@ -8,10 +8,20 @@ import SkillSources from '../components/SkillSources.astro';
 import AllPackages from '../components/AllPackages.astro';
 import CategoryFilter from '../components/CategoryFilter.astro';
 import SkillGrid from '../components/SkillGrid.astro';
+import Search from '../components/Search.astro';
 import { skills } from '../data/skills';
 import { categories } from '../data/categories';
 import { downloadSingleSkill } from '../utils/downloader';
 import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/packager';
+
+// 准备搜索用的技能数据（只包含搜索需要的字段）
+const searchSkills = skills.map(skill => ({
+  id: skill.id,
+  name: skill.name,
+  description: skill.description,
+  category: { name: skill.category.name, icon: skill.category.icon },
+  triggers: skill.triggers
+}));
 ---
 
 <Layout title="FastSkills - 智能技能编排控制器">
@@ -91,6 +101,7 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
           <span class="btn-icon">📦</span> INITIALIZE_DOWNLOAD
         </button>
       </div>
+      <Search skills={searchSkills} />
       <CategoryFilter categories={categories} selectedCategory={null} />
     </div>
     <SkillGrid skills={skills} selectedCategory={null} />
@@ -255,6 +266,16 @@ import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/pac
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: var(--spacing-lg);
+    padding: 0 var(--spacing-md);
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* 搜索框容器样式 */
+  .skills-container .search-container {
+    max-width: 100%;
     margin-bottom: var(--spacing-xl);
     padding: 0 var(--spacing-md);
     max-width: 1400px;

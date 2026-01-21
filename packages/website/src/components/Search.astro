@@ -1,0 +1,363 @@
+---
+interface Props {
+  skills: Array<{
+    id: string;
+    name: string;
+    description: string;
+    category: { name: string; icon: string };
+    triggers: string[];
+  }>;
+}
+
+const { skills } = Astro.props;
+---
+
+<div class="search-container">
+  <div class="search-input-wrapper">
+    <span class="search-icon">🔍</span>
+    <input
+      type="text"
+      id="skill-search-input"
+      class="search-input"
+      placeholder="Search skills..."
+      autocomplete="off"
+    />
+    <kbd class="search-shortcut">/</kbd>
+  </div>
+  <div id="search-results" class="search-results hidden"></div>
+</div>
+
+<script define:vars={{ skills }}>
+  const searchInput = document.getElementById('skill-search-input');
+  const searchResults = document.getElementById('search-results');
+  let debounceTimer = null;
+
+  function searchSkills(query) {
+    if (!query.trim()) {
+      return [];
+    }
+
+    const lowerQuery = query.toLowerCase();
+
+    return skills.filter(skill => {
+      const nameMatch = skill.name.toLowerCase().includes(lowerQuery);
+      const descMatch = skill.description.toLowerCase().includes(lowerQuery);
+      const triggerMatch = skill.triggers.some(t => t.toLowerCase().includes(lowerQuery));
+      return nameMatch || descMatch || triggerMatch;
+    }).slice(0, 8);
+  }
+
+  function renderResults(results, query) {
+    if (!query.trim()) {
+      searchResults.classList.add('hidden');
+      searchResults.innerHTML = '';
+      return;
+    }
+
+    if (results.length === 0) {
+      searchResults.innerHTML = `
+        <div class="search-no-results">
+          <span class="no-results-icon">📭</span>
+          <span>No skills found for "${query}"</span>
+        </div>
+      `;
+      searchResults.classList.remove('hidden');
+      return;
+    }
+
+    searchResults.innerHTML = `
+      <div class="search-results-header">
+        <span class="results-count">${results.length} result${results.length > 1 ? 's' : ''}</span>
+      </div>
+      <div class="search-results-list">
+        ${results.map((skill, index) => `
+          <a href="/skill/${skill.id}" class="search-result-item" data-index="${index}">
+            <span class="result-icon">${skill.category.icon}</span>
+            <div class="result-content">
+              <span class="result-name">${highlightMatch(skill.name, query)}</span>
+              <span class="result-category">${skill.category.name}</span>
+            </div>
+            <span class="result-arrow">→</span>
+          </a>
+        `).join('')}
+      </div>
+    `;
+
+    searchResults.classList.remove('hidden');
+  }
+
+  function highlightMatch(text, query) {
+    const regex = new RegExp(`(${escapeRegex(query)})`, 'gi');
+    return text.replace(regex, '<mark>$1</mark>');
+  }
+
+  function escapeRegex(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function handleSearch() {
+    const query = searchInput.value;
+    const results = searchSkills(query);
+    renderResults(results, query);
+  }
+
+  function closeSearch() {
+    searchResults.classList.add('hidden');
+  }
+
+  function openSearch() {
+    if (searchInput.value.trim()) {
+      handleSearch();
+    }
+  }
+
+  // Event listeners
+  searchInput.addEventListener('input', () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(handleSearch, 300);
+  });
+
+  searchInput.addEventListener('focus', openSearch);
+
+  searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeSearch();
+      searchInput.blur();
+    } else if (e.key === 'ArrowDown') {
+      const firstResult = searchResults.querySelector('.search-result-item');
+      if (firstResult) firstResult.focus();
+    }
+  });
+
+  // Keyboard navigation within results
+  searchResults.addEventListener('keydown', (e) => {
+    const items = searchResults.querySelectorAll('.search-result-item');
+    const currentIndex = Array.from(items).indexOf(document.activeElement);
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const nextIndex = currentIndex < items.length - 1 ? currentIndex + 1 : 0;
+      items[nextIndex]?.focus();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const prevIndex = currentIndex > 0 ? currentIndex - 1 : items.length - 1;
+      items[prevIndex]?.focus();
+    } else if (e.key === 'Escape') {
+      closeSearch();
+      searchInput.focus();
+    }
+  });
+
+  // Close on click outside
+  document.addEventListener('click', (e) => {
+    if (!searchInput.closest('.search-container')) {
+      closeSearch();
+    }
+  });
+
+  // Keyboard shortcut to focus search
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '/' && document.activeElement !== searchInput) {
+      e.preventDefault();
+      searchInput.focus();
+    }
+  });
+</script>
+
+<style>
+  .search-container {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 1rem;
+    font-size: 0.875rem;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 0.625rem 2.5rem 0.625rem 2.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    color: var(--color-text);
+    transition: all 0.2s ease;
+  }
+
+  .search-input::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-dim);
+  }
+
+  .search-shortcut {
+    position: absolute;
+    right: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    background: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-muted);
+  }
+
+  .search-results {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    right: 0;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 100;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .search-results.hidden {
+    display: none;
+  }
+
+  .search-results-header {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg-tertiary);
+  }
+
+  .results-count {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  .search-results-list {
+    padding: 0.5rem;
+  }
+
+  .search-result-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: background 0.15s ease;
+  }
+
+  .search-result-item:hover,
+  .search-result-item:focus {
+    background: var(--color-bg-tertiary);
+    outline: none;
+  }
+
+  .result-icon {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+  }
+
+  .result-content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .result-name {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .result-name :global(mark) {
+    background: var(--color-primary-dim);
+    color: var(--color-primary);
+    padding: 0 0.125rem;
+    border-radius: 2px;
+  }
+
+  .result-category {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+  }
+
+  .result-arrow {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+
+  .search-result-item:hover .result-arrow,
+  .search-result-item:focus .result-arrow {
+    opacity: 1;
+  }
+
+  .search-no-results {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.5rem 1rem;
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+  }
+
+  .no-results-icon {
+    font-size: 1.25rem;
+  }
+
+  /* Scrollbar */
+  .search-results::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .search-results::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .search-results::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: var(--radius-full);
+  }
+
+  .search-results::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-muted);
+  }
+
+  @media (max-width: 768px) {
+    .search-container {
+      max-width: none;
+      width: 100%;
+    }
+  }
+</style>

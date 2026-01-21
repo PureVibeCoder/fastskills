@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import { skills, type Skill } from '../../data/skills';
 import fs from 'node:fs';
 import path from 'node:path';
+import { marked } from 'marked';
 
 // Pre-render all skill pages at build time
 export const prerender = true;
@@ -15,9 +16,6 @@ try {
   if (fs.existsSync(contentPath)) {
     const raw = fs.readFileSync(contentPath, 'utf-8');
     skillsContent = JSON.parse(raw);
-  } else {
-    // Maybe we are in dev mode and path is relative differently or file not generated yet
-    // console.warn('skills-content.json not found at', contentPath);
   }
 } catch (e) {
   console.warn('Failed to load skills content:', e);
@@ -36,8 +34,11 @@ interface Props {
 
 const { skill } = Astro.props;
 
-// Enrich skill with content from external JSON if not present (which it shouldn't be anymore)
+// Enrich skill with content from external JSON if not present
 const content = skillsContent[skill.id] || skill.content || 'Content not available. Run build script to generate.';
+
+// Render Markdown to HTML
+const htmlContent = marked.parse(content);
 
 const sourceLabels: Record<string, string> = {
   anthropic: 'Anthropic',
@@ -102,7 +103,7 @@ const sourceLabel = sourceLabels[skill.source] || skill.source;
       <section class="skill-section skill-content-section">
         <h2 class="section-title">SKILL.md CONTENT</h2>
         <div class="skill-content-wrapper">
-          <div id="skill-content" class="skill-content">{content}</div>
+          <article id="skill-content" class="skill-content markdown-content" set:html={htmlContent}></article>
         </div>
       </section>
 
@@ -297,13 +298,16 @@ const sourceLabel = sourceLabels[skill.source] || skill.source;
     font-size: 0.875rem;
     line-height: 1.8;
     color: var(--color-text-secondary);
-    white-space: pre-wrap;
     word-break: break-word;
     max-height: 600px;
     overflow-y: auto;
     padding: 1rem;
     background: rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .skill-content.markdown-content {
+    white-space: normal;
   }
 
   .skill-content.loading {
