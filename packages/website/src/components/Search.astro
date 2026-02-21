@@ -33,18 +33,18 @@ const { skills } = Astro.props;
   let debounceTimer = null;
 
   function searchSkills(query) {
-    if (!query.trim()) {
-      return [];
-    }
-
+    if (!query.trim()) return [];
     const lowerQuery = query.toLowerCase();
-
-    return skills.filter(skill => {
-      const nameMatch = skill.name.toLowerCase().includes(lowerQuery);
-      const descMatch = skill.description.toLowerCase().includes(lowerQuery);
-      const triggerMatch = skill.triggers.some(t => t.toLowerCase().includes(lowerQuery));
-      return nameMatch || descMatch || triggerMatch;
-    }).slice(0, 8);
+    return skills
+      .map(skill => {
+        let score = 0;
+        if (skill.name.toLowerCase().includes(lowerQuery)) score += 3;
+        if (skill.triggers.some(t => t.toLowerCase().includes(lowerQuery))) score += 2;
+        if (skill.description.toLowerCase().includes(lowerQuery)) score += 1;
+        return { skill, score };
+      })
+      .filter(({ score }) => score > 0)
+      .sort((a, b) => b.score - a.score);
   }
 
   function renderResults(results, query) {
@@ -97,8 +97,12 @@ const { skills } = Astro.props;
 
   function handleSearch() {
     const query = searchInput.value;
-    const results = searchSkills(query);
-    renderResults(results, query);
+    const scored = searchSkills(query);
+    renderResults(scored.slice(0, 8).map(s => s.skill), query);
+
+    document.dispatchEvent(new CustomEvent('skill-search', {
+      detail: { query, results: scored.map(s => ({ id: s.skill.id, score: s.score })) }
+    }));
   }
 
   function closeSearch() {

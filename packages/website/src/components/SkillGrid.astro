@@ -32,7 +32,7 @@ const sortedSkills = [...filteredSkills].sort((a, b) => {
     {sortedSkills.length > 0 ? (
       <div class="skills-grid">
         {sortedSkills.map((skill, index) => (
-          <div class="skill-wrapper" style={`animation-delay: ${index * 0.05}s`}>
+          <div class="skill-wrapper" data-skill-id={skill.id} style={`animation-delay: ${index * 0.05}s`}>
             <SkillCard skill={skill} />
           </div>
         ))}

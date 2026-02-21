@@ -799,6 +799,68 @@ ${skills.map(s => `- **${s.name}** (\`${s.id}\`)`).join('\n')}
     URL.revokeObjectURL(url);
   }
 
+  // ── 搜索网格同步：监听 skill-search 事件，过滤并重排主网格 ──
+  let savedCategory = 'all';
+  let prevSearchQuery = '';
+
+  document.addEventListener('skill-search', (e) => {
+    const { query, results } = e.detail;
+    const wrappers = document.querySelectorAll('.skill-wrapper[data-skill-id]');
+
+    if (!query.trim()) {
+      // 恢复：清除所有排序和显隐状态
+      wrappers.forEach(w => {
+        w.style.order = '';
+        w.style.display = '';
+      });
+
+      // 重新应用保存的分类过滤（作用于 .skill-card）
+      document.querySelectorAll('.skill-card').forEach(card => {
+        card.style.display =
+          savedCategory === 'all' || card.dataset.category === savedCategory ? '' : 'none';
+      });
+
+      // 恢复分类按钮 active 状态
+      document.querySelectorAll('.category-button').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.category === savedCategory);
+      });
+
+      prevSearchQuery = '';
+      return;
+    }
+
+    // 首次激活搜索（从空切换到非空）：保存当前分类状态
+    if (!prevSearchQuery.trim() && query.trim()) {
+      const activeBtn = document.querySelector('.category-button.active');
+      savedCategory = activeBtn?.dataset.category || 'all';
+
+      // 视觉上切换到 ALL（搜索覆盖分类过滤）
+      document.querySelectorAll('.category-button').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.category === 'all');
+      });
+
+      // 解除分类隐藏，让所有卡片参与搜索过滤
+      document.querySelectorAll('.skill-card').forEach(card => {
+        card.style.display = '';
+      });
+    }
+
+    prevSearchQuery = query;
+
+    const rankMap = new Map(results.map(({ id }, i) => [id, i]));
+
+    wrappers.forEach(w => {
+      const id = w.dataset.skillId;
+      if (rankMap.has(id)) {
+        w.style.order = String(rankMap.get(id) + 1);
+        w.style.display = '';
+      } else {
+        w.style.order = '';
+        w.style.display = 'none';
+      }
+    });
+  });
+
   // 技能包下载功能
   const downloadPackBtn = document.getElementById('download-pack');
   if (downloadPackBtn) {
