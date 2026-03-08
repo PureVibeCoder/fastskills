@@ -1,0 +1,11 @@
+# 爬虫输出文件
+output/
+reports/
+*.log
+
+# 临时文件
+.tmp/
+.temp/
+
+# 测试数据
+test-data/
