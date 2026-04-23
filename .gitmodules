@@ -54,3 +54,6 @@
 [submodule "threejs-skills"]
 	path = threejs-skills
 	url = https://github.com/CloudAI-X/threejs-skills
+[submodule "humanizer-zh-skills"]
+	path = humanizer-zh-skills
+	url = https://github.com/op7418/Humanizer-zh.git
