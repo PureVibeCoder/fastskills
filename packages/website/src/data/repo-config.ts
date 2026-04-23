@@ -106,6 +106,12 @@ export const REPO_CONFIG: Record<string, RepoConfig> = {
     rawBase: 'https://raw.githubusercontent.com/op7418/NanoBanana-PPT-Skills/main',
     contentPath: ''
   },
+  'humanizer-zh': {
+    path: 'humanizer-zh-skills',
+    url: 'https://github.com/op7418/Humanizer-zh.git',
+    rawBase: 'https://raw.githubusercontent.com/op7418/Humanizer-zh/main',
+    contentPath: ''
+  },
   'ui-skills': {
     path: 'ui-skills-repo',
     url: 'https://github.com/ibelick/ui-skills.git',

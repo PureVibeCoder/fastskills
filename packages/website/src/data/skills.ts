@@ -5,7 +5,7 @@ export interface Skill {
   name: string;
   description: string;
   category: Category;
-  source: 'anthropic' | 'claudekit' | 'scientific' | 'community' | 'composio' | 'voltagent' | 'obsidian' | 'planning' | 'superpowers' | 'deep-research' | 'skill-from-masters' | 'purevibecoder' | 'ui-ux-pro-max' | 'makepad' | 'nanobanana' | 'vercel' | 'videocut' | 'threejs';
+  source: 'anthropic' | 'claudekit' | 'scientific' | 'community' | 'composio' | 'voltagent' | 'obsidian' | 'planning' | 'superpowers' | 'deep-research' | 'skill-from-masters' | 'purevibecoder' | 'ui-ux-pro-max' | 'makepad' | 'nanobanana' | 'vercel' | 'videocut' | 'threejs' | 'humanizer-zh';
   triggers: string[];
   priority: number;
   content: string;
@@ -85664,6 +85664,27 @@ export const threejsSkills: Skill[] = [
     source: 'threejs',
     triggers: ['threejs', 'interaction', 'raycasting', 'controls', 'click', '交互', '射线检测', 'OrbitControls'],
     priority: 75,
+    content: ''
+  },
+  // op7418（归藏）开源技能：源 ID 与 REPO_CONFIG / skill-sources 一致
+  {
+    id: 'ppt-generator-pro',
+    name: 'PPT Generator Pro',
+    description: '基于 AI 自动生成高质量 PPT 图片和视频，支持智能转场和交互式播放。使用 Gemini API 生成 PPT 图片，可灵 AI 生成转场视频。使用场景：生成 PPT、创建演示文稿、制作汇报材料。',
+    category: categories[categoryIndex['document'] ?? 0],
+    source: 'nanobanana',
+    triggers: ['ppt', 'presentation', 'powerpoint', '幻灯片', '演示文稿', '生成PPT', 'PPT生成'],
+    priority: 60,
+    content: ''
+  },
+  {
+    id: 'humanizer-zh',
+    name: 'Humanizer-zh',
+    description: '去除文本中的 AI 生成痕迹，使文字听起来更自然、更像人类书写。基于维基百科的 AI 写作特征指南。使用场景：润色 AI 生成的文本、编辑审阅、去除 AI 味、文本人性化。',
+    category: categories[categoryIndex['thinking'] ?? 0],
+    source: 'humanizer-zh',
+    triggers: ['humanizer', 'AI写作', '去除AI痕迹', '润色', '文本润色', '编辑', 'AI味', 'humanize'],
+    priority: 65,
     content: ''
   }
 ];

@@ -282,6 +282,9 @@ export const SKILL_TO_SOURCE: Record<string, SkillSource> = {
   'threejs-shaders': { source: 'threejs', path: 'threejs-skills/skills/threejs-shaders' },
   'threejs-postprocessing': { source: 'threejs', path: 'threejs-skills/skills/threejs-postprocessing' },
   'threejs-interaction': { source: 'threejs', path: 'threejs-skills/skills/threejs-interaction' },
+  // op7418（归藏）项目：与 repo-config 中的 nanobanana / humanizer-zh 源 ID 对齐
+  'ppt-generator-pro': { source: 'nanobanana', path: '' },
+  'humanizer-zh': { source: 'humanizer-zh', path: '' },
 };
 
 // 根据技能 ID 获取源信息

@@ -69,12 +69,15 @@ function loadRepoConfig() {
   const content = fs.readFileSync(repoConfigPath, 'utf-8');
   const config = {};
 
-  // 解析 TypeScript 对象字面量
-  const entryRegex = /(\w+(?:-\w+)*):\s*\{[^}]*path:\s*'([^']+)'[^}]*contentPath:\s*'([^']*)'/g;
+  // 解析 TypeScript 对象字面量（支持 'deep-research': 与 nanobanana: 两种键写法）
+  const entryRegex =
+    /(?:'([^']+)'|(\w+(?:-\w+)*))\s*:\s*\{[^}]*path:\s*'([^']+)'[^}]*contentPath:\s*'([^']*)'/g;
   let match;
 
   while ((match = entryRegex.exec(content)) !== null) {
-    const [, id, submodulePath, contentPath] = match;
+    const id = match[1] || match[2];
+    const submodulePath = match[3];
+    const contentPath = match[4];
     config[id] = {
       path: submodulePath,
       contentPath: contentPath
