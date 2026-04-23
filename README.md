@@ -121,12 +121,12 @@ Claude 自动分析:
 
 | Metric | Count |
 |--------|-------|
-| Total Skills / 技能总数 | **276+** |
+| Total Skills / 技能总数 | **278+** |
 | Skill Packs / 场景包 | **25** |
 | Categories / 分类 | **20** |
 | Scientific Skills / 科学技能 | **138+** |
 | Scientific Databases / 科学数据库 | **28+** |
-| Source Projects / 来源项目 | **15+** |
+| Source Projects / 来源项目 | **16+** |
 
 ---
 
@@ -152,6 +152,8 @@ All skills are aggregated from reputable open-source projects. Review before imp
 | [VideoCut Skills](https://github.com/Ceeon/videocut-skills) | - | 5 | Video Editing | MIT |
 | [threejs-skills](https://github.com/CloudAI-X/threejs-skills) | - | 10 | 3D Graphics | MIT | `npx skills add CloudAI-X/threejs-skills` |
 | [Vercel Agent Skills](https://github.com/vercel-labs/agent-skills) | - | 1 | React/Next.js Performance | MIT |
+| [NanoBanana PPT Skills](https://github.com/op7418/NanoBanana-PPT-Skills) | - | 1 | PPT Generation, AI Video | MIT | `npx skills add op7418/NanoBanana-PPT-Skills` |
+| [Humanizer-zh](https://github.com/op7418/Humanizer-zh) | - | 1 | AI Text Humanization | MIT | `npx skills add op7418/Humanizer-zh` |
 | **FastSkills Original** | - | 4 | Frontend Design, Dan Koe Writing, Lu Xun Writing, Baoyu Comic | MIT |
 
 Vercel CEO 戏称该技能相当于雇佣一个 mini 版 10 年经验 React 开发者。

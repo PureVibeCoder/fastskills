@@ -1,85 +1,52 @@
 # AGENTS.md
 
-This file provides guidance to AI coding agents working in this repository.
+**Generated:** 2026-01-19 | **Commit:** 74996e8 | **Branch:** main
 
-## Project Status
+## OVERVIEW
 
-| Item | Status |
-|------|--------|
-| **GitHub Repository** | https://github.com/PureVibeCoder/fastskills |
-| **Live Website** | https://fastskills.pages.dev |
-| **Deployment Method** | Wrangler CLI (manual) |
+FastSkills: Claude Code skills aggregation platform (265+ skills from 14+ sources) with intelligent routing. Core product is the Router (`skills/fastskills-router/SKILL.md`) that auto-detects user intent and loads relevant skills.
 
-### Deployment Command
-
-```bash
-# Build and deploy to Cloudflare Pages
-cd packages/website && pnpm build && wrangler pages deploy dist --project-name=fastskills --commit-dirty=true
-```
-
-## Project Overview
-
-**FastSkills** is a Claude Code skills aggregation platform with intelligent routing. It collects 225+ skills from 10+ GitHub open-source projects and provides a single skill router that auto-detects user intent and loads relevant skills.
-
-### Core Product: FastSkills Router
-
-The main product is a single skill file that acts as an intelligent router:
-- Location: `purevibecoder-skills/fastskills-router/SKILL.md`
-- Users add this to their `CLAUDE.md` via @ reference
-- Auto-detects intent (create, research, debug, test, deploy, etc.)
-- Loads relevant skills from 225+ skill library
-
-### Repository Structure
+## STRUCTURE
 
 ```
 fastskills/
-├── packages/website/          # Main Astro website
-│   ├── src/
-│   │   ├── components/        # Astro components (.astro)
-│   │   ├── data/              # TypeScript data files (skills, categories)
-│   │   ├── layouts/           # Page layouts
-│   │   ├── pages/             # Page routes and API endpoints
-│   │   ├── styles/            # Global CSS
-│   │   └── utils/             # TypeScript utilities
-│   └── public/                # Static assets
-├── packages/fastskills-plugin/  # Router generator script
-├── purevibecoder-skills/      # FastSkills Router (core product)
-│   └── fastskills-router/     # The intelligent skill router
-├── anthropic-skills/          # Git submodule - Anthropic official skills
-├── awesome-claude-skills/     # Git submodule - Community skills
-├── claudekit-skills/          # Git submodule - ClaudeKit skills
-├── scientific-skills/         # Git submodule - 138+ scientific skills
-├── voltagent-skills/          # Git submodule - VoltAgent AI framework
-├── obsidian-skills/           # Git submodule - Knowledge management
-└── deep-research-skills/      # Git submodule - Research framework
+├── packages/website/          # Astro marketplace (see packages/website/AGENTS.md)
+├── skills/fastskills-router/  # Core product - Intelligent Router
+├── purevibecoder-skills/      # Original skills (frontend-designer, dan-koe-writing)
+├── hooks/                     # Claude Code session-start auto-injection
+├── .claude-plugin/            # Plugin marketplace manifests
+└── *-skills/                  # 14+ git submodules (content sources)
 ```
 
-## Skill Content Loading Architecture
+## WHERE TO LOOK
 
-The website uses a **build-time injection** mechanism for skill content:
+| Task | Location | Notes |
+|------|----------|-------|
+| Add new skill | See "Adding New Skills" below | 3-file sync required |
+| Fix website UI | `packages/website/src/components/` | Astro components |
+| Update routing | `skills/fastskills-router/SKILL.md` | ROUTES TABLE section |
+| Security audit | `packages/website/src/utils/security-scanner.ts` | Regex patterns |
+| Build/deploy | `packages/website/` | `pnpm build` triggers injection |
+
+## SKILL CONTENT INJECTION
 
 ```
-SKILL.md files → inject-skill-content.mjs → skills-content.json → Skill pages
+SKILL.md files (submodules) 
+    ↓ inject-skill-content.mjs (build-time)
+    ↓ public/data/skills-content.json (~2.7MB)
+    ↓ Astro pages render content
 ```
 
-1. **Data Separation**: `skills.ts` content fields are intentionally empty (optimized for bundle size)
-2. **Content Storage**: Full content stored in `public/data/skills-content.json` (~2.7MB)
-3. **Injection Script**: `scripts/inject-skill-content.mjs` extracts content from local SKILL.md files during build
+**CRITICAL**: `content` fields in `skills.ts` are intentionally empty - auto-filled during build.
 
-**Important**: Empty `content` fields in `skills.ts` are NORMAL - do not manually fill them.
+## ADDING NEW SKILLS (3-File Sync)
 
-## Adding New Skills
-
-When adding a new skill, you MUST update these 3 locations in sync:
-
-### 1. Website Data (`packages/website/src/data/`)
-
-**skill-sources.ts** - Add source path mapping:
+### 1. `packages/website/src/data/skill-sources.ts`
 ```typescript
 'new-skill-id': { source: 'source-name', path: 'skill-folder' },
 ```
 
-**skills.ts** - Add skill entry:
+### 2. `packages/website/src/data/skills.ts`
 ```typescript
 {
   id: 'new-skill-id',
@@ -89,310 +56,77 @@ When adding a new skill, you MUST update these 3 locations in sync:
   source: 'source-name',
   triggers: ['关键词1', 'keyword2'],
   priority: N,
-  content: ''  // Keep empty - auto-filled during build
+  content: ''  // Keep empty - auto-filled
 }
 ```
 
-### 2. README.md
-
-- Update skill count in "Skills Count" section
-- If new source, add to "Skill Sources" table
-
-### 3. Router (`skills/fastskills-router/SKILL.md`)
-
-Add routing keywords in ROUTES TABLE:
+### 3. `skills/fastskills-router/SKILL.md`
+Add to ROUTES TABLE:
 ```
 | Priority | ID | Keywords | Load Skills |
 | N | new-route | 关键词, keywords | new-skill-id |
 ```
 
-### Verification
-
-Run `pnpm build` to verify - the injection script will automatically extract content.
-
-## Build/Lint/Test Commands
-
-### From Repository Root
+## COMMANDS
 
 ```bash
-pnpm install              # Install all dependencies
-pnpm dev                  # Start dev server (http://localhost:4321)
-pnpm build                # Build for production
-pnpm preview              # Preview production build
-pnpm typecheck            # Run TypeScript type checking
+# Development
+pnpm install && pnpm dev       # Start dev server (localhost:4321)
+pnpm build                     # Build + content injection
+pnpm typecheck                 # TypeScript check
+pnpm --filter website test     # Run tests
+
+# Deployment
+cd packages/website && pnpm build && wrangler pages deploy dist --project-name=fastskills --commit-dirty=true
 ```
 
-### From packages/website Directory
+## ANTI-PATTERNS (FORBIDDEN)
+
+| Pattern | Why |
+|---------|-----|
+| Manually fill `content` in `skills.ts` | Auto-cleared by build script |
+| `eval()`, `shell=True` in skills | Security scanner will flag |
+| Skip security audit for new skills | Score <60 = DO NOT include |
+| Edit without submodule init | `git submodule update --init --recursive` first |
+| Use `JSON.stringify()` in voltagent | Use `safeStringify` from `@voltagent/internal` |
+
+## SECURITY AUDIT (Mandatory for New Skills)
+
+```typescript
+import { scanSkillSecurity } from './utils/security-scanner';
+const result = await scanSkillSecurity(skillContent, skillId);
+// Score >= 80: Safe | 60-79: Review | <60: REJECT
+```
+
+**Critical patterns detected**: `eval()`, `shell=True`, `../`, internal IPs, `pickle.load`, `dangerouslySetInnerHTML`
+
+## CONVENTIONS
+
+- **TypeScript**: Strict mode, no explicit `any` (warn level)
+- **Formatting**: Prettier - `trailingComma: "none"`, `printWidth: 100`, `singleQuote: true`
+- **Files**: kebab-case (`.ts`), PascalCase (`.astro`)
+- **Unused vars**: Prefix with `_` to pass linting
+- **Chinese UI**: Interface text is Chinese; code comments mixed
+
+## GOTCHAS
+
+1. **Submodules**: Clone with `--recursive` or run `git submodule update --init --recursive`
+2. **Large file**: `skills.ts` is 85k+ lines - use grep/offset, never read whole file
+3. **Monorepo**: Use `pnpm --filter website` from root
+4. **Em dash bug**: Avoid `—` (em dash) in files - may crash Claude Code CLI
+
+## VALIDATION BEFORE COMMITTING
 
 ```bash
-pnpm dev                  # Start Astro dev server
-pnpm build                # Build static site
-pnpm preview              # Preview build
-pnpm typecheck            # TypeScript checking (tsc --noEmit)
-pnpm test                 # Run all tests (vitest run)
-pnpm test:watch           # Run tests in watch mode
-pnpm test:ui              # Run tests with UI
-pnpm lint                 # ESLint check
-pnpm lint:fix             # ESLint auto-fix
-pnpm format               # Prettier format
-pnpm format:check         # Prettier check
+pnpm typecheck  # No TS errors
+pnpm lint       # No ESLint errors  
+pnpm test       # All tests pass
+pnpm build      # Build succeeds + content injection works
 ```
 
-### Running a Single Test
+## HIERARCHY
 
-```bash
-# From packages/website
-pnpm vitest run src/utils/__tests__/packager.test.ts
-pnpm vitest run --testNamePattern="filterSkillsForPack"
 ```
-
-## Code Style Guidelines
-
-### TypeScript
-
-- **Strict mode**: Uses `astro/tsconfigs/strict`
-- **No explicit any**: `@typescript-eslint/no-explicit-any` is set to `warn`
-- **Unused vars**: Use `_` prefix for intentionally unused parameters
-- **ES modules**: All files use ES module syntax (`import`/`export`)
-
-### Formatting (Prettier)
-
-```json
-{
-  "semi": true,
-  "singleQuote": true,
-  "tabWidth": 2,
-  "trailingComma": "none",
-  "printWidth": 100
-}
+./AGENTS.md (this file)
+└── packages/website/AGENTS.md
 ```
-
-### Import Order
-
-1. External packages (npm modules)
-2. Internal absolute imports
-3. Relative imports
-4. Type imports last (using `import type`)
-
-```typescript
-// Example
-import JSZip from 'jszip';
-import type { Skill } from '../data/skills';
-import { SKILL_TO_SOURCE } from '../data/skill-sources';
-```
-
-### Naming Conventions
-
-| Element | Convention | Example |
-|---------|------------|---------|
-| Files (TypeScript) | kebab-case | `skill-sources.ts` |
-| Files (Components) | PascalCase | `SkillCard.astro` |
-| Interfaces/Types | PascalCase | `interface Skill {}` |
-| Functions | camelCase | `filterSkillsForPack()` |
-| Constants | SCREAMING_SNAKE_CASE | `SKILL_TO_SOURCE` |
-| CSS variables | kebab-case with prefix | `--color-text-secondary` |
-
-### Astro Components
-
-- Use frontmatter (`---`) for TypeScript logic
-- Define `Props` interface for component props
-- Use scoped `<style>` tags for component CSS
-- Use CSS variables from global styles
-
-```astro
----
-import type { Skill } from '../data/skills';
-
-interface Props {
-  skill: Skill;
-}
-
-const { skill } = Astro.props;
----
-
-<div class="skill-card">
-  <h3>{skill.name}</h3>
-</div>
-
-<style>
-  .skill-card {
-    padding: var(--spacing-md);
-  }
-</style>
-```
-
-### Test Files
-
-- Location: `src/**/__tests__/*.test.ts`
-- Framework: Vitest with happy-dom environment
-- Use `describe`/`it`/`expect` from vitest
-- Create mock helpers for complex types
-
-```typescript
-import { describe, it, expect } from 'vitest';
-
-describe('functionName', () => {
-  it('describes expected behavior', () => {
-    expect(result).toBe(expected);
-  });
-});
-```
-
-### Error Handling
-
-- Use try/catch with specific error handling
-- Log errors with `console.warn` or `console.error`
-- Provide fallback values when possible
-
-```typescript
-try {
-  const response = await fetch(apiUrl);
-  if (response.ok) {
-    return await response.text();
-  }
-} catch (error) {
-  console.warn(`[packager] Failed to fetch:`, error);
-}
-return null;
-```
-
-## Important Patterns
-
-### Data Types
-
-The core data types are in `src/data/`:
-
-```typescript
-// skills.ts
-interface Skill {
-  id: string;
-  name: string;
-  description: string;
-  category: Category;
-  source: 'anthropic' | 'claudekit' | 'scientific' | 'community' | ...;
-  triggers: string[];
-  priority: number;
-  content: string;
-}
-
-// categories.ts
-interface Category {
-  id: string;
-  name: string;
-  nameEn: string;
-  description: string;
-  icon: string;
-}
-```
-
-### Async Patterns
-
-- Use `async/await` syntax
-- Use `Promise.all` for parallel operations
-- Arrow functions for callbacks
-
-```typescript
-const results = await Promise.all(
-  items.map(async (item) => {
-    const content = await fetchContent(item);
-    return { id: item.id, content };
-  })
-);
-```
-
-## Deployment
-
-- **Platform**: Cloudflare Pages
-- **Build command**: `pnpm build`
-- **Output directory**: `packages/website/dist`
-- **Node version**: 20
-- **pnpm version**: 8
-
-## Gotchas
-
-1. **Submodules**: This repo uses git submodules. Clone with `--recursive`
-2. **Monorepo**: Commands from root use `pnpm --filter website`
-3. **API routes**: Located in `src/pages/api/` with `.ts` extension
-4. **Chinese content**: UI text is in Chinese; code comments may be mixed
-5. **Layout ignored**: `src/layouts/Layout.astro` is excluded from ESLint
-
-## Validation Before Committing
-
-1. Run `pnpm typecheck` - ensure no TypeScript errors
-2. Run `pnpm lint` - ensure no ESLint errors
-3. Run `pnpm test` - ensure all tests pass
-4. Run `pnpm build` - ensure build succeeds
-
----
-
-## 🛡️ Security Audit for New Skills
-
-**CRITICAL**: Before adding any new skill or skill source to this project, you MUST perform a security audit.
-
-### Security Audit Workflow
-
-When adding new skills (e.g., new git submodule, new skill files):
-
-1. **Run the security scanner** on all new skill files:
-   ```typescript
-   // Use packages/website/src/utils/security-scanner.ts
-   import { scanSkillSecurity } from './utils/security-scanner';
-   const result = await scanSkillSecurity(skillContent, skillId);
-   ```
-
-2. **Check for these critical vulnerabilities**:
-   - 🔴 **Code Injection**: `eval()`, `Function()`, `new Function()`
-   - 🔴 **Command Injection**: `shell=True`, `shell: true`, `child_process.exec()`
-   - 🔴 **Path Traversal**: `../`, `..\\`, URL-encoded variants
-   - 🔴 **SSRF**: Internal IP addresses (127.0.0.1, 10.x.x.x, 192.168.x.x)
-   - 🔴 **Unsafe Deserialization**: `pickle.load()`, `yaml.load()` without SafeLoader
-   - 🔴 **XSS**: `dangerouslySetInnerHTML`, `innerHTML` assignments
-   - 🟡 **Hardcoded Secrets**: API keys, passwords, tokens
-
-3. **Review the security score**:
-   - Score ≥ 80: Safe to include
-   - Score 60-79: Review findings carefully
-   - Score < 60: DO NOT include without fixing issues
-
-4. **Document any exceptions**:
-   If a skill has legitimate use of flagged patterns, document why it's safe in the PR description.
-
-### Example Security Audit Command
-
-```bash
-# From packages/website directory
-pnpm test -- --grep "security"
-
-# Or manually check a skill file
-grep -E "(eval\(|shell=True|shell:\s*true|\.\./|pickle\.load)" path/to/skill/SKILL.md
-```
-
-### Historical Vulnerabilities Fixed
-
-| Date | Vulnerability | File | Fix |
-|------|--------------|------|-----|
-| 2024-01 | Path Traversal | `skill-content.ts` | Added `sanitizeSkillPath()` |
-| 2024-01 | eval() Injection | `calculator.ts` | Safe math parser |
-| 2024-01 | shell=True | `with_server.py` (3 files) | `shlex.split()` |
-
-### Security Scanner Patterns
-
-The security scanner (`packages/website/src/utils/security-scanner.ts`) detects:
-
-| Pattern | Severity | Description |
-|---------|----------|-------------|
-| `eval(`, `Function(` | Critical | Arbitrary code execution |
-| `shell=True`, `shell: true` | Critical | Command injection |
-| `../`, `%2e%2e` | Critical | Path traversal |
-| `127.0.0.1`, `10.`, `192.168.` | High | SSRF to internal networks |
-| `pickle.load`, `yaml.load` | High | Unsafe deserialization |
-| `dangerouslySetInnerHTML` | High | XSS vulnerability |
-| API keys, passwords | Medium | Hardcoded secrets |
-
-### Security-Related PRs
-
-When submitting PRs that add new skills:
-- [ ] Run security scanner on all new files
-- [ ] Document security score in PR description
-- [ ] Explain any flagged patterns that are false positives
-- [ ] Update this document if new vulnerability patterns are discovered

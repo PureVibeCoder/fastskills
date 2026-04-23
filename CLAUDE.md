@@ -164,3 +164,4 @@ Run `pnpm build` to verify - the injection script will automatically extract con
 3. **Monorepo**: Use `pnpm --filter website` from root
 4. **Security**: Run security scanner on new skills before adding
 5. **CI/CD**: GitHub Actions auto-deploys website on push to main
+6. **Claude Code Bug**: 避免使用中文破折号 `—`（em dash），该字符可能导致 Claude Code CLI 崩溃。写入文件时建议用 `--` 或 `-` 替代全角破折号。
