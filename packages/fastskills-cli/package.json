@@ -1,0 +1,34 @@
+{
+  "name": "fastskills-cli",
+  "version": "1.0.0",
+  "description": "FastSkills CLI - Add skills to your Claude Code configuration",
+  "type": "module",
+  "bin": {
+    "fastskills": "./bin/fastskills.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "link": "pnpm build && npm link"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "skills",
+    "cli"
+  ],
+  "author": "PureVibeCoder",
+  "license": "MIT",
+  "dependencies": {
+    "@clack/prompts": "^0.9.1",
+    "chalk": "^5.4.1",
+    "commander": "^13.1.0",
+    "execa": "^9.5.2",
+    "gray-matter": "^4.0.3",
+    "simple-git": "^3.27.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.2"
+  }
+}
