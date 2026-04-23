@@ -151,6 +151,7 @@ Combine matched routes' skills (dedupe). Output highest-priority matches first.
 | 69 | medical-imaging | 医学影像, DICOM, 病理切片, WSI, CT, MRI, pathology | `pydicom, histolab, pathml` |
 | 68 | precision-medicine | 精准医疗, 药物基因组学, pharmacogenomics, precision medicine | `clinpgx-database, clinvar-database` |
 | 68 | documents | 文档, document, Word, docx, PDF, PPT, Excel | `docx, pdf, pptx` |
+| 68 | ppt-generator | PPT, 幻灯片, 演示文稿, presentation, 制作PPT, 生成PPT | `ppt-generator-pro` |
 | 67 | neuro-analysis | 神经信号, ECG, EEG, 心电图, 脑电图, biosignal | `neurokit2, neuropixels-analysis` |
 | 65 | lab-automation | 液体处理, Opentrons, 实验室自动化, lab automation, liquid handling, robot | `opentrons-integration, pylabrobot` |
 | 65 | devops | 部署, deploy, docker, kubernetes, k8s, CI/CD | `devops, docker` |
@@ -158,6 +159,7 @@ Combine matched routes' skills (dedupe). Output highest-priority matches first.
 | 60 | scientific-writing | 论文, paper, 学术, academic, 科学写作, 文献, literature | `scientific-writing, literature-review` |
 | 58 | dan-koe-writing | DAN KOE, 长文写作, 深度文章, 个人成长文章, 反主流写作, 商业洞察, 方法论文章, 挑衅式写作 | `dan-koe-writing` |
 | 57 | lu-xun-writing | 鲁迅, 鲁迅风格, lu xun, 批判, 讽刺, 白描, 冷峻, 国民性, 看客, 精神胜利, 阿Q, 孔乙己, 杂文, 社会批判, 现实主义 | `lu-xun-writing` |
+| 56 | humanizer | AI写作, 去除AI痕迹, 润色, 文本润色, humanize, 去AI味, 文本人性化, 编辑 | `humanizer-zh` |
 | 55 | mcp-development | MCP, Model Context Protocol, MCP服务器, MCP server | `mcp-builder, mcp-management` |
 | 55 | knowledge-mgmt | obsidian, 笔记, note, 知识管理, markdown | `obsidian-markdown, json-canvas` |
 | 54 | skill-creation | 技能, skill, 创建技能, Claude skill, agent skill | `skill-creator, writing-skills, skill-share` |
@@ -368,7 +370,7 @@ I don't have access to real-time weather data...
 | 临床医学 | 9 | pyhealth, clinical-reports |
 | 数据可视化 | 15 | matplotlib, plotly, seaborn |
 | DevOps | 3 | devops, docker, makepad-packaging |
-| 文档处理 | 5 | docx, pdf, pptx |
+| 文档处理 | 6 | docx, pdf, pptx |
 | 前端开发 | 20 | react-components, frontend-designer, makepad-fundamentals |
 | 知识管理 | 3 | obsidian-markdown |
 | 实验室自动化 | 10 | opentrons, benchling |
@@ -378,7 +380,7 @@ I don't have access to real-time weather data...
 | 科学写作 | 20 | scientific-writing, literature-review |
 | 科学数据库 | 29 | pubmed, uniprot, kegg |
 | 测试质量 | 12 | test-driven-development, makepad-troubleshooting |
-| 思维方法 | 17 | brainstorming, research-executor |
+| 思维方法 | 18 | brainstorming, research-executor |
 | 开发工具 | 30 | mcp-builder, claude-code |
 | Rust/Makepad | 11 | makepad-init, makepad-shaders, makepad-rust |
 
