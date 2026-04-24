@@ -9,6 +9,10 @@ export interface Skill {
   triggers: string[];
   priority: number;
   content: string;
+  /** 筛选/展示用标签（小写 slug）；缺省时由 getSkillTags() 退化为 [category.id] */
+  tags?: string[];
+  /** 附加分类（多归属）；主分类仍为 category */
+  extraCategoryIds?: string[];
 }
 
 // 分类索引映射
@@ -85685,7 +85689,8 @@ export const threejsSkills: Skill[] = [
     source: 'humanizer-zh',
     triggers: ['humanizer', 'AI写作', '去除AI痕迹', '润色', '文本润色', '编辑', 'AI味', 'humanize'],
     priority: 65,
-    content: ''
+    content: '',
+    extraCategoryIds: ['document']
   }
 ];
 

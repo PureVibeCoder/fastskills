@@ -123,5 +123,11 @@ export const REPO_CONFIG: Record<string, RepoConfig> = {
     url: 'https://github.com/Ceeon/videocut-skills.git',
     rawBase: 'https://raw.githubusercontent.com/Ceeon/videocut-skills/main',
     contentPath: '.'
+  },
+  threejs: {
+    path: 'threejs-skills',
+    url: 'https://github.com/CloudAI-X/threejs-skills',
+    rawBase: 'https://raw.githubusercontent.com/CloudAI-X/threejs-skills/main',
+    contentPath: 'skills'
   }
 };

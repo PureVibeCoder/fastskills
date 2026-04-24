@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { skills } from '../../data/skills';
 import { SKILL_TO_SOURCE } from '../../data/skill-sources';
 import { REPO_CONFIG } from '../../data/repo-config';
+import { getExtraCategoryIds, getSkillTags } from '../../utils/skill-tags';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -34,17 +35,16 @@ export const GET: APIRoute = async () => {
     }
 
     if (sourceInfo && config) {
-       // Construct path using config.contentPath logic
-       // The sourceInfo.path is usually the relative path inside the content directory
-       // e.g. 'canvas-design' inside 'anthropic-skills/skills'
-
-       // If REPO_CONFIG says contentPath is 'skills', and sourceInfo.path is 'canvas-design'
-       // then the full remote path is 'skills/canvas-design'
-
+       // Construct path for raw.githubusercontent.com: no leading slash.
+       // contentPath '' (repo root): use sourceInfo.path only — avoid `${''}/x` -> '/x'.
        if (config.contentPath === '.') {
          path = sourceInfo.path;
+       } else if (!config.contentPath) {
+         path = sourceInfo.path;
        } else {
-         path = `${config.contentPath}/${sourceInfo.path}`;
+         path = sourceInfo.path
+           ? `${config.contentPath}/${sourceInfo.path}`
+           : config.contentPath;
        }
     } else if (sourceInfo) {
       // Legacy fallback logic if config is missing but mapping exists
@@ -62,6 +62,8 @@ export const GET: APIRoute = async () => {
       name: skill.name,
       description: skill.description,
       category: skill.category.id,
+      tags: getSkillTags(skill),
+      extraCategoryIds: getExtraCategoryIds(skill),
       source: skill.source,
       triggers: skill.triggers || [],
       path: path,

@@ -67,6 +67,25 @@
 /plugin uninstall fastskills
 ```
 
+### CLI 安装（可选 / experimental）
+
+不经过插件市场、直接在项目里管理技能时，可使用 monorepo 内的 **fastskills-cli**（命令与行为仍可能调整，见包内文档）。
+
+**Optional CLI (experimental):** install skills via the bundled CLI instead of the marketplace. The CLI surface may still change; see the package README.
+
+```bash
+# 在仓库根安装依赖 / From repo root
+pnpm install
+
+cd packages/fastskills-cli
+pnpm install
+pnpm build
+pnpm link   # 或见下方包文档 / or see package docs
+fastskills --help
+```
+
+完整说明：[packages/fastskills-cli/README.md](packages/fastskills-cli/README.md)
+
 ---
 
 ## 工作原理 / How It Works

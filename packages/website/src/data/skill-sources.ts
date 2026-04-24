@@ -271,17 +271,17 @@ export const SKILL_TO_SOURCE: Record<string, SkillSource> = {
   'videocut-self-update': { source: 'videocut', path: '自更新' },
   // ui-skills
   'ui-skills': { source: 'ui-skills', path: '' },
-  // threejs skills
-  'threejs-fundamentals': { source: 'threejs', path: 'threejs-skills/skills/threejs-fundamentals' },
-  'threejs-geometry': { source: 'threejs', path: 'threejs-skills/skills/threejs-geometry' },
-  'threejs-materials': { source: 'threejs', path: 'threejs-skills/skills/threejs-materials' },
-  'threejs-lighting': { source: 'threejs', path: 'threejs-skills/skills/threejs-lighting' },
-  'threejs-textures': { source: 'threejs', path: 'threejs-skills/skills/threejs-textures' },
-  'threejs-animation': { source: 'threejs', path: 'threejs-skills/skills/threejs-animation' },
-  'threejs-loaders': { source: 'threejs', path: 'threejs-skills/skills/threejs-loaders' },
-  'threejs-shaders': { source: 'threejs', path: 'threejs-skills/skills/threejs-shaders' },
-  'threejs-postprocessing': { source: 'threejs', path: 'threejs-skills/skills/threejs-postprocessing' },
-  'threejs-interaction': { source: 'threejs', path: 'threejs-skills/skills/threejs-interaction' },
+  // threejs skills（path 相对 threejs-skills 下的 contentPath: skills）
+  'threejs-fundamentals': { source: 'threejs', path: 'threejs-fundamentals' },
+  'threejs-geometry': { source: 'threejs', path: 'threejs-geometry' },
+  'threejs-materials': { source: 'threejs', path: 'threejs-materials' },
+  'threejs-lighting': { source: 'threejs', path: 'threejs-lighting' },
+  'threejs-textures': { source: 'threejs', path: 'threejs-textures' },
+  'threejs-animation': { source: 'threejs', path: 'threejs-animation' },
+  'threejs-loaders': { source: 'threejs', path: 'threejs-loaders' },
+  'threejs-shaders': { source: 'threejs', path: 'threejs-shaders' },
+  'threejs-postprocessing': { source: 'threejs', path: 'threejs-postprocessing' },
+  'threejs-interaction': { source: 'threejs', path: 'threejs-interaction' },
   // op7418（归藏）项目：与 repo-config 中的 nanobanana / humanizer-zh 源 ID 对齐
   'ppt-generator-pro': { source: 'nanobanana', path: '' },
   'humanizer-zh': { source: 'humanizer-zh', path: '' },

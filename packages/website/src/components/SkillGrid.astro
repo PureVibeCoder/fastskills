@@ -1,6 +1,7 @@
 ---
 import SkillCard from './SkillCard.astro';
 import type { Skill } from '../data/skills';
+import { getExtraCategoryIds, getSkillTags } from '../utils/skill-tags';
 
 interface Props {
   skills: Skill[];
@@ -32,7 +33,14 @@ const sortedSkills = [...filteredSkills].sort((a, b) => {
     {sortedSkills.length > 0 ? (
       <div class="skills-grid">
         {sortedSkills.map((skill, index) => (
-          <div class="skill-wrapper" data-skill-id={skill.id} style={`animation-delay: ${index * 0.05}s`}>
+          <div
+            class="skill-wrapper"
+            data-skill-id={skill.id}
+            data-category={skill.category.id}
+            data-extra-categories={getExtraCategoryIds(skill).join(',')}
+            data-filter-tags={getSkillTags(skill).join(',')}
+            style={`animation-delay: ${index * 0.05}s`}
+          >
             <SkillCard skill={skill} />
           </div>
         ))}
@@ -53,8 +61,10 @@ const sortedSkills = [...filteredSkills].sort((a, b) => {
   const resetBtn = document.getElementById('reset-filters-btn');
   if (resetBtn) {
     resetBtn.addEventListener('click', () => {
-      const allBtn = document.querySelector('.category-btn[data-category="all"]') as HTMLElement;
+      const allBtn = document.querySelector('.category-button[data-category="all"]') as HTMLElement;
       if (allBtn) allBtn.click();
+      document.querySelectorAll('.tag-filter-button.active').forEach((b) => b.classList.remove('active'));
+      (window as unknown as { applyLibraryFilters?: () => void }).applyLibraryFilters?.();
     });
   }
 </script>

@@ -65,8 +65,8 @@
 ### 1.2 分类优化
 
 - [ ] 细化技能分类 (二级分类)
-- [ ] 添加标签系统
-- [ ] 支持多分类归属
+- [x] 添加标签系统（首页标签筛选 + 详情页展示；默认标签为主分类；Three.js 系列带 `threejs` slug）
+- [x] 支持多分类归属（`extraCategoryIds` + 分类筛选命中附加分类；API `skills.json` 导出 `tags` / `extraCategoryIds`）
 
 ### 1.3 场景包完善
 
