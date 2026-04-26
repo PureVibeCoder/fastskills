@@ -85357,6 +85357,46 @@ export const pureVibeCoderSkills: Skill[] = [
     priority: 48,
     content: ''
   },
+  {
+    id: 'gpt-image-2-workflow',
+    name: 'GPT-image-2 出图工作流',
+    description: '使用 API Mart GPT-image-2 官方渠道批量出图、管理分辨率档位、保存提示词、自动生成分享帖文案的完整工作流。官方渠道支持 1K/2K/4K 分辨率，含自动降级逻辑、出图后分辨率检查。涵盖提示词编写框架、异步生图脚本、文件命名规范、分享帖结构、高级控图技巧、以及从 X/Twitter 等社交平台抓取优质提示词的方法。',
+    category: categories[categoryIndex['media'] ?? 0],
+    source: 'purevibecoder',
+    triggers: ['gpt-image-2', '出图', '生图', '配图', '海报', '封面', '社交媒体配图', 'prompt', '提示词', '图像生成', 'ai绘画'],
+    priority: 50,
+    content: ''
+  },
+  {
+    id: 'huashu-design',
+    name: 'Huashu Design',
+    description: '用AI做出大厂级设计的完整Skill。终端AI设计利器，无需打开任何图形界面。支持交付产品发布动画、可点击的App原型、可编辑的PPT、印刷级信息图。适用于需要高保真设计但没有设计团队、快速生成可交付的视觉资产、制作投融资one-pager、技术白皮书、个人简历等场景。',
+    category: categories[categoryIndex['media'] ?? 0],
+    source: 'purevibecoder',
+    triggers: ['高保真设计', 'AI设计', '生成PPT', '制作原型', '信息图', '产品动画', 'huashu', '设计', 'prototype', 'infographic', 'presentation'],
+    priority: 48,
+    content: ''
+  },
+  {
+    id: 'kami-design-system',
+    name: 'Kami Design System',
+    description: 'AI-native文档设计系统，用于生成高质量的单页报告、简历、作品集、幻灯片等。解决AI生成文档像默认Google Doc的痛点，提供统一视觉语言，覆盖单页报告、长文档、信件、作品集、简历、幻灯片6种文档类型。',
+    category: categories[categoryIndex['document'] ?? 0],
+    source: 'purevibecoder',
+    triggers: ['单页报告', '设计系统', '文档排版', '简历设计', '作品集', '幻灯片', 'one-pager', 'kami', '排版', '文档设计'],
+    priority: 45,
+    content: ''
+  },
+  {
+    id: 'web-crawler-three-in-one',
+    name: 'Web Crawler 三合一',
+    description: '三引擎合一的AI爬虫能力，快速捕获网页、搜索引擎和结构化数据。包含静态引擎（BeautifulSoup式快速解析）、动态引擎（Playwright/Selenium渲染JS页面）、智能引擎（LLM-powered自动提取结构化数据）。解决静态页面解析不了JS渲染内容的痛点，输出可直接喂给LLM的清洗后数据。',
+    category: categories[categoryIndex['tools'] ?? 0],
+    source: 'purevibecoder',
+    triggers: ['爬虫', '抓取网页', '数据收集', '竞品监控', '信息抓取', 'web scraping', '批量下载', 'crawler', 'spider', 'data extraction'],
+    priority: 42,
+    content: ''
+  },
 ];
 
 // Merge PureVibeCoder skills into main skills array

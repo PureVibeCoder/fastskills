@@ -248,6 +248,10 @@ export const SKILL_TO_SOURCE: Record<string, SkillSource> = {
   'dan-koe-writing': { source: 'purevibecoder', path: 'dan-koe-writing' },
   'lu-xun-writing': { source: 'purevibecoder', path: 'lu-xun-writing' },
   'baoyu-comic': { source: 'purevibecoder', path: 'baoyu-comic' },
+  'gpt-image-2-workflow': { source: 'purevibecoder', path: 'gpt-image-2-workflow' },
+  'huashu-design': { source: 'purevibecoder', path: 'huashu-design' },
+  'kami-design-system': { source: 'purevibecoder', path: 'kami-design-system' },
+  'web-crawler-three-in-one': { source: 'purevibecoder', path: 'web-crawler-three-in-one' },
   // ui-ux-pro-max skills
   'ui-ux-pro-max': { source: 'ui-ux-pro-max', path: 'ui-ux-pro-max' },
   // makepad skills

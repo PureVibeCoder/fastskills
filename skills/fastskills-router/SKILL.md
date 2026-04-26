@@ -169,13 +169,17 @@ Combine matched routes' skills (dedupe). Output highest-priority matches first.
 | 50 | domain-naming | 域名, domain name, 品牌命名, naming | `domain-name-brainstormer` |
 | 50 | brainstorming | 头脑风暴, brainstorm, 创意, creative, design thinking | `brainstorming, scientific-brainstorming` |
 | 48 | image-generation | 生成图片, generate image, FLUX, 图像生成, image generation, AI绘画 | `image-enhancer` |
+| 48 | gpt-image-2 | GPT-image-2, 出图, 生图, 配图, 海报, 封面, 图像生成, AI绘画, prompt | `gpt-image-2-workflow` |
+| 48 | huashu-design | 高保真设计, AI设计, 生成PPT, 制作原型, 信息图, 产品动画, huashu | `huashu-design` |
 | 48 | comic-creation | 漫画, comic, 知识漫画, 教育漫画, 绘本, 插画, biography comic, tutorial comic, Logicomix | `baoyu-comic` |
+| 45 | kami-design | Kami, 单页报告, 设计系统, 文档排版, 简历, 作品集, one-pager | `kami-design-system` |
 | 47 | video-processing | 视频, video, FFmpeg, 音频, audio, 转换, convert | `media-processing, video-downloader` |
 | 46 | videocut | 剪口播, 口误, 字幕, 自动剪辑, videocut | `videocut-install, videocut-speech-cut, videocut-edit, videocut-subtitles, videocut-self-update` |
 | 45 | task-planning | 任务规划, task planning, Manus, 计划, planning, 实现计划 | `planning-with-files, writing-plans, executing-plans` |
 | 44 | research-workflow | 深度研究, deep research, 研究执行, research executor | `research-executor, question-refiner, synthesizer` |
 | 43 | problem-solving | 卡住了, stuck, 突破口, breakthrough, 问题解决 | `when-stuck, sequential-thinking` |
 | 42 | data-analysis | 数据分析, data analysis, DataFrame, 探索性分析, EDA, 统计分析, t检验, 回归 | `seaborn, statsmodels, polars, dask, networkx, vaex, exploratory-data-analysis, statistical-analysis` |
+| 42 | web-crawler | 爬虫, 抓取网页, 数据收集, 竞品监控, web scraping, 信息抓取, 批量下载 | `web-crawler-three-in-one` |
 | 41 | ui-constraints | ui约束, ui规则, constraint, opinionated ui, tailwind规则, accessibility rules, 性能约束, performance constraint, compositor, aria, text-balance, alertdialog | `ui-skills` |
 | 41 | ml-advanced | 图神经网络, GNN, UMAP, 降维, 模型解释, 贝叶斯 | `torch_geometric, umap-learn, shap, pymc, pymoo` |
 | 40 | reinforcement-learning | 强化学习, reinforcement learning, RL, PPO, DQN, 代理训练 | `stable-baselines3, pufferlib` |
