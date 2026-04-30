@@ -1,4 +1,6 @@
 ---
+export const prerender = true;
+
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
 import PlatformCapabilities from '../components/PlatformCapabilities.astro';
@@ -13,8 +15,22 @@ import Search from '../components/Search.astro';
 import { skills } from '../data/skills';
 import { categories } from '../data/categories';
 import { getSkillTags } from '../utils/skill-tags';
-import { downloadSingleSkill } from '../utils/downloader';
-import { downloadSkillPack, filterSkillsForPack, skillPacks } from '../utils/packager';
+import type { ClientSkillListItem } from '../utils/scenario-packs';
+
+// 客户端脚本仅用元数据（不含 content），下载走 /api/skill-markdown
+const skillsForClient: ClientSkillListItem[] = skills.map((skill) => ({
+  id: skill.id,
+  name: skill.name,
+  description: skill.description,
+  category: {
+    id: skill.category.id,
+    name: skill.category.name,
+    icon: skill.category.icon
+  },
+  triggers: skill.triggers,
+  source: skill.source,
+  priority: skill.priority
+}));
 
 // 准备搜索用的技能数据（只包含搜索需要的字段）
 const searchSkills = skills.map(skill => ({
@@ -36,7 +52,10 @@ const libraryTagItems = [...tagSlugSet].sort().map((id) => ({
 }));
 ---
 
-<Layout title="FastSkills - 智能技能编排控制器">
+<Layout
+  title="FastSkills - 智能技能编排控制器"
+  canonicalUrl={new URL(Astro.url.pathname, Astro.site)}
+>
   <Hero />
 
   <PlatformCapabilities />
@@ -559,9 +578,38 @@ const libraryTagItems = [...tagSlugSet].sort().map((id) => ({
   }
 </style>
 
-<script type="module" define:vars={{ skills }}>
-  // 技能数据（从服务器传递）
-  const skillsData = skills;
+<script type="module" define:vars={{ skillsForClient }}>
+  import {
+    scenarioSkillPacks,
+    filterSkillsForScenarioPack
+  } from '../utils/scenario-packs.ts';
+
+  const skillsData = skillsForClient;
+
+  async function fetchSkillMarkdown(skillId) {
+    const res = await fetch(`/api/skill-markdown?id=${encodeURIComponent(skillId)}`);
+    if (!res.ok) return null;
+    return await res.text();
+  }
+
+  function fallbackMarkdown(skillId, skillName) {
+    return `---
+name: ${skillId}
+description: ${skillName}
+---
+
+# ${skillName}
+
+This is a skill downloaded from FastSkills.
+
+## Description
+
+Please refer to the original source for more details.
+
+---
+
+FastSkills: https://github.com/PureVibeCoder/fastskills`;
+  }
 
   function getActiveCategory() {
     return document.querySelector('.category-button.active')?.dataset.category || 'all';
@@ -594,9 +642,19 @@ const libraryTagItems = [...tagSlugSet].sort().map((id) => ({
         categoryMatchesWrapper(wrapper, categoryId) && tagMatchesWrapper(wrapper, activeTags);
       wrapper.style.display = ok ? '' : 'none';
     });
+    announceSkillCount();
   }
 
   window.applyLibraryFilters = applyLibraryFilters;
+
+  function announceSkillCount() {
+    const el = document.getElementById('skills-count-live');
+    if (!el) return;
+    const visible = [...document.querySelectorAll('.skill-wrapper[data-skill-id]')].filter(
+      (w) => (w).style.display !== 'none'
+    ).length;
+    el.textContent = `当前显示 ${visible} 个技能`;
+  }
 
   document.addEventListener('click', (e) => {
     const target = e.target;
@@ -649,162 +707,67 @@ const libraryTagItems = [...tagSlugSet].sort().map((id) => ({
     return { modal, close };
   }
 
-  // 下载单个技能文件
-  function downloadSingleSkill(skill) {
-    const blob = new Blob([skill.content], { type: 'text/markdown' });
+  function triggerDownloadMarkdown(skillId, markdown) {
+    const blob = new Blob([markdown], { type: 'text/markdown' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `${skill.id}-SKILL.md`;
+    link.download = `${skillId}-SKILL.md`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
   }
 
-  // 单个下载功能
   document.addEventListener('click', (e) => {
-    const target = e.target;
-    const downloadBtn = target.closest('.btn-download');
+    const downloadBtn = e.target.closest('.btn-download');
+    if (!downloadBtn || downloadBtn.closest('#pack-modal')) return;
 
-    if (downloadBtn) {
-      const skillId = downloadBtn.dataset.skillId;
-      const skillName = downloadBtn.dataset.skillName;
-      
-      // 如果 skillsData 为空，从 DOM 创建技能对象
-      let skill = skillsData.find(s => s.id === skillId);
-      if (!skill) {
-        skill = {
-          id: skillId,
-          name: skillName,
-          content: `# ${skillName}\n\nThis is a skill downloaded from FastSkills.\n\n## Description\n\nPlease refer to the original source for more details.\n\n---\n\nFastSkills: https://github.com/PureVibeCoder/fastskills`
-        };
+    const skillId = downloadBtn.dataset.skillId;
+    const skillName = downloadBtn.dataset.skillName;
+    if (!skillId) return;
+
+    e.preventDefault();
+
+    if (downloadBtn.dataset.downloading === '1') return;
+    downloadBtn.dataset.downloading = '1';
+
+    void (async () => {
+      try {
+        let markdown = await fetchSkillMarkdown(skillId);
+        if (!markdown) {
+          markdown = fallbackMarkdown(skillId, skillName || skillId);
+        }
+        triggerDownloadMarkdown(skillId, markdown);
+
+        const originalText = downloadBtn.textContent;
+        downloadBtn.textContent = '已下载!';
+        downloadBtn.classList.remove('btn-primary');
+        downloadBtn.classList.add('btn-success');
+
+        setTimeout(() => {
+          downloadBtn.textContent = originalText;
+          downloadBtn.classList.remove('btn-success');
+          downloadBtn.classList.add('btn-primary');
+          delete downloadBtn.dataset.downloading;
+        }, 2000);
+      } catch {
+        delete downloadBtn.dataset.downloading;
       }
-
-      downloadSingleSkill(skill);
-
-      const originalText = downloadBtn.textContent;
-      downloadBtn.textContent = '已下载!';
-      downloadBtn.classList.remove('btn-primary');
-      downloadBtn.classList.add('btn-success');
-
-      setTimeout(() => {
-        downloadBtn.textContent = originalText;
-        downloadBtn.classList.remove('btn-success');
-        downloadBtn.classList.add('btn-primary');
-      }, 2000);
-    }
+    })();
   });
 
-  // 技能包配置
-  const skillPacks = {
-    'frontend-developer': { name: '前端开发者套件', description: '适合前端工程师，包含 UI 设计、组件开发、响应式布局等技能' },
-    'fullstack-developer': { name: '全栈开发者套件', description: '覆盖前后端开发全流程，适合全栈工程师' },
-    'document-production': { name: '文档生产套件', description: '专注于文档生成和处理，适合技术写作者' },
-    'knowledge-management': { name: '知识管理套件', description: 'Obsidian 笔记系统、知识库管理、可视化' },
-    'devops-engineer': { name: 'DevOps 工程师套件', description: 'CI/CD、容器化、部署自动化相关技能' },
-
-    'task-planning': { name: '任务规划套件', description: 'Manus 风格文件规划、任务追踪、上下文工程' },
-    'testing-qa': { name: '测试与质量保障套件', description: '自动化测试、代码审查、质量保障' },
-    'backend-specialist': { name: '后端专家套件', description: 'API 设计、数据库、认证授权相关技能' },
-    'design-system': { name: '设计系统套件', description: 'UI 设计、主题、品牌相关技能' },
-    'content-creator': { name: '内容创作套件', description: '适合内容创作者和营销人员' },
-    'research-analyst': { name: '研究分析套件', description: '深度研究和数据分析相关技能' },
-    'media-processing': { name: '媒体处理套件', description: '图片、视频等媒体文件处理' },
-    'productivity-tools': { name: '效率工具套件', description: '提升日常工作效率的实用技能' },
-    'drug-discovery': { name: '药物发现套件', description: '虚拟筛选、分子对接、ADMET 预测、化合物优化' },
-    'genomics-bioinformatics': { name: '基因组学与生物信息学套件', description: '序列分析、单细胞 RNA-seq、基因调控网络' },
-    'clinical-research': { name: '临床研究套件', description: '临床试验、变异解读、药物基因组学、精准医疗' },
-    'ml-deep-learning': { name: '机器学习与深度学习套件', description: 'PyTorch、scikit-learn、强化学习、模型解释' },
-    'quantum-physics': { name: '量子计算与物理套件', description: '量子计算、天文学、材料科学' },
-    'data-visualization': { name: '科学数据可视化套件', description: '统计分析、网络可视化、出版级图表' },
-    'scientific-databases': { name: '科学数据库套件', description: 'PubMed、UniProt、KEGG 等科学数据库访问' },
-    'scientific-writing': { name: '科学写作与交流套件', description: '论文写作、同行评审、海报制作、文献管理' },
-    'proteomics-multiomics': { name: '蛋白质组学与多组学套件', description: '质谱分析、蛋白质工程、多组学整合' },
-    'lab-automation': { name: '实验室自动化套件', description: '液体处理、实验流程自动化、LIMS 集成' },
-    'medical-imaging': { name: '医学影像与病理套件', description: 'DICOM 处理、全切片分析、计算病理学' }
-  };
-
-  // 过滤技能
-  function filterSkillsForPack(allSkills, packKey) {
-    const pack = skillPacks[packKey];
-    if (!pack) return allSkills;
-
-    // 根据套件名称中的关键词过滤
-    const keywords = pack.name.split(/[和与]/)[0];
-    const categoryMap = {
-      '前端': 'frontend',
-      '后端': 'backend',
-      '测试': 'testing',
-      'DevOps': 'devops',
-      '文档': 'document',
-      '知识管理': 'knowledge',
-      '媒体': 'media',
-      '内容创作': 'content',
-      '研究分析': 'research',
-      '效率': 'productivity',
-      '设计': 'design',
-      '药物': 'cheminformatics',
-      '基因组': 'bioinformatics',
-      '临床': 'clinical',
-      '机器学习': 'ml-ai',
-      '量子': 'physics-materials',
-      '数据可视化': 'data-viz',
-      '科学数据库': 'sci-databases',
-      '科学写作': 'sci-communication',
-      '蛋白质组': 'scientific',
-      '实验室': 'lab-automation',
-      '医学影像': 'clinical'
-    };
-
-    let categoryId = null;
-    for (const [key, value] of Object.entries(categoryMap)) {
-      if (keywords.includes(key)) {
-        categoryId = value;
-        break;
-      }
-    }
-
-    if (!categoryId) return allSkills.slice(0, 5);
-    return allSkills.filter(s => s.category.id === categoryId);
-  }
-
-  // 下载技能包
-  async function downloadSkillPack(skills, packName) {
+  async function downloadScenarioSkillPack(skills, packName) {
     const JSZip = (await import('jszip')).default;
 
     const zip = new JSZip();
-    
-    // 从统一的映射文件导入技能源信息
-    async function fetchSkillSourceMapping() {
-      const response = await fetch('/api/skill-sources');
-      if (response.ok) {
-        return await response.json();
-      }
-      return {};
-    }
 
-    // 获取技能内容（优先从 API 读取，否则使用现有内容）
-    async function getSkillContent(skill, skillToSource) {
-      const sourceInfo = skillToSource[skill.id];
-      if (sourceInfo) {
-        try {
-          const response = await fetch(`/api/skill-content?source=${sourceInfo.source}&path=${sourceInfo.path}`);
-          if (response.ok) {
-            return await response.text();
-          }
-        } catch (error) {
-          console.warn(`[index] Failed to fetch SKILL.md for ${skill.id}:`, error);
-        }
-      }
-      return skill.content;
-    }
-
-    // 并行获取所有技能内容
-    const skillToSource = await fetchSkillSourceMapping();
     const skillContents = await Promise.all(
       skills.map(async (skill) => {
-        const content = await getSkillContent(skill, skillToSource);
+        let content = await fetchSkillMarkdown(skill.id);
+        if (!content) {
+          content = fallbackMarkdown(skill.id, skill.name);
+        }
         return { id: skill.id, name: skill.name, content };
       })
     );
@@ -863,6 +826,7 @@ ${skills.map(s => `- **${s.name}** (\`${s.id}\`)`).join('\n')}
       applyLibraryFilters();
 
       prevSearchQuery = '';
+      announceSkillCount();
       return;
     }
 
@@ -895,13 +859,14 @@ ${skills.map(s => `- **${s.name}** (\`${s.id}\`)`).join('\n')}
         w.style.display = 'none';
       }
     });
+    announceSkillCount();
   });
 
   // 技能包下载功能
   const downloadPackBtn = document.getElementById('download-pack');
   if (downloadPackBtn) {
     downloadPackBtn.addEventListener('click', async () => {
-      const packList = Object.entries(skillPacks).map(([key, pack]) => `
+      const packList = Object.entries(scenarioSkillPacks).map(([key, pack]) => `
         <button class="pack-button" data-pack="${key}">
           <div class="pack-name">${pack.name}</div>
           <div class="pack-description">${pack.description}</div>
@@ -920,14 +885,16 @@ ${skills.map(s => `- **${s.name}** (\`${s.id}\`)`).join('\n')}
       modal?.querySelectorAll('.pack-button').forEach(button => {
         button.addEventListener('click', async () => {
           const packKey = button.dataset.pack;
-          const filteredSkills = filterSkillsForPack(skillsData, packKey);
+          const filteredSkills = filterSkillsForScenarioPack(skillsData, packKey);
           const packName = button.querySelector('.pack-name')?.textContent || 'skills';
 
-          await downloadSkillPack(filteredSkills, packName);
+          await downloadScenarioSkillPack(filteredSkills, packName);
 
           close();
         });
       });
     });
   }
+
+  announceSkillCount();
 </script>

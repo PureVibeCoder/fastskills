@@ -2,12 +2,19 @@
 interface Props {
 	title: string;
 	description?: string;
+	canonicalUrl?: URL;
+	ogType?: string;
 }
 
 const {
 	title,
-	description = "FastSkills - Empower your AI with expert-level capabilities. 200+ curated skills for developers and researchers."
+	description = "FastSkills - Empower your AI with expert-level capabilities. 200+ curated skills for developers and researchers.",
+	canonicalUrl,
+	ogType = 'website'
 } = Astro.props;
+
+const absoluteCanonical = canonicalUrl?.href ?? Astro.url.href;
+const ogTitle = `${title} - FastSkills`;
 
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -19,11 +26,26 @@ import '../styles/global.css';
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{title} - FastSkills</title>
+		<link rel="canonical" href={absoluteCanonical} />
+		<title>{ogTitle}</title>
 		<meta name="description" content={description} />
 		<meta name="theme-color" content="#030407" />
+		<meta property="og:title" content={ogTitle} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={absoluteCanonical} />
+		<meta property="og:type" content={ogType} />
+		<meta property="og:locale" content="zh_CN" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={ogTitle} />
+		<meta name="twitter:description" content={description} />
 	</head>
 	<body>
 		<div class="noise-overlay"></div>

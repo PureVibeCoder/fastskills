@@ -20,8 +20,9 @@ const sortedSkills = [...filteredSkills].sort((a, b) => {
 });
 ---
 
-<section id="skills" class="skills-section">
+<section id="skills" class="skills-section" aria-label="技能库">
   <div class="container">
+    <div id="skills-count-live" class="sr-only" role="status" aria-live="polite"></div>
     <div class="section-header">
       <div class="header-decoration"></div>
       <h2 class="section-title">SKILL DATABASE</h2>

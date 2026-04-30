@@ -19,7 +19,7 @@ const { skills } = Astro.props;
       type="text"
       id="skill-search-input"
       class="search-input"
-      placeholder="Search skills..."
+      placeholder="搜索技能名称、触发词或描述…"
       autocomplete="off"
     />
     <kbd class="search-shortcut">/</kbd>
@@ -36,10 +36,10 @@ const { skills } = Astro.props;
     if (!query.trim()) return [];
     const lowerQuery = query.toLowerCase();
     return skills
-      .map(skill => {
+      .map((skill) => {
         let score = 0;
         if (skill.name.toLowerCase().includes(lowerQuery)) score += 3;
-        if (skill.triggers.some(t => t.toLowerCase().includes(lowerQuery))) score += 2;
+        if (skill.triggers.some((t) => t.toLowerCase().includes(lowerQuery))) score += 2;
         if (skill.description.toLowerCase().includes(lowerQuery)) score += 1;
         return { skill, score };
       })
@@ -47,94 +47,148 @@ const { skills } = Astro.props;
       .sort((a, b) => b.score - a.score);
   }
 
+  function appendHighlightedName(el, text, query) {
+    el.replaceChildren();
+    const q = query.trim();
+    if (!q) {
+      el.textContent = text;
+      return;
+    }
+    const lower = text.toLowerCase();
+    const lowerQ = q.toLowerCase();
+    let start = 0;
+    let idx = lower.indexOf(lowerQ, start);
+    while (idx !== -1) {
+      if (idx > start) {
+        el.appendChild(document.createTextNode(text.slice(start, idx)));
+      }
+      const mark = document.createElement('mark');
+      mark.textContent = text.slice(idx, idx + lowerQ.length);
+      el.appendChild(mark);
+      start = idx + lowerQ.length;
+      idx = lower.indexOf(lowerQ, start);
+    }
+    if (start < text.length) {
+      el.appendChild(document.createTextNode(text.slice(start)));
+    }
+  }
+
   function renderResults(results, query) {
+    if (!searchInput || !searchResults) return;
+
     if (!query.trim()) {
       searchResults.classList.add('hidden');
-      searchResults.innerHTML = '';
+      searchResults.replaceChildren();
       return;
     }
 
     if (results.length === 0) {
-      searchResults.innerHTML = `
-        <div class="search-no-results">
-          <span class="no-results-icon">📭</span>
-          <span>No skills found for "${query}"</span>
-        </div>
-      `;
+      searchResults.replaceChildren();
+      const wrap = document.createElement('div');
+      wrap.className = 'search-no-results';
+      const icon = document.createElement('span');
+      icon.className = 'no-results-icon';
+      icon.textContent = '📭';
+      const msg = document.createElement('span');
+      msg.textContent = `未找到与「${query}」匹配的技能`;
+      wrap.append(icon, msg);
+      searchResults.appendChild(wrap);
       searchResults.classList.remove('hidden');
       return;
     }
 
-    searchResults.innerHTML = `
-      <div class="search-results-header">
-        <span class="results-count">${results.length} result${results.length > 1 ? 's' : ''}</span>
-      </div>
-      <div class="search-results-list">
-        ${results.map((skill, index) => `
-          <a href="/skill/${skill.id}" class="search-result-item" data-index="${index}">
-            <span class="result-icon">${skill.category.icon}</span>
-            <div class="result-content">
-              <span class="result-name">${highlightMatch(skill.name, query)}</span>
-              <span class="result-category">${skill.category.name}</span>
-            </div>
-            <span class="result-arrow">→</span>
-          </a>
-        `).join('')}
-      </div>
-    `;
+    searchResults.replaceChildren();
 
+    const header = document.createElement('div');
+    header.className = 'search-results-header';
+    const countEl = document.createElement('span');
+    countEl.className = 'results-count';
+    countEl.textContent = `${results.length} 条结果`;
+    header.appendChild(countEl);
+
+    const list = document.createElement('div');
+    list.className = 'search-results-list';
+
+    results.forEach((skill, index) => {
+      const a = document.createElement('a');
+      a.href = `/skill/${skill.id}`;
+      a.className = 'search-result-item';
+      a.dataset.index = String(index);
+      a.tabIndex = 0;
+
+      const iconWrap = document.createElement('span');
+      iconWrap.className = 'result-icon';
+      iconWrap.textContent = skill.category.icon;
+
+      const content = document.createElement('div');
+      content.className = 'result-content';
+
+      const nameEl = document.createElement('span');
+      nameEl.className = 'result-name';
+      appendHighlightedName(nameEl, skill.name, query);
+
+      const catEl = document.createElement('span');
+      catEl.className = 'result-category';
+      catEl.textContent = skill.category.name;
+
+      content.append(nameEl, catEl);
+
+      const arrow = document.createElement('span');
+      arrow.className = 'result-arrow';
+      arrow.textContent = '→';
+
+      a.append(iconWrap, content, arrow);
+      list.appendChild(a);
+    });
+
+    searchResults.append(header, list);
     searchResults.classList.remove('hidden');
   }
 
-  function highlightMatch(text, query) {
-    const regex = new RegExp(`(${escapeRegex(query)})`, 'gi');
-    return text.replace(regex, '<mark>$1</mark>');
-  }
-
-  function escapeRegex(str) {
-    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  }
-
   function handleSearch() {
+    if (!searchInput) return;
     const query = searchInput.value;
     const scored = searchSkills(query);
-    renderResults(scored.slice(0, 8).map(s => s.skill), query);
+    renderResults(
+      scored.slice(0, 8).map((s) => s.skill),
+      query
+    );
 
-    document.dispatchEvent(new CustomEvent('skill-search', {
-      detail: { query, results: scored.map(s => ({ id: s.skill.id, score: s.score })) }
-    }));
+    document.dispatchEvent(
+      new CustomEvent('skill-search', {
+        detail: { query, results: scored.map((s) => ({ id: s.skill.id, score: s.score })) }
+      })
+    );
   }
 
   function closeSearch() {
-    searchResults.classList.add('hidden');
+    searchResults?.classList.add('hidden');
   }
 
   function openSearch() {
-    if (searchInput.value.trim()) {
+    if (searchInput?.value.trim()) {
       handleSearch();
     }
   }
 
-  // Event listeners
-  searchInput.addEventListener('input', () => {
+  searchInput?.addEventListener('input', () => {
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(handleSearch, 300);
   });
 
-  searchInput.addEventListener('focus', openSearch);
+  searchInput?.addEventListener('focus', openSearch);
 
-  searchInput.addEventListener('keydown', (e) => {
+  searchInput?.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeSearch();
       searchInput.blur();
     } else if (e.key === 'ArrowDown') {
-      const firstResult = searchResults.querySelector('.search-result-item');
-      if (firstResult) firstResult.focus();
+      const firstResult = searchResults?.querySelector('.search-result-item');
+      if (firstResult instanceof HTMLElement) firstResult.focus();
     }
   });
 
-  // Keyboard navigation within results
-  searchResults.addEventListener('keydown', (e) => {
+  searchResults?.addEventListener('keydown', (e) => {
     const items = searchResults.querySelectorAll('.search-result-item');
     const currentIndex = Array.from(items).indexOf(document.activeElement);
 
@@ -148,22 +202,21 @@ const { skills } = Astro.props;
       items[prevIndex]?.focus();
     } else if (e.key === 'Escape') {
       closeSearch();
-      searchInput.focus();
+      searchInput?.focus();
     }
   });
 
-  // Close on click outside
   document.addEventListener('click', (e) => {
-    if (!searchInput.closest('.search-container')) {
+    const container = document.querySelector('.search-container');
+    if (container && e.target instanceof Node && !container.contains(e.target)) {
       closeSearch();
     }
   });
 
-  // Keyboard shortcut to focus search
   document.addEventListener('keydown', (e) => {
     if (e.key === '/' && document.activeElement !== searchInput) {
       e.preventDefault();
-      searchInput.focus();
+      searchInput?.focus();
     }
   });
 </script>

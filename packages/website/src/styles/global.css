@@ -1,10 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
-
 :root {
   /* 浅色背景系统 */
   --color-bg: #FAFAFA;
   --color-bg-secondary: #FFFFFF;
   --color-bg-tertiary: #F3F4F6;
+
+  --color-background: #FAFAFA;
+  --color-surface: #F3F4F6;
 
   /* 文字颜色 - 柔和深灰 */
   --color-text: #1A1A1A;
@@ -70,6 +71,7 @@
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.12);
   --glow-primary: 0 0 20px rgba(34, 197, 94, 0.2);
   --glow-text: 0 0 12px rgba(34, 197, 94, 0.3);
 
@@ -107,6 +109,12 @@ body {
   background-size: 40px 40px;
   background-attachment: fixed;
   overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll;
+  }
 }
 
 ::-webkit-scrollbar {
@@ -240,6 +248,12 @@ code, pre {
   background: var(--color-primary-dim);
 }
 
+.btn-success {
+  background: var(--color-success);
+  color: #fff;
+  border-color: var(--color-success);
+}
+
 .btn-sm {
   padding: 0.5rem 1rem;
   font-size: 0.8rem;
@@ -338,6 +352,22 @@ code, pre {
 .delay-2 { animation-delay: 0.2s; }
 .delay-3 { animation-delay: 0.3s; }
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-in,
+  .feature-card,
+  .skill-wrapper {
+    animation: none !important;
+    animation-delay: 0s !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
 .text-gradient {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
   -webkit-background-clip: text;
@@ -357,6 +387,18 @@ code, pre {
   h2 { font-size: 2rem; }
   
   .container { padding: 0 var(--spacing-md); }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .noise-overlay {

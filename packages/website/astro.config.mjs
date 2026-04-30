@@ -8,6 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://fastskills.pages.dev',
   output: 'server',
   adapter: cloudflare(),
   vite: {

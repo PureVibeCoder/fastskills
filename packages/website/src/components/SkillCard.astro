@@ -1,23 +1,12 @@
 ---
 import type { Skill } from '../data/skills';
+import { sourceLabel } from '../utils/source-labels';
 
 interface Props {
   skill: Skill;
 }
 
 const { skill } = Astro.props;
-const sourceLabels: Record<string, string> = {
-  anthropic: 'Anthropic',
-  claudekit: 'ClaudeKit',
-  community: 'Community',
-  composio: 'Composio',
-  voltagent: 'VoltAgent',
-  scientific: 'Scientific',
-  obsidian: 'Obsidian',
-  planning: 'Planning',
-  superpowers: 'Superpowers',
-  'deep-research': 'DeepResearch'
-};
 ---
 
 <div class="skill-card" data-category={skill.category.id}>
@@ -30,7 +19,7 @@ const sourceLabels: Record<string, string> = {
         <div class="title-row">
           <h3 class="skill-name">{skill.name}</h3>
         </div>
-        <span class="skill-source">{sourceLabels[skill.source] || skill.source}</span>
+        <span class="skill-source">{sourceLabel(skill.source)}</span>
       </div>
     </div>
 
