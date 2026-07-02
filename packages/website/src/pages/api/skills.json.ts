@@ -6,53 +6,49 @@ import { getExtraCategoryIds, getSkillTags } from '../../utils/skill-tags';
 import fs from 'node:fs';
 import path from 'node:path';
 
-// Load content from the external JSON file generated at build time
-// Note: In development, this file might not exist yet if script hasn't run.
-// We try to read it dynamically.
-let skillsContent: Record<string, string> = {};
-try {
-  const contentPath = path.resolve('./public/data/skills-content.json');
-  if (fs.existsSync(contentPath)) {
-    const raw = fs.readFileSync(contentPath, 'utf-8');
-    skillsContent = JSON.parse(raw);
+export const prerender = true;
+
+function loadSkillsContent(): Record<string, string> {
+  try {
+    const contentPath = path.resolve('./public/data/skills-content.json');
+    if (fs.existsSync(contentPath)) {
+      const raw = fs.readFileSync(contentPath, 'utf-8');
+      return JSON.parse(raw) as Record<string, string>;
+    }
+  } catch (e) {
+    console.warn('Could not load skills-content.json:', e);
   }
-} catch (e) {
-  console.warn('Could not load skills-content.json:', e);
+  return {};
 }
 
 export const GET: APIRoute = async () => {
+  const skillsContent = loadSkillsContent();
   const remoteSkills = skills.map((skill) => {
     const sourceInfo = SKILL_TO_SOURCE[skill.id];
     const config = REPO_CONFIG[skill.source];
 
-    // Default fallback
     let baseUrl = 'https://raw.githubusercontent.com/PureVibeCoder/fastskills/main';
-    let path = skill.id;
-    let fullDescription = undefined;
+    let rawPath = skill.id;
+    let fullDescription: string | undefined;
 
     if (config) {
       baseUrl = config.rawBase;
     }
 
     if (sourceInfo && config) {
-       // Construct path for raw.githubusercontent.com: no leading slash.
-       // contentPath '' (repo root): use sourceInfo.path only — avoid `${''}/x` -> '/x'.
-       if (config.contentPath === '.') {
-         path = sourceInfo.path;
-       } else if (!config.contentPath) {
-         path = sourceInfo.path;
-       } else {
-         path = sourceInfo.path
-           ? `${config.contentPath}/${sourceInfo.path}`
-           : config.contentPath;
-       }
+      if (config.contentPath === '.') {
+        rawPath = sourceInfo.path;
+      } else if (!config.contentPath) {
+        rawPath = sourceInfo.path;
+      } else {
+        rawPath = sourceInfo.path
+          ? `${config.contentPath}/${sourceInfo.path}`
+          : config.contentPath;
+      }
     } else if (sourceInfo) {
-      // Legacy fallback logic if config is missing but mapping exists
-       path = sourceInfo.path;
+      rawPath = sourceInfo.path;
     }
 
-    // Include full description if available (from build-time extraction)
-    // This allows MCP server to work even if GitHub Raw is blocked or flaky
     if (skillsContent[skill.id]) {
       fullDescription = skillsContent[skill.id];
     }
@@ -66,16 +62,16 @@ export const GET: APIRoute = async () => {
       extraCategoryIds: getExtraCategoryIds(skill),
       source: skill.source,
       triggers: skill.triggers || [],
-      path: path,
-      baseUrl: baseUrl,
-      fullDescription // Optional field for MCP server fallback
+      path: rawPath,
+      baseUrl,
+      fullDescription
     };
   });
 
   return new Response(JSON.stringify(remoteSkills, null, 2), {
     headers: {
-      'Content-Type': 'application/json',
-      'Cache-Control': 'public, max-age=300',
+      'Content-Type': 'application/json; charset=utf-8',
+      'Cache-Control': 'public, max-age=86400, immutable',
       'Access-Control-Allow-Origin': '*'
     }
   });

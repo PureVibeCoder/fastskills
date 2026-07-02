@@ -18,6 +18,9 @@ const SKILLS_TS_PATH = path.join(__dirname, '../src/data/skills.ts');
 const SKILL_SOURCES_PATH = path.join(__dirname, '../src/data/skill-sources.ts');
 const OUTPUT_DIR = path.join(__dirname, '../public/data');
 const OUTPUT_FILE = 'skills-content.json';
+const SHARD_SUBDIR = 'skill-markdown';
+/** Must stay aligned with APIRoute validation in src/pages/api/skill-markdown.ts */
+const SHARD_ID_RE = /^[a-zA-Z0-9_-]+$/;
 
 // ============================================================================
 // 正则工具函数
@@ -230,6 +233,30 @@ function writeContentJson(contentMap) {
 }
 
 /**
+ * Per-skill markdown for CDN caching (avoids fetching the multi-MB aggregate JSON per download).
+ */
+function writeContentShards(contentMap) {
+  const shardDir = path.join(OUTPUT_DIR, SHARD_SUBDIR);
+  fs.rmSync(shardDir, { recursive: true, force: true });
+  fs.mkdirSync(shardDir, { recursive: true });
+
+  let written = 0;
+  let skipped = 0;
+
+  for (const [id, md] of Object.entries(contentMap)) {
+    if (!SHARD_ID_RE.test(id)) {
+      console.warn(`  Skipping shard (invalid id): ${id}`);
+      skipped++;
+      continue;
+    }
+    fs.writeFileSync(path.join(shardDir, `${id}.md`), md, 'utf-8');
+    written++;
+  }
+
+  return { shardDir, written, skipped };
+}
+
+/**
  * 清理 skills.ts 中的内联 content 字段
  */
 function cleanSkillsTsContent() {
@@ -282,6 +309,11 @@ function main() {
     const { outputPath, fileSizeMB } = writeContentJson(contentMap);
     console.log(`  Output: ${outputPath}`);
     console.log(`  Size: ${fileSizeMB} MB\n`);
+
+    console.log('Writing per-skill markdown shards...');
+    const { shardDir, written, skipped } = writeContentShards(contentMap);
+    console.log(`  Output: ${shardDir}`);
+    console.log(`  Shards: ${written} written${skipped ? `, ${skipped} skipped` : ''}\n`);
 
     // 5. 清理 skills.ts
     console.log('Cleaning skills.ts...');

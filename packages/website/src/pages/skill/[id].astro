@@ -481,9 +481,11 @@ const extraCategoriesResolved = getExtraCategoryIds(skill)
   }
 </style>
 
-<script define:vars={{ skillId: skill.id }}>
+<script type="module" define:vars={{ skillId: skill.id }}>
+  import { skillMarkdownAssetUrl } from '../../utils/skill-markdown-public-path.ts';
+
   async function fetchSkillMarkdown(id) {
-    const res = await fetch(`/api/skill-markdown?id=${encodeURIComponent(id)}`);
+    const res = await fetch(skillMarkdownAssetUrl(id));
     if (!res.ok) return null;
     return await res.text();
   }
@@ -494,7 +496,7 @@ const extraCategoriesResolved = getExtraCategoryIds(skill)
       void (async () => {
         const markdown = await fetchSkillMarkdown(skillId);
         if (!markdown) {
-          alert('无法获取技能正文，请稍后重试或检查构建是否已注入 skills-content.json。');
+          alert('无法获取技能正文，请稍后重试或运行 inject-skill-content（生成 skill-markdown 分片）。');
           return;
         }
         const blob = new Blob([markdown], { type: 'text/markdown' });

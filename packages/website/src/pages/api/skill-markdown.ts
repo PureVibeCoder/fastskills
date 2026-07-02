@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
-import { skills } from '../../data/skills';
+import { skillMarkdownAssetUrl } from '../../utils/skill-markdown-public-path';
 
+/** Kept for bookmarks; redirects to CDN-cached static shard from inject-skill-content.mjs. */
 export const prerender = false;
 
 const ID_RE = /^[a-zA-Z0-9_-]+$/;
@@ -10,41 +11,10 @@ export const GET: APIRoute = async ({ url, request }) => {
   if (!id || !ID_RE.test(id)) {
     return new Response(JSON.stringify({ error: 'Invalid id' }), {
       status: 400,
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json; charset=utf-8' }
     });
   }
 
-  try {
-    const jsonUrl = new URL('/data/skills-content.json', request.url);
-    const jsonRes = await fetch(jsonUrl.toString());
-    if (jsonRes.ok) {
-      const map = (await jsonRes.json()) as Record<string, string>;
-      const fromJson = map[id];
-      if (fromJson) {
-        return new Response(fromJson, {
-          status: 200,
-          headers: {
-            'Content-Type': 'text/markdown; charset=utf-8',
-            'Cache-Control': 'public, max-age=86400'
-          }
-        });
-      }
-    }
-  } catch {
-    // ignore; fall through to skills.ts
-  }
-
-  const skill = skills.find((s) => s.id === id);
-  const markdown = skill?.content ?? '';
-  if (!markdown) {
-    return new Response('Not found', { status: 404 });
-  }
-
-  return new Response(markdown, {
-    status: 200,
-    headers: {
-      'Content-Type': 'text/markdown; charset=utf-8',
-      'Cache-Control': 'public, max-age=86400'
-    }
-  });
+  const assetUrl = new URL(skillMarkdownAssetUrl(id), request.url);
+  return Response.redirect(assetUrl.toString(), 302);
 };

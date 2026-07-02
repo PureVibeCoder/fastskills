@@ -30,6 +30,9 @@ Thumbs.db
 # Package files
 *.tgz
 
+# Generated per-skill markdown (built by inject-skill-content.mjs)
+packages/website/public/data/skill-markdown/
+
 # Cache directories
 .ruff_cache/
 .wrangler/
